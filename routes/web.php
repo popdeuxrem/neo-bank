@@ -1,17 +1,25 @@
 <?php
 
+use App\Http\Controllers\LeadController;
 use App\Http\Controllers\Ledger\AccountController;
 use App\Http\Controllers\Ledger\LedgerController;
 use App\Http\Controllers\Ledger\TransactionController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 Route::get('/', function () {
+    return Inertia::render('Welcome');
+})->name('home');
+
+Route::post('/leads', [LeadController::class, 'store'])->name('leads.store');
+
+Route::get('/login', function () {
     if (auth()->check() && auth()->user()->hasVerifiedEmail()) {
         return to_route('dashboard');
     }
 
     return to_route('login');
-})->name('home');
+})->name('login');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');

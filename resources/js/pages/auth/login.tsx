@@ -9,8 +9,6 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/auth-layout';
 import { register } from '@/routes';
-import { store } from '@/routes/login';
-import { request } from '@/routes/password';
 
 type Props = {
     status?: string;
@@ -31,7 +29,8 @@ export default function Login({
             <Head title="Log in" />
 
             <Form
-                {...store.form()}
+                method="post"
+                action="/login"
                 resetOnSuccess={['password']}
                 className="flex flex-col gap-6"
             >
@@ -58,7 +57,7 @@ export default function Login({
                                     <Label htmlFor="password">Password</Label>
                                     {canResetPassword && (
                                         <TextLink
-                                            href={request()}
+                                            href="/forgot-password"
                                             className="ml-auto text-sm"
                                             tabIndex={5}
                                         >

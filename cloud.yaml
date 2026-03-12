@@ -3,6 +3,7 @@ php: '8.3'
 
 build:
     - composer install --no-dev --optimize-autoloader
+    - php artisan wayfinder:generate
     - npm ci
     - npm run build
 

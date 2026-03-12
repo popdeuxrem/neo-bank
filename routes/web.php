@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\Ledger\AccountController;
 use App\Http\Controllers\Ledger\LedgerController;
 use App\Http\Controllers\Ledger\TransactionController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -12,14 +14,6 @@ Route::get('/', function () {
 })->name('home');
 
 Route::post('/leads', [LeadController::class, 'store'])->name('leads.store');
-
-Route::get('/login', function () {
-    if (auth()->check() && auth()->user()->hasVerifiedEmail()) {
-        return to_route('dashboard');
-    }
-
-    return to_route('login');
-})->name('login');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
@@ -36,7 +30,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('transactions/{transaction}/flag', [TransactionController::class, 'flag']);
     });
 
+    Route::prefix('api/payments')->group(function () {
+        Route::get('/', [PaymentController::class, 'index']);
+        Route::post('/', [PaymentController::class, 'store']);
+        Route::get('/{payment}', [PaymentController::class, 'show']);
+    });
+
     Route::get('ledger/chart', [LedgerController::class, 'chartOfAccounts'])->name('ledger.chart');
+
+    Route::get('admin/audit-logs', [AdminController::class, 'auditLogs'])->name('admin.audit-logs');
+    Route::get('admin/users', [AdminController::class, 'users'])->name('admin.users');
 });
 
 require __DIR__.'/settings.php';

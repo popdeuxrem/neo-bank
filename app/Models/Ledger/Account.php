@@ -2,6 +2,7 @@
 
 namespace App\Models\Ledger;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -23,6 +24,7 @@ class Account extends Model
 
     protected $fillable = [
         'uuid',
+        'user_id',
         'account_type_id',
         'parent_id',
         'account_number',
@@ -38,6 +40,11 @@ class Account extends Model
         'is_active' => 'boolean',
         'is_system' => 'boolean',
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function accountType(): BelongsTo
     {

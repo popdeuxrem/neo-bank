@@ -14,10 +14,14 @@
         "laravel/fortify": "^1.30",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
-        "laravel/wayfinder": "^0.1.9"
+        "laravel/wayfinder": "^0.1.9",
+        "moneyphp/money": "^4.5",
+        "spatie/laravel-permission": "^6.0",
+        "laravel/reverb": "@beta"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
+        "laravel/cloud-cli": "^0.1.14",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.24",
         "laravel/sail": "^1.41",

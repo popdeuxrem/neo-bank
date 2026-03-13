@@ -111,7 +111,6 @@ function CardModel({
                     position={[0.55, -0.35, 0.01]}
                     fontSize={0.06}
                     color="#8B5CF6"
-                    font="/fonts/Inter-Bold.ttf"
                     anchorX="right"
                     anchorY="middle"
                 >

@@ -16,7 +16,13 @@ interface TestimonialsGridProps {
 
 const testimonials: Testimonial[] = [
     {
-        quote: 'NeoBank transformed how I manage my business finances. The instant transfers alone save me hours every week.',
+        quote: "I have been with Neo Bank since 2017, it was scary when the merger happened a while back, I'm still happy with you people, no matter what problems concern me, they have always been corrected with your patience. I appreciate all you do..thanks for a GREAT BANK!",
+        author: 'Maxwell Ker',
+        role: 'Customer since 2017',
+        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=maxwell',
+    },
+    {
+        quote: "NeoBank transformed how I manage my business finances. The instant transfers alone save me hours every week.",
         author: 'Sarah Chen',
         role: 'CEO, TechFlow',
         avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=sarah',
@@ -26,12 +32,6 @@ const testimonials: Testimonial[] = [
         author: 'Marcus Johnson',
         role: 'Freelance Designer',
         avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=marcus',
-    },
-    {
-        quote: 'Finally, a bank that understands modern business needs. The API integration was seamless.',
-        author: 'Emily Rodriguez',
-        role: 'Founder, StartupHub',
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=emily',
     },
 ];
 

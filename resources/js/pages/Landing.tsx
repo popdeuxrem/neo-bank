@@ -24,7 +24,7 @@ export default function Landing() {
         {
             title: 'Offshore Banking',
             description:
-                'Expand your global reach with multi-currency accounts. Hold, send, and receive funds in over 30 currencies with competitive exchange rates and low transfer fees.',
+                'Expand your global reach with multi-currency accounts. Hold, send, and receive funds in over 30 currencies with competitive exchange rates and low transfer fees. Offshore bank accounts, our Specialty. Management, tracking and maintenance.',
             features: [
                 '30+ currencies supported',
                 'Real-time exchange rates',
@@ -35,31 +35,45 @@ export default function Landing() {
             ctaHref: '/services/offshore',
         },
         {
-            title: 'Investment Accounts',
+            title: 'Mobile Banking Service',
             description:
-                'Grow your wealth with our diverse investment options. From stocks and bonds to ETFs and mutual funds, access global markets with expert guidance.',
+                'You can handle all your personal and private banking needs with our mobile app. Instant access to your account on any device using our apps.',
             features: [
-                'Access to 50+ global markets',
-                '0% commission on stocks',
-                'Automated portfolio rebalancing',
-                'Tax-efficient investing strategies',
+                'iOS & Android apps',
+                'Instant transfers',
+                'Bill pay',
+                'Account alerts',
             ],
-            ctaText: 'Start Investing Today',
-            ctaHref: '/services/investments',
+            ctaText: 'Download Mobile App',
+            ctaHref: '/services/mobile',
             reverse: true,
         },
         {
-            title: 'Advanced Security Tools',
+            title: 'Wealth Management',
             description:
-                'Protect your assets with bank-grade security features. Our platform uses cutting-edge encryption and real-time fraud detection to keep your money safe.',
+                'Wealth management on every level, including your assets or wealth control. Third-party investment solutions to help you grow your assets.',
             features: [
-                'Biometric authentication',
-                'Real-time fraud monitoring',
-                'Custom spending limits',
-                'Instant account freezing',
+                'Professional advisors',
+                'Diversified portfolios',
+                'Tax-efficient strategies',
+                'Retirement planning',
             ],
-            ctaText: 'Explore Security Features',
-            ctaHref: '/services/security',
+            ctaText: 'Start Investing Today',
+            ctaHref: '/services/investments',
+        },
+        {
+            title: 'Credit & Debit Cards',
+            description:
+                'We provide reliable payment cards that you can use anywhere with discretion. Secured cards with fraud protection.',
+            features: [
+                'Virtual cards',
+                'Apple Pay & Google Pay',
+                '0% foreign transaction fees',
+                'Purchase protection',
+            ],
+            ctaText: 'Get Your Card',
+            ctaHref: '/services/cards',
+            reverse: true,
         },
     ];
 

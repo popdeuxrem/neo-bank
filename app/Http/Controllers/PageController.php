@@ -33,4 +33,14 @@ class PageController extends Controller
     {
         return Inertia::render('auth/KycPending');
     }
+
+    public function about()
+    {
+        return Inertia::render('About');
+    }
+
+    public function contact()
+    {
+        return Inertia::render('Contact');
+    }
 }

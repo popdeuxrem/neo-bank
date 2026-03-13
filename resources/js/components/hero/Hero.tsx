@@ -35,9 +35,9 @@ export const Hero: React.FC<HeroProps> = ({ className }) => {
                         className="space-y-8"
                     >
                         <HeroHeadline
-                            title="Banking built for the future"
-                            subtitle="Experience seamless financial management with Magnetiq. Instant transfers, smart budgeting, and bank-grade security—all in one beautiful app."
-                            highlights={['future', 'Magnetiq']}
+                            title="Stay In Control With Your Finance"
+                            subtitle="The advantage of online banking is that you can pay bills super fast, and your account is automatically credited or debited for each deposit and payment."
+                            highlights={['Stay In Control', 'super fast']}
                         />
 
                         <LeadForm
@@ -65,10 +65,17 @@ export const Hero: React.FC<HeroProps> = ({ className }) => {
                         <div className="flex flex-wrap gap-8 pt-6">
                             {[
                                 {
-                                    value: '$2.5B+',
-                                    label: 'Assets Under Management',
+                                    value: '32K+',
+                                    label: 'Issued Cards',
                                 },
-                                { value: '500K+', label: 'Active Users' },
+                                {
+                                    value: '5%',
+                                    label: 'Cashback',
+                                },
+                                {
+                                    value: '20%',
+                                    label: 'Fixed Deposit',
+                                },
                             ].map((stat, index) => (
                                 <motion.div
                                     key={stat.label}

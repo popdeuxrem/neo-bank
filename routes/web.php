@@ -14,6 +14,18 @@ Route::get('/', function () {
     return Inertia::render('Landing');
 })->name('home');
 
+Route::get('/privacy', function () {
+    return Inertia::render('legal/PrivacyPolicy');
+})->name('privacy');
+
+Route::get('/terms', function () {
+    return Inertia::render('legal/TermsOfService');
+})->name('terms');
+
+Route::get('/risk-disclosures', function () {
+    return Inertia::render('legal/RiskDisclosures');
+})->name('risk-disclosures');
+
 Route::post('/leads', [LeadController::class, 'store'])->name('leads.store');
 
 Route::middleware(['auth', 'verified'])->group(function () {

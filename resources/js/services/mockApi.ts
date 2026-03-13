@@ -1,5 +1,58 @@
 import type { User, Account, Transaction, Payment } from './api';
 
+export interface Feature {
+    id: string;
+    icon: string;
+    title: string;
+    description: string;
+    link?: string;
+}
+
+export const mockFeatures: Feature[] = [
+    {
+        id: 'feature_001',
+        icon: 'Shield',
+        title: 'Bank-Grade Security',
+        description:
+            '256-bit encryption, two-factor authentication, and real-time fraud detection protect your money.',
+    },
+    {
+        id: 'feature_002',
+        icon: 'Zap',
+        title: 'Instant Transfers',
+        description:
+            'Send and receive money instantly with zero latency. No more waiting for business days.',
+    },
+    {
+        id: 'feature_003',
+        icon: 'Globe',
+        title: 'Global Access',
+        description:
+            'Use your account anywhere in the world with multi-currency support and real-time exchange rates.',
+    },
+    {
+        id: 'feature_004',
+        icon: 'Lock',
+        title: 'Private by Design',
+        description:
+            'Your financial data is yours alone. We never sell your information to third parties.',
+    },
+    {
+        id: 'feature_005',
+        icon: 'CreditCard',
+        title: 'Virtual Cards',
+        description:
+            'Create unlimited virtual cards for online purchases. Freeze or cancel anytime.',
+    },
+    {
+        id: 'feature_006',
+        icon: 'BarChart3',
+        title: 'Smart Analytics',
+        description:
+            'Track spending, set budgets, and get insights with powerful analytics dashboard.',
+    },
+];
+
 export const mockUsers: User[] = [
     {
         id: 'usr_001',
@@ -207,16 +260,19 @@ class MockApiService {
 
     async getUser(userId: string): Promise<User | null> {
         await this.delay(300);
+
         return mockUsers.find((u) => u.id === userId) || null;
     }
 
     async getAccounts(userId: string): Promise<Account[]> {
         await this.delay(300);
+
         return mockAccounts.filter((a) => a.userId === userId);
     }
 
     async getAccount(accountId: string): Promise<Account | null> {
         await this.delay(200);
+
         return mockAccounts.find((a) => a.id === accountId) || null;
     }
 
@@ -250,16 +306,19 @@ class MockApiService {
 
     async getTransaction(transactionId: string): Promise<Transaction | null> {
         await this.delay(200);
+
         return mockTransactions.find((t) => t.id === transactionId) || null;
     }
 
     async getPayments(userId: string): Promise<Payment[]> {
         await this.delay(300);
+
         return mockPayments.filter((p) => p.userId === userId);
     }
 
     async getPayment(paymentId: string): Promise<Payment | null> {
         await this.delay(200);
+
         return mockPayments.find((p) => p.id === paymentId) || null;
     }
 
@@ -274,6 +333,7 @@ class MockApiService {
             createdAt: new Date().toISOString(),
         };
         mockPayments.push(newPayment);
+
         return newPayment;
     }
 
@@ -305,6 +365,12 @@ class MockApiService {
             pending,
             totalTransactions: accountTransactions.length,
         };
+    }
+
+    async getFeatures(): Promise<Feature[]> {
+        await this.delay(300);
+
+        return mockFeatures;
     }
 }
 

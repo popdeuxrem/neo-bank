@@ -1,18 +1,43 @@
-import * as React from 'react';
 import { motion } from 'framer-motion';
+import * as React from 'react';
+import { cn } from '@/lib/utils';
+import { mockApi } from '@/services/mockApi';
 import { Container, Section } from '../core';
 import { BalanceCard } from './BalanceCard';
-import { TransactionList } from './TransactionList';
 import { SpendingChart } from './SpendingChart';
-import { cn } from '@/lib/utils';
+import { TransactionList } from './TransactionList';
 
 interface DashboardPreviewProps {
     className?: string;
+    useMockData?: boolean;
 }
 
 export const DashboardPreview: React.FC<DashboardPreviewProps> = ({
     className,
+    useMockData = true,
 }) => {
+    const [stats, setStats] = React.useState<{
+        income: number;
+        expenses: number;
+        pending: number;
+    } | null>(null);
+
+    React.useEffect(() => {
+        if (useMockData) {
+            mockApi.getStats('acc_001').then((data) => {
+                setStats(data);
+            });
+        }
+    }, [useMockData]);
+
+    const displayStats = stats || {
+        income: 8450,
+        expenses: 3280,
+        pending: 0,
+    };
+
+    const totalBalance = 28420.52;
+
     return (
         <Section
             spacing="xl"
@@ -33,7 +58,7 @@ export const DashboardPreview: React.FC<DashboardPreviewProps> = ({
                     {/* Balance Cards */}
                     <div className="space-y-6">
                         <BalanceCard
-                            balance={28420.52}
+                            balance={totalBalance}
                             accountName="Total Balance"
                             accountType="All Accounts"
                         />
@@ -48,7 +73,7 @@ export const DashboardPreview: React.FC<DashboardPreviewProps> = ({
                                     Income
                                 </p>
                                 <p className="text-xl font-bold text-[var(--color-success)]">
-                                    +$8,450
+                                    +${displayStats.income.toLocaleString()}
                                 </p>
                             </motion.div>
                             <motion.div
@@ -62,7 +87,7 @@ export const DashboardPreview: React.FC<DashboardPreviewProps> = ({
                                     Expenses
                                 </p>
                                 <p className="text-xl font-bold text-[var(--color-error)]">
-                                    -$3,280
+                                    -${displayStats.expenses.toLocaleString()}
                                 </p>
                             </motion.div>
                         </div>

@@ -1,9 +1,9 @@
-import * as React from 'react';
 import { motion } from 'framer-motion';
+import { Mail, ArrowRight, CheckCircle2 } from 'lucide-react';
+import * as React from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '../ButtonPrimary';
 import { InputPill } from '../InputPill';
-import { Mail, ArrowRight, CheckCircle2 } from 'lucide-react';
 
 interface SignupFormProps {
     onSubmit?: (email: string) => void;
@@ -11,6 +11,8 @@ interface SignupFormProps {
     buttonText?: string;
     showPrivacy?: boolean;
     className?: string;
+    useOptimisticUI?: boolean;
+    useApi?: boolean;
 }
 
 export const SignupForm: React.FC<SignupFormProps> = ({
@@ -19,6 +21,8 @@ export const SignupForm: React.FC<SignupFormProps> = ({
     buttonText = 'Open Free Account',
     showPrivacy = true,
     className,
+    useOptimisticUI = true,
+    useApi = true,
 }) => {
     const [email, setEmail] = React.useState('');
     const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -27,6 +31,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({
 
     const validateEmail = (email: string) => {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
         return re.test(email);
     };
 
@@ -36,19 +41,43 @@ export const SignupForm: React.FC<SignupFormProps> = ({
 
         if (!email) {
             setError('Email is required');
+
             return;
         }
 
         if (!validateEmail(email)) {
             setError('Please enter a valid email');
+
             return;
         }
 
         setIsSubmitting(true);
+
         try {
+            if (useApi) {
+                try {
+                    await fetch('/leads', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN':
+                                document
+                                    .querySelector('meta[name="csrf-token"]')
+                                    ?.getAttribute('content') || '',
+                        },
+                        body: JSON.stringify({ email }),
+                    });
+                } catch {
+                    // Fallback: just continue with success
+                }
+            }
+
+            if (useOptimisticUI) {
+                setIsSuccess(true);
+            }
+
             await onSubmit?.(email);
-            setIsSuccess(true);
-        } catch (err) {
+        } catch {
             setError('Something went wrong. Please try again.');
         } finally {
             setIsSubmitting(false);

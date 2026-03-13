@@ -1,20 +1,25 @@
 import { Head } from '@inertiajs/react';
-import { Navbar } from '@/components/navigation/Navbar';
-import { Hero } from '@/components/hero/Hero';
-import { LogoCloud } from '@/components/social-proof/LogoCloud';
+import { Container, Section } from '@/components/core';
 import { FeatureGrid } from '@/components/features/FeatureGrid';
 import { SplitFeature } from '@/components/features/SplitFeature';
-import { TrustSection } from '@/components/trust/TrustSection';
 import { DashboardPreview } from '@/components/fintech/DashboardPreview';
-import { TestimonialsGrid } from '@/components/social-proof/TestimonialsGrid';
-import { PricingTable } from '@/components/pricing/PricingTable';
-import { CallToAction } from '@/components/marketing/CallToAction';
-import { SignupForm } from '@/components/marketing/SignupForm';
 import { Footer } from '@/components/footer/Footer';
+import { Hero } from '@/components/hero/Hero';
+import { SignupForm } from '@/components/marketing/SignupForm';
+import { Navbar } from '@/components/navigation/Navbar';
+import { PricingTable } from '@/components/pricing/PricingTable';
 import { MetaTags, StructuredData } from '@/components/seo/MetaTags';
-import { Container, Section } from '@/components/core';
+import { LogoCloud } from '@/components/social-proof/LogoCloud';
+import { TestimonialsGrid } from '@/components/social-proof/TestimonialsGrid';
+import { TrustSection } from '@/components/trust/TrustSection';
+import { useNotificationEvents } from '@/hooks/useNotificationEvents';
 
 export default function Landing() {
+    useNotificationEvents({
+        enableTransactionCompleted: true,
+        enableFraudAlertTriggered: true,
+    });
+
     const services = [
         {
             title: 'Offshore Banking',

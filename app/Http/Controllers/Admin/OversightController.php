@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\KYCApproved;
+use App\Mail\KYCRejected;
 use App\Models\IdentityDocument;
 use App\Models\Ledger\Transaction;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -50,6 +53,7 @@ class OversightController extends Controller
             ->get()
             ->map(function ($txn) {
                 $metadata = $txn->metadata ?? [];
+
                 return [
                     'id' => $txn->id,
                     'transaction_number' => $txn->transaction_number,
@@ -94,7 +98,7 @@ class OversightController extends Controller
         $user = $document->user;
         if ($user) {
             $user->update(['email_verified_at' => now()]);
-            
+
             // Check if all documents are approved
             $pendingDocs = IdentityDocument::where('user_id', $user->id)
                 ->where('status', '!=', IdentityDocument::STATUS_APPROVED)
@@ -103,6 +107,9 @@ class OversightController extends Controller
             if ($pendingDocs === 0) {
                 $user->update(['email_verified_at' => now()]);
             }
+
+            // Send approval email asynchronously
+            Mail::to($user)->send(new KYCApproved($user));
         }
 
         return response()->json([
@@ -120,9 +127,14 @@ class OversightController extends Controller
             'reason' => 'required|string|min:10',
         ]);
 
-        $document->reject($request->reason, auth()->user());
+        $reason = $request->reason;
+        $document->reject($reason, auth()->user());
 
-        // Notify user via email (placeholder for notification)
+        // Send rejection email asynchronously
+        $user = $document->user;
+        if ($user) {
+            Mail::to($user)->send(new KYCRejected($user, $reason));
+        }
 
         return response()->json([
             'message' => 'KYC document rejected. User has been notified.',
@@ -145,7 +157,7 @@ class OversightController extends Controller
         if ($action === 'approve') {
             // Process the transaction normally
             $transaction->markAsCompleted();
-            
+
             // Clear fraud flags from metadata
             $metadata = $transaction->metadata ?? [];
             $metadata['fraud_resolved'] = true;
@@ -222,6 +234,7 @@ class OversightController extends Controller
             ->get()
             ->map(function ($txn) {
                 $metadata = $txn->metadata ?? [];
+
                 return [
                     'id' => $txn->id,
                     'transaction_number' => $txn->transaction_number,

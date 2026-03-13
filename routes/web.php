@@ -13,6 +13,7 @@ use App\Http\Controllers\Ledger\LedgerController;
 use App\Http\Controllers\Ledger\TransactionController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\TransferController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -69,6 +70,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/', [PaymentController::class, 'store']);
         Route::get('/{payment}', [PaymentController::class, 'show']);
     });
+
+    // Transfer API
+    Route::post('/api/transfer', [TransferController::class, 'store'])->name('transfer.store');
 
     // External API v1 (throttled)
     Route::prefix('api/v1')->middleware('throttle:60,1')->group(function () {

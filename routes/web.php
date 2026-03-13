@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountStatementController;
+use App\Http\Controllers\Admin\HealthController;
 use App\Http\Controllers\Admin\OversightController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Api\ApiController;
@@ -50,6 +51,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/admin/oversight/fraud/{transaction}/resolve', [OversightController::class, 'resolveFraud']);
     Route::post('/admin/oversight/user/{user}/block', [OversightController::class, 'blockUser']);
     Route::get('/admin/oversight/updates', [OversightController::class, 'updates']);
+
+    // Admin Health routes
+    Route::get('/admin/health', [HealthController::class, 'getStats']);
+    Route::post('/admin/health/restart-queue', [HealthController::class, 'restartQueue']);
 
     Route::prefix('api/ledger')->group(function () {
         Route::apiResource('accounts', AccountController::class);

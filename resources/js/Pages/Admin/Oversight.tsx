@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { toast } from '@/components/ui/Toast';
 import AppLayout from '@/layouts/app-layout';
+import { HealthMonitor } from '@/components/admin/HealthMonitor';
 import type { BreadcrumbItem } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -330,6 +331,11 @@ export default function Oversight({
                             Refresh
                         </button>
                     </div>
+                </div>
+
+                {/* Health Monitor Sidebar */}
+                <div className="mb-4 w-full lg:mb-0 lg:w-80">
+                    <HealthMonitor />
                 </div>
 
                 {/* Stats Cards */}

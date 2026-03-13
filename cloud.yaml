@@ -29,6 +29,9 @@ services:
             - name: broadcasts
               command: php artisan queue:work --queue=default,broadcasts --sleep=3 --tries=3 --max-time=3600
               count: 1
+            - name: fraud
+              command: php artisan queue:work --queue=fraud --sleep=3 --tries=3 --max-time=3600 --stop-when-empty
+              count: 1
             - name: reverb
               command: php artisan reverb:start
               count: 1

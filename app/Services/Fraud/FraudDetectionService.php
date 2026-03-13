@@ -48,6 +48,13 @@ class FraudDetectionService
         );
     }
 
+    public function dispatchAnalysis(Account $account, int $amount, string $type, ?int $transactionId = null): void
+    {
+        AnalyzeTransactionForFraud::dispatch($account, $amount, $type, $transactionId)
+            ->onQueue('fraud')
+            ->delay(now()->addSeconds(2));
+    }
+
     public function analyzePayment(Payment $payment): FraudResult
     {
         $senderAccount = $payment->senderAccount;

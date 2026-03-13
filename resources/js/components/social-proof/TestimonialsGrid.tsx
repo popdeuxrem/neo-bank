@@ -1,7 +1,7 @@
 import * as React from 'react';
+import { cn } from '@/lib/utils';
 import { Container, Section, Grid } from '../core';
 import { TestimonialCard } from './TestimonialCard';
-import { cn } from '@/lib/utils';
 
 interface Testimonial {
     quote: string;

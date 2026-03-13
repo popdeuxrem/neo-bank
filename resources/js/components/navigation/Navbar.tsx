@@ -1,10 +1,10 @@
-import * as React from 'react';
 import { Link } from '@inertiajs/react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X } from 'lucide-react';
+import * as React from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '../ButtonPrimary';
 import { ButtonSecondary } from '../ButtonSecondary';
-import { Menu, X } from 'lucide-react';
 
 interface NavItem {
     label: string;
@@ -31,6 +31,7 @@ export const Navbar: React.FC<NavbarProps> = ({ className }) => {
             setIsScrolled(window.scrollY > 20);
         };
         window.addEventListener('scroll', handleScroll);
+
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 

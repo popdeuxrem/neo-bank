@@ -1,7 +1,8 @@
-import * as React from 'react';
 import { motion } from 'framer-motion';
+import type { LucideIcon} from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import * as React from 'react';
 import { cn } from '@/lib/utils';
-import { LucideIcon, ArrowRight } from 'lucide-react';
 import { Card, CardContent } from '../Card';
 
 interface FeatureCardProps {

@@ -1,6 +1,4 @@
-import * as React from 'react';
 import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
 import {
     ArrowUpRight,
     ArrowDownLeft,
@@ -8,6 +6,8 @@ import {
     Wallet,
     CreditCard,
 } from 'lucide-react';
+import * as React from 'react';
+import { cn } from '@/lib/utils';
 
 interface Transaction {
     id: string;
@@ -88,11 +88,13 @@ export const TransactionList: React.FC<TransactionListProps> = ({
 }) => {
     const formatAmount = (amount: number) => {
         const prefix = amount >= 0 ? '+' : '';
+
         return `${prefix}$${Math.abs(amount).toFixed(2)}`;
     };
 
     const formatDate = (dateStr: string) => {
         const date = new Date(dateStr);
+
         return date.toLocaleDateString('en-US', {
             month: 'short',
             day: 'numeric',

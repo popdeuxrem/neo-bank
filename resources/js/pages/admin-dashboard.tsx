@@ -1,18 +1,4 @@
 import { Head, usePage } from '@inertiajs/react';
-import AppLayout from '@/layouts/app-layout';
-import { admin } from '@/routes';
-import type { BreadcrumbItem } from '@/types';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from '@/components/ui/table';
 import {
     Users,
     DollarSign,
@@ -26,6 +12,20 @@ import {
     CheckCircle,
     XCircle,
 } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
+import AppLayout from '@/layouts/app-layout';
+import { admin } from '@/routes';
+import type { BreadcrumbItem } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -153,6 +153,7 @@ export default function AdminDashboard() {
             variant: 'outline',
             icon: Clock,
         };
+
         return (
             <Badge variant={variant} className="gap-1">
                 <Icon className="h-3 w-3" />

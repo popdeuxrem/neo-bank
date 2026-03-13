@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Container, Section } from '../core';
 import { cn } from '@/lib/utils';
+import { Container, Section } from '../core';
 
 interface LogoCloudProps {
     className?: string;

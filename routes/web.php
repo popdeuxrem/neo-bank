@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountStatementController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\LeadController;
@@ -35,6 +36,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('ledger', 'ledger')->name('ledger');
     Route::inertia('payments', 'payments')->name('payments');
     Route::inertia('admin', 'admin-dashboard')->name('admin');
+
+    // Statement routes
+    Route::get('/api/statements', [AccountStatementController::class, 'index']);
+    Route::post('/api/statements', [AccountStatementController::class, 'store']);
+    Route::get('/api/statements/{statement}/download', [AccountStatementController::class, 'download']);
 
     Route::prefix('api/ledger')->group(function () {
         Route::apiResource('accounts', AccountController::class);

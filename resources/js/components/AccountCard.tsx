@@ -1,6 +1,6 @@
+import { CreditCard, TrendingUp, Wallet, Building2 } from 'lucide-react';
 import * as React from 'react';
 import { cn } from '@/lib/utils';
-import { CreditCard, TrendingUp, Wallet, Building2 } from 'lucide-react';
 
 interface AccountCardProps {
     id: string;

@@ -1,7 +1,7 @@
-import * as React from 'react';
 import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
 import { Shield, Lock, AlertTriangle, Award, CheckCircle2 } from 'lucide-react';
+import * as React from 'react';
+import { cn } from '@/lib/utils';
 
 interface TrustCardProps {
     title: string;

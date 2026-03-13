@@ -1,7 +1,7 @@
-import * as React from 'react';
 import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
 import { LucideIcon, Check } from 'lucide-react';
+import * as React from 'react';
+import { cn } from '@/lib/utils';
 import { Button } from '../ButtonPrimary';
 import { ButtonSecondary } from '../ButtonSecondary';
 

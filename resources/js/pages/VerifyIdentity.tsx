@@ -1,4 +1,3 @@
-import { useState, useCallback } from 'react';
 import { Head } from '@inertiajs/react';
 import { useForm } from '@inertiajs/react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -14,11 +13,12 @@ import {
     Clock,
     CreditCard,
 } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useState, useCallback } from 'react';
 import { Button } from '@/components/ButtonPrimary';
 import { ButtonSecondary } from '@/components/ButtonSecondary';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { formatDate } from '@/lib/format';
+import { cn } from '@/lib/utils';
 
 interface Document {
     id: number;
@@ -114,6 +114,7 @@ export default function VerifyIdentity({
     const handleDrag = useCallback((e: React.DragEvent) => {
         e.preventDefault();
         e.stopPropagation();
+
         if (e.type === 'dragenter' || e.type === 'dragover') {
             setDragActive(true);
         } else if (e.type === 'dragleave') {
@@ -125,9 +126,11 @@ export default function VerifyIdentity({
         if (!allowedTypes.includes(file.type)) {
             return 'Invalid file type. Please upload a JPEG, PNG, WebP, or PDF file.';
         }
+
         if (file.size > maxFileSize) {
             return `File too large. Maximum size is ${Math.round(maxFileSize / 1024 / 1024)}MB.`;
         }
+
         return null;
     };
 
@@ -139,8 +142,10 @@ export default function VerifyIdentity({
             setUploadError('');
 
             const files = e.dataTransfer.files;
+
             if (files && files[0]) {
                 const error = validateFile(files[0]);
+
                 if (error) {
                     setUploadError(error);
                 } else {
@@ -154,8 +159,10 @@ export default function VerifyIdentity({
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUploadError('');
         const files = e.target.files;
+
         if (files && files[0]) {
             const error = validateFile(files[0]);
+
             if (error) {
                 setUploadError(error);
             } else {
@@ -169,6 +176,7 @@ export default function VerifyIdentity({
 
         if (!selectedType || !data.document) {
             setUploadError('Please select a document type and upload a file.');
+
             return;
         }
 

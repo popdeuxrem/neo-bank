@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect, vi } from 'vitest';
 import { TransactionRow } from '../resources/js/components/TransactionRow';
 
 describe('TransactionRow', () => {
@@ -46,6 +46,7 @@ describe('TransactionRow', () => {
         render(<TransactionRow {...mockTransaction} onClick={handleClick} />);
 
         const row = screen.getByText(/amazon purchase/i).closest('div');
+
         if (row) {
             fireEvent.click(row);
         }

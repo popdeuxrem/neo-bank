@@ -1,11 +1,11 @@
-import * as React from 'react';
-import { cn } from '@/lib/utils';
 import {
     ArrowUpRight,
     ArrowDownLeft,
     ArrowRight,
     RefreshCw,
 } from 'lucide-react';
+import * as React from 'react';
+import { cn } from '@/lib/utils';
 
 interface TransactionRowProps {
     id: string;
@@ -38,6 +38,7 @@ const TransactionRow: React.FC<TransactionRowProps> = ({
 }) => {
     const formatDate = (d: string | Date) => {
         const dateObj = new Date(d);
+
         return dateObj.toLocaleDateString('en-US', {
             month: 'short',
             day: 'numeric',
@@ -65,6 +66,7 @@ const TransactionRow: React.FC<TransactionRowProps> = ({
                     return <ArrowRight className="h-4 w-4" />;
             }
         }
+
         switch (type) {
             case 'credit':
                 return <ArrowDownLeft className="h-4 w-4" />;

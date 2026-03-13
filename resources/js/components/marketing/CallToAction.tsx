@@ -1,9 +1,9 @@
-import * as React from 'react';
 import { Link } from '@inertiajs/react';
-import { Container, Section } from '../core';
+import { ArrowRight } from 'lucide-react';
+import * as React from 'react';
 import { Button } from '../ButtonPrimary';
 import { ButtonSecondary } from '../ButtonSecondary';
-import { ArrowRight } from 'lucide-react';
+import { Container, Section } from '../core';
 
 interface CallToActionProps {
     className?: string;

@@ -32,6 +32,7 @@ const preview: Preview = {
   decorators: [
     (Story, context) => {
       const theme = context.globals.theme || 'light';
+
       return (
         <div
           data-theme={theme}

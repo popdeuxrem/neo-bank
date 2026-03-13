@@ -1,10 +1,10 @@
 import { Head } from '@inertiajs/react';
+import { Building2, CreditCard, Wallet, TrendingUp } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { accounts } from '@/routes';
 import type { BreadcrumbItem } from '@/types';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Building2, CreditCard, Wallet, TrendingUp } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {

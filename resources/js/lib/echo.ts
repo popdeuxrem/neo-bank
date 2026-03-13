@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import Echo from 'laravel-echo';
-import Pusher from 'pusher-js';
+import type Pusher from 'pusher-js';
 
 declare global {
     interface Window {

@@ -1,7 +1,7 @@
-import * as React from 'react';
 import { Link } from '@inertiajs/react';
-import { Container } from '../core';
+import * as React from 'react';
 import { cn } from '@/lib/utils';
+import { Container } from '../core';
 
 interface FooterLink {
     label: string;

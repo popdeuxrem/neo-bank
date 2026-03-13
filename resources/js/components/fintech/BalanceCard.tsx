@@ -1,12 +1,12 @@
-import * as React from 'react';
 import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
 import {
     ArrowUpRight,
     ArrowDownLeft,
     RefreshCw,
     MoreHorizontal,
 } from 'lucide-react';
+import * as React from 'react';
+import { cn } from '@/lib/utils';
 
 interface BalanceCardProps {
     balance: number;

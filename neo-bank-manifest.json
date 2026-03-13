@@ -1,0 +1,229 @@
+{
+    "designTokens": {
+        "colors": {
+            "primary": "#6C2CF5",
+            "primaryDark": "#5A1EE5",
+            "primaryLight": "#7C3AED",
+            "background": "#F3F5F9",
+            "surface": "#FFFFFF",
+            "textPrimary": "#0B1220",
+            "textMuted": "#64748B"
+        },
+        "spacing": [4, 8, 12, 16, 20, 24, 32, 40, 48],
+        "borderRadius": {
+            "sm": "10px",
+            "md": "16px",
+            "lg": "24px",
+            "pill": "9999px"
+        },
+        "typography": {
+            "heroDisplay": "Space Grotesk",
+            "bodyFont": "Inter",
+            "fontScale": {
+                "heroXL": 64,
+                "heroL": 48,
+                "heading1": 36,
+                "heading2": 28,
+                "bodyLarge": 18,
+                "body": 16
+            }
+        },
+        "container": {
+            "maxWidth": "1280px",
+            "padding": "24px"
+        },
+        "grid": {
+            "columns": 12,
+            "gap": "24px"
+        },
+        "breakpoints": {
+            "mobile": "640px",
+            "tablet": "1024px",
+            "desktop": "1440px"
+        }
+    },
+    "components": {
+        "core": [
+            {
+                "name": "Container",
+                "path": "resources/js/components/core/Container.tsx",
+                "props": "maxWidth: 1280px, px: 24px"
+            },
+            {
+                "name": "Section",
+                "path": "resources/js/components/core/Section.tsx",
+                "props": "spacing: none|sm|default|lg|xl"
+            },
+            {
+                "name": "Grid",
+                "path": "resources/js/components/core/Grid.tsx",
+                "props": "cols: 1-12, gap: sm|md|lg|xl"
+            },
+            {
+                "name": "SplitLayout",
+                "path": "resources/js/components/core/SplitLayout.tsx",
+                "props": "reverse, align: start|center|stretch"
+            },
+            {
+                "name": "Stack",
+                "path": "resources/js/components/core/Stack.tsx",
+                "props": "direction, gap, align, justify"
+            }
+        ],
+        "navigation": [
+            {
+                "name": "Navbar",
+                "path": "resources/js/components/navigation/Navbar.tsx",
+                "props": "sticky, backdrop-blur, h: 80px"
+            }
+        ],
+        "hero": [
+            {
+                "name": "Hero",
+                "path": "resources/js/components/hero/Hero.tsx"
+            },
+            {
+                "name": "HeroHeadline",
+                "path": "resources/js/components/HeroHeadline.tsx"
+            },
+            {
+                "name": "HeroIllustration",
+                "path": "resources/js/components/HeroIllustration.tsx"
+            }
+        ],
+        "features": [
+            {
+                "name": "FeatureGrid",
+                "path": "resources/js/components/features/FeatureGrid.tsx"
+            },
+            {
+                "name": "FeatureCard",
+                "path": "resources/js/components/features/FeatureCard.tsx"
+            }
+        ],
+        "socialProof": [
+            {
+                "name": "LogoCloud",
+                "path": "resources/js/components/social-proof/LogoCloud.tsx"
+            },
+            {
+                "name": "TestimonialsGrid",
+                "path": "resources/js/components/social-proof/TestimonialsGrid.tsx"
+            },
+            {
+                "name": "TestimonialCard",
+                "path": "resources/js/components/social-proof/TestimonialCard.tsx"
+            }
+        ],
+        "pricing": [
+            {
+                "name": "PricingTable",
+                "path": "resources/js/components/pricing/PricingTable.tsx"
+            },
+            {
+                "name": "PricingCard",
+                "path": "resources/js/components/pricing/PricingCard.tsx"
+            }
+        ],
+        "marketing": [
+            {
+                "name": "CallToAction",
+                "path": "resources/js/components/marketing/CallToAction.tsx"
+            },
+            {
+                "name": "LeadForm",
+                "path": "resources/js/components/LeadForm.tsx"
+            }
+        ],
+        "footer": [
+            {
+                "name": "Footer",
+                "path": "resources/js/components/footer/Footer.tsx"
+            }
+        ],
+        "ui": [
+            {
+                "name": "Button",
+                "path": "resources/js/components/ButtonPrimary.tsx"
+            },
+            {
+                "name": "ButtonSecondary",
+                "path": "resources/js/components/ButtonSecondary.tsx"
+            },
+            {
+                "name": "InputPill",
+                "path": "resources/js/components/InputPill.tsx"
+            },
+            {
+                "name": "Card",
+                "path": "resources/js/components/Card.tsx"
+            }
+        ],
+        "fintech": [
+            {
+                "name": "StatCard",
+                "path": "resources/js/components/StatCard.tsx"
+            },
+            {
+                "name": "AccountCard",
+                "path": "resources/js/components/AccountCard.tsx"
+            },
+            {
+                "name": "TransactionRow",
+                "path": "resources/js/components/TransactionRow.tsx"
+            }
+        ]
+    },
+    "landingPageStructure": {
+        "navbar": {
+            "height": "80px",
+            "sticky": true,
+            "backdropBlur": true,
+            "grid": "col 1-3 logo, col 4-8 nav, col 9-12 CTA"
+        },
+        "sections": [
+            "Hero (pt: 160px, pb: 140px)",
+            "Trust Logos (py: 80px)",
+            "Feature Grid (py: 120px)",
+            "Split Features (py: 120px)",
+            "Dashboard Preview (py: 120px)",
+            "Testimonials (py: 120px)",
+            "Pricing (py: 120px)",
+            "CTA (py: 120px)",
+            "Footer (py: 80px)"
+        ]
+    },
+    "pages": [
+        {
+            "name": "Landing",
+            "path": "resources/js/pages/Landing.tsx",
+            "composedOf": [
+                "Navbar",
+                "Hero",
+                "LogoCloud",
+                "FeatureGrid",
+                "TestimonialsGrid",
+                "PricingTable",
+                "CallToAction",
+                "Footer"
+            ]
+        }
+    ],
+    "services": [
+        {
+            "name": "api",
+            "path": "resources/js/services/api.ts"
+        },
+        {
+            "name": "mockApi",
+            "path": "resources/js/services/mockApi.ts",
+            "transactions": 50
+        }
+    ],
+    "commands": [
+        "npm install",
+        "composer install",
+        "npm run dev",
+        "php artisan serve"
+    ]
+}

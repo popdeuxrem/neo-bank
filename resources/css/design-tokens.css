@@ -1,0 +1,183 @@
+:root {
+    /* Fintech Design Tokens - Neo Bank */
+
+    /* Primary Colors */
+    --color-primary: #6c2cf5;
+    --color-primary-dark: #5a1ee5;
+    --color-primary-light: #7c3aed;
+    --color-primary-50: #f5f3ff;
+    --color-primary-100: #ede9fe;
+    --color-primary-200: #ddd6fe;
+    --color-primary-300: #c4b5fd;
+    --color-primary-400: #a78bfa;
+    --color-primary-500: #8b5cf6;
+    --color-primary-600: #7c3aed;
+    --color-primary-700: #6c2cf5;
+    --color-primary-800: #5a1ee5;
+    --color-primary-900: #4c1cb8;
+
+    /* Background & Surface */
+    --color-background: #f3f5f9;
+    --color-surface: #ffffff;
+    --color-surface-elevated: #ffffff;
+
+    /* Text Colors */
+    --color-text-primary: #0b1220;
+    --color-text-secondary: #334155;
+    --color-text-muted: #64748b;
+    --color-text-disabled: #94a3b8;
+
+    /* Semantic Colors */
+    --color-success: #10b981;
+    --color-success-light: #d1fae5;
+    --color-warning: #f59e0b;
+    --color-warning-light: #fef3c7;
+    --color-error: #ef4444;
+    --color-error-light: #fee2e2;
+    --color-info: #3b82f6;
+    --color-info-light: #dbeafe;
+
+    /* Border Colors */
+    --color-border: #e2e8f0;
+    --color-border-light: #f1f5f9;
+    --color-border-dark: #cbd5e1;
+
+    /* Spacing Scale */
+    --spacing-1: 0.25rem; /* 4px */
+    --spacing-2: 0.5rem; /* 8px */
+    --spacing-3: 0.75rem; /* 12px */
+    --spacing-4: 1rem; /* 16px */
+    --spacing-5: 1.25rem; /* 20px */
+    --spacing-6: 1.5rem; /* 24px */
+    --spacing-8: 2rem; /* 32px */
+    --spacing-10: 2.5rem; /* 40px */
+    --spacing-12: 3rem; /* 48px */
+    --spacing-16: 4rem; /* 64px */
+
+    /* Border Radius */
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-pill: 9999px;
+    --radius-full: 9999px;
+
+    /* Typography */
+    --font-hero: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+    /* Font Size Scale */
+    --text-hero-xl: 4rem; /* 64px */
+    --text-hero-l: 3rem; /* 48px */
+    --text-heading-1: 2.25rem; /* 36px */
+    --text-heading-2: 1.75rem; /* 28px */
+    --text-body-large: 1.125rem; /* 18px */
+    --text-body: 1rem; /* 16px */
+    --text-body-small: 0.875rem; /* 14px */
+    --text-body-xs: 0.75rem; /* 12px */
+
+    /* Font Weights */
+    --font-normal: 400;
+    --font-medium: 500;
+    --font-semibold: 600;
+    --font-bold: 700;
+
+    /* Line Heights */
+    --leading-tight: 1.25;
+    --leading-normal: 1.5;
+    --leading-relaxed: 1.625;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md:
+        0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg:
+        0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl:
+        0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    --shadow-primary: 0 4px 14px 0 rgb(108 44 245 / 0.39);
+    --shadow-primary-lg: 0 8px 30px 0 rgb(108 44 245 / 0.31);
+
+    /* Transitions */
+    --transition-fast: 150ms ease;
+    --transition-base: 200ms ease;
+    --transition-slow: 300ms ease;
+    --transition-spring: 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* Z-Index */
+    --z-dropdown: 1000;
+    --z-sticky: 1020;
+    --z-fixed: 1030;
+    --z-modal-backdrop: 1040;
+    --z-modal: 1050;
+    --z-popover: 1060;
+    --z-tooltip: 1070;
+}
+
+/* Dark Mode Overrides */
+.dark {
+    --color-background: #0b0d12;
+    --color-surface: #151a23;
+    --color-surface-elevated: #1c222d;
+    --color-text-primary: #f8fafc;
+    --color-text-secondary: #e2e8f0;
+    --color-text-muted: #94a3b8;
+    --color-border: #2d3748;
+    --color-border-light: #1f2937;
+    --color-border-dark: #4a5568;
+}
+
+/* Utility Classes */
+@layer utilities {
+    .font-hero {
+        font-family: var(--font-hero);
+    }
+
+    .font-body {
+        font-family: var(--font-body);
+    }
+
+    .text-hero-xl {
+        font-size: var(--text-hero-xl);
+        line-height: var(--leading-tight);
+    }
+
+    .text-hero-l {
+        font-size: var(--text-hero-l);
+        line-height: var(--leading-tight);
+    }
+
+    .text-heading-1 {
+        font-size: var(--text-heading-1);
+        line-height: var(--leading-tight);
+    }
+
+    .text-heading-2 {
+        font-size: var(--text-heading-2);
+        line-height: var(--leading-normal);
+    }
+
+    .bg-primary-gradient {
+        background: linear-gradient(
+            135deg,
+            var(--color-primary) 0%,
+            var(--color-primary-dark) 100%
+        );
+    }
+
+    .bg-primary-gradient-light {
+        background: linear-gradient(
+            135deg,
+            var(--color-primary-light) 0%,
+            var(--color-primary) 100%
+        );
+    }
+
+    .shadow-primary {
+        box-shadow: var(--shadow-primary);
+    }
+
+    .shadow-primary-lg {
+        box-shadow: var(--shadow-primary-lg);
+    }
+}

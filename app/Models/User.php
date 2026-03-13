@@ -12,6 +12,14 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
+    public const STATUS_ACTIVE = 'active';
+
+    public const STATUS_PENDING_KYC = 'pending_kyc';
+
+    public const STATUS_SUSPENDED = 'suspended';
+
+    public const STATUS_CLOSED = 'closed';
+
     /** @use HasFactory<UserFactory> */
     use HasFactory, HasRoles, Notifiable, TwoFactorAuthenticatable;
 
@@ -24,6 +32,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'account_status',
     ];
 
     /**
@@ -49,6 +58,23 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
+            'account_status' => 'string',
         ];
+    }
+
+    /**
+     * Check if user account is active.
+     */
+    public function isActive(): bool
+    {
+        return $this->account_status === self::STATUS_ACTIVE;
+    }
+
+    /**
+     * Check if user needs KYC verification.
+     */
+    public function needsKyc(): bool
+    {
+        return $this->account_status === self::STATUS_PENDING_KYC;
     }
 }

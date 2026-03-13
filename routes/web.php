@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AccountStatementController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\HealthController;
 use App\Http\Controllers\Admin\OversightController;
 use App\Http\Controllers\AdminController;
@@ -10,52 +10,51 @@ use App\Http\Controllers\Ledger\AccountController;
 use App\Http\Controllers\Ledger\LedgerController;
 use App\Http\Controllers\Ledger\TransactionController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\AccountStatementController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Landing');
-})->name('home');
-
-Route::get('/privacy', function () {
-    return Inertia::render('legal/PrivacyPolicy');
-})->name('privacy');
-
-Route::get('/terms', function () {
-    return Inertia::render('legal/TermsOfService');
-})->name('terms');
-
-Route::get('/risk-disclosures', function () {
-    return Inertia::render('legal/RiskDisclosures');
-})->name('risk-disclosures');
+/*
+|--------------------------------------------------------------------------
+| Public Routes
+|--------------------------------------------------------------------------
+*/
+Route::get('/', fn () => Inertia::render('Landing'))->name('home');
+Route::get('/privacy', fn () => Inertia::render('legal/PrivacyPolicy'))->name('privacy');
+Route::get('/terms', fn () => Inertia::render('legal/TermsOfService'))->name('terms');
+Route::get('/risk-disclosures', fn () => Inertia::render('legal/RiskDisclosures'))->name('risk-disclosures');
 
 Route::post('/leads', [LeadController::class, 'store'])->name('leads.store');
 
+/*
+|--------------------------------------------------------------------------
+| Authenticated Routes
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth', 'verified'])->group(function () {
+    // User-facing pages (clean URLs)
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
     Route::inertia('accounts', 'accounts')->name('accounts');
     Route::inertia('transactions', 'transactions')->name('transactions');
     Route::inertia('ledger', 'ledger')->name('ledger');
     Route::inertia('payments', 'payments')->name('payments');
-    Route::inertia('admin', 'admin-dashboard')->name('admin');
 
-    // Statement routes
-    Route::get('/api/statements', [AccountStatementController::class, 'index']);
-    Route::post('/api/statements', [AccountStatementController::class, 'store']);
-    Route::get('/api/statements/{statement}/download', [AccountStatementController::class, 'download']);
+    // Ledger chart
+    Route::get('ledger/chart', [LedgerController::class, 'chartOfAccounts'])->name('ledger.chart');
 
-    // Admin Oversight routes
-    Route::get('/admin/oversight', [OversightController::class, 'index'])->name('admin.oversight');
-    Route::post('/admin/oversight/kyc/{document}/approve', [OversightController::class, 'approveKYC']);
-    Route::post('/admin/oversight/kyc/{document}/reject', [OversightController::class, 'rejectKYC']);
-    Route::post('/admin/oversight/fraud/{transaction}/resolve', [OversightController::class, 'resolveFraud']);
-    Route::post('/admin/oversight/user/{user}/block', [OversightController::class, 'blockUser']);
-    Route::get('/admin/oversight/updates', [OversightController::class, 'updates']);
+    /*
+    |--------------------------------------------------------------------------
+    | Protected API Routes (throttled, logical grouping)
+    |--------------------------------------------------------------------------
+    */
+    // Statements API
+    Route::prefix('api/statements')->group(function () {
+        Route::get('/', [AccountStatementController::class, 'index']);
+        Route::post('/', [AccountStatementController::class, 'store']);
+        Route::get('/{statement}/download', [AccountStatementController::class, 'download']);
+    });
 
-    // Admin Health routes
-    Route::get('/admin/health', [HealthController::class, 'getStats']);
-    Route::post('/admin/health/restart-queue', [HealthController::class, 'restartQueue']);
-
+    // Ledger API
     Route::prefix('api/ledger')->group(function () {
         Route::apiResource('accounts', AccountController::class);
         Route::apiResource('transactions', TransactionController::class);
@@ -63,12 +62,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('transactions/{transaction}/flag', [TransactionController::class, 'flag']);
     });
 
+    // Payments API
     Route::prefix('api/payments')->group(function () {
         Route::get('/', [PaymentController::class, 'index']);
         Route::post('/', [PaymentController::class, 'store']);
         Route::get('/{payment}', [PaymentController::class, 'show']);
     });
 
+    // External API v1 (throttled)
     Route::prefix('api/v1')->middleware('throttle:60,1')->group(function () {
         Route::get('/accounts', [ApiController::class, 'accounts']);
         Route::get('/accounts/{account}', [ApiController::class, 'showAccount']);
@@ -79,10 +80,50 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/stats', [ApiController::class, 'stats']);
     });
 
-    Route::get('ledger/chart', [LedgerController::class, 'chartOfAccounts'])->name('ledger.chart');
+    /*
+    |--------------------------------------------------------------------------
+    | Admin Routes (role-protected)
+    |--------------------------------------------------------------------------
+    */
+    Route::middleware(['admin'])->group(function () {
+        // Admin dashboard with telemetry
+        Route::get('/admin', [DashboardController::class])->name('admin');
 
-    Route::get('admin/audit-logs', [AdminController::class, 'auditLogs'])->name('admin.audit-logs');
-    Route::get('admin/users', [AdminController::class, 'users'])->name('admin.users');
+        // Admin oversight
+        Route::prefix('admin/oversight')->group(function () {
+            Route::get('/', [OversightController::class, 'index'])->name('admin.oversight');
+            Route::post('/kyc/{document}/approve', [OversightController::class, 'approveKYC']);
+            Route::post('/kyc/{document}/reject', [OversightController::class, 'rejectKYC']);
+            Route::post('/fraud/{transaction}/resolve', [OversightController::class, 'resolveFraud']);
+            Route::post('/user/{user}/block', [OversightController::class, 'blockUser']);
+            Route::get('/updates', [OversightController::class, 'updates']);
+        });
+
+        // Admin health
+        Route::prefix('admin/health')->group(function () {
+            Route::get('/', [HealthController::class, 'getStats']);
+            Route::post('/restart-queue', [HealthController::class, 'restartQueue']);
+        });
+
+        // Admin audit logs & users
+        Route::get('admin/audit-logs', [AdminController::class, 'auditLogs'])->name('admin.audit-logs');
+        Route::get('admin/users', [AdminController::class, 'users'])->name('admin.users');
+    });
 });
 
+/*
+|--------------------------------------------------------------------------
+| Settings Routes
+|--------------------------------------------------------------------------
+*/
 require __DIR__.'/settings.php';
+
+/*
+|--------------------------------------------------------------------------
+| Fallback Route (404)
+|--------------------------------------------------------------------------
+*/
+Route::fallback(fn () => Inertia::render('Error', [
+    'status' => 404,
+    'message' => 'Page not found',
+]))->name('fallback');

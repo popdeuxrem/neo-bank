@@ -1,11 +1,11 @@
-import * as React from 'react';
 import { motion } from 'framer-motion';
-import { Container } from '../core';
-import { cn } from '@/lib/utils';
-import { HeroHeadline } from '../HeroHeadline';
-import { HeroIllustration } from '../HeroIllustration';
-import { LeadForm } from '../LeadForm';
 import { CheckCircle2 } from 'lucide-react';
+import * as React from 'react';
+import { cn } from '@/lib/utils';
+import { Container } from '../core';
+import { HeroHeadline } from '../HeroHeadline';
+import { MagnetiqCard } from './MagnetiqCard';
+import { LeadForm } from '../LeadForm';
 
 interface HeroProps {
     className?: string;
@@ -19,9 +19,10 @@ export const Hero: React.FC<HeroProps> = ({ className }) => {
                 className,
             )}
         >
-            {/* Background gradient */}
+            {/* Radial gradient spotlight background */}
             <div className="absolute inset-0 -z-10">
-                <div className="bg-gradient-radial absolute top-0 left-1/2 h-[600px] w-[800px] -translate-x-1/2 rounded-full from-[var(--color-primary)]/10 to-transparent blur-3xl" />
+                <div className="absolute top-0 left-1/2 h-[800px] w-[800px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(139,92,246,0.15)_0%,rgba(109,40,217,0.08)_40%,transparent_70%)]" />
+                <div className="absolute right-0 bottom-0 h-[600px] w-[600px] rounded-full bg-[radial-gradient(circle,rgba(139,92,246,0.1)_0%,transparent_70%)]" />
             </div>
 
             <Container>
@@ -35,24 +36,25 @@ export const Hero: React.FC<HeroProps> = ({ className }) => {
                     >
                         <HeroHeadline
                             title="Banking built for the future"
-                            subtitle="Experience seamless financial management with NeoBank. Instant transfers, smart budgeting, and bank-grade security—all in one beautiful app."
-                            highlights={['future', 'NeoBank']}
+                            subtitle="Experience seamless financial management with Magnetiq. Instant transfers, smart budgeting, and bank-grade security—all in one beautiful app."
+                            highlights={['future', 'Magnetiq']}
                         />
 
                         <LeadForm
                             placeholder="Enter your work email"
                             buttonText="Start Free"
+                            showShimmer
                         />
 
                         <div className="flex flex-wrap items-center gap-6 pt-4">
                             <div className="flex items-center gap-2">
-                                <CheckCircle2 className="h-5 w-5 text-[var(--color-success)]" />
+                                <CheckCircle2 className="h-5 w-5 text-green-500" />
                                 <span className="text-sm text-[var(--color-text-muted)]">
                                     No credit card required
                                 </span>
                             </div>
                             <div className="flex items-center gap-2">
-                                <CheckCircle2 className="h-5 w-5 text-[var(--color-success)]" />
+                                <CheckCircle2 className="h-5 w-5 text-green-500" />
                                 <span className="text-sm text-[var(--color-text-muted)]">
                                     14-day free trial
                                 </span>
@@ -86,14 +88,16 @@ export const Hero: React.FC<HeroProps> = ({ className }) => {
                         </div>
                     </motion.div>
 
-                    {/* Visual */}
+                    {/* Visual - Floating 3D Card */}
                     <motion.div
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6, delay: 0.2 }}
                         className="flex justify-center"
                     >
-                        <HeroIllustration variant="abstract" size="xl" />
+                        <div className="perspective-1000">
+                            <MagnetiqCard />
+                        </div>
                     </motion.div>
                 </div>
             </Container>

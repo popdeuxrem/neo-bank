@@ -1,15 +1,16 @@
-import * as React from 'react';
 import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
+import { Mail, ArrowRight } from 'lucide-react';
+import * as React from 'react';
 import { Button } from '@/components/ButtonPrimary';
 import { InputPill } from '@/components/InputPill';
-import { Mail, ArrowRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface LeadFormProps {
     onSubmit?: (email: string) => void;
     placeholder?: string;
     buttonText?: string;
     className?: string;
+    showShimmer?: boolean;
 }
 
 const LeadForm: React.FC<LeadFormProps> = ({
@@ -17,6 +18,7 @@ const LeadForm: React.FC<LeadFormProps> = ({
     placeholder = 'Enter your email',
     buttonText = 'Get Started',
     className,
+    showShimmer = false,
 }) => {
     const [email, setEmail] = React.useState('');
     const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -25,6 +27,7 @@ const LeadForm: React.FC<LeadFormProps> = ({
 
     const validateEmail = (email: string) => {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
         return re.test(email);
     };
 
@@ -34,15 +37,18 @@ const LeadForm: React.FC<LeadFormProps> = ({
 
         if (!email) {
             setError('Email is required');
+
             return;
         }
 
         if (!validateEmail(email)) {
             setError('Please enter a valid email');
+
             return;
         }
 
         setIsSubmitting(true);
+
         try {
             await onSubmit?.(email);
             setIsSuccess(true);
@@ -88,7 +94,11 @@ const LeadForm: React.FC<LeadFormProps> = ({
                     type="submit"
                     size="lg"
                     isLoading={isSubmitting}
-                    className="whitespace-nowrap"
+                    className={cn(
+                        'relative overflow-hidden whitespace-nowrap',
+                        showShimmer &&
+                            'before:animate-shine before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent',
+                    )}
                 >
                     {buttonText}
                     <ArrowRight className="h-5 w-5" />

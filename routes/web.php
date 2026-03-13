@@ -5,6 +5,8 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\HealthController;
 use App\Http\Controllers\Admin\IdentityDocumentController;
 use App\Http\Controllers\Admin\OversightController;
+use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\SupportController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\LeadController;
@@ -120,13 +122,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     | Admin Routes (role-protected)
     |--------------------------------------------------------------------------
     */
-    Route::middleware(['admin'])->group(function () {
+    Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function () {
         // Admin dashboard with telemetry
-        Route::get('/admin', [DashboardController::class, 'index'])->name('admin');
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
         // Admin oversight
-        Route::prefix('admin/oversight')->group(function () {
-            Route::get('/', [OversightController::class, 'index'])->name('admin.oversight');
+        Route::prefix('oversight')->group(function () {
+            Route::get('/', [OversightController::class, 'index'])->name('oversight');
+            Route::get('/kyc', [OversightController::class, 'kycIndex'])->name('oversight.kyc');
+            Route::get('/fraud', [OversightController::class, 'fraudIndex'])->name('oversight.fraud');
             Route::get('/documents/{document}', [IdentityDocumentController::class, 'show']);
             Route::patch('/documents/{document}/status', [IdentityDocumentController::class, 'updateStatus']);
             Route::post('/kyc/{document}/approve', [OversightController::class, 'approveKYC']);
@@ -136,15 +140,44 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/updates', [OversightController::class, 'updates']);
         });
 
-        // Admin health
-        Route::prefix('admin/health')->group(function () {
-            Route::get('/', [HealthController::class, 'getStats']);
-            Route::post('/restart-queue', [HealthController::class, 'restartQueue']);
-        });
+        // Users
+        Route::get('/users', [AdminController::class, 'users'])->name('users');
+        Route::get('/users/{user}', [AdminController::class, 'showUser'])->name('users.show');
+        Route::post('/users/{user}/block', [AdminController::class, 'blockUser'])->name('users.block');
+        Route::post('/users/{user}/unblock', [AdminController::class, 'unblockUser'])->name('users.unblock');
+        Route::post('/users/{user}/notes', [AdminController::class, 'addNote'])->name('users.notes');
 
-        // Admin audit logs & users
-        Route::get('admin/audit-logs', [AdminController::class, 'auditLogs'])->name('admin.audit-logs');
-        Route::get('admin/users', [AdminController::class, 'users'])->name('admin.users');
+        // Reports
+        Route::get('/reports/transactions', [AdminController::class, 'transactionReport'])->name('reports.transactions');
+        Route::get('/reports/logins', [AdminController::class, 'loginReport'])->name('reports.logins');
+
+        // Support
+        Route::get('/support', [SupportController::class, 'index'])->name('support.index');
+        Route::get('/support/{ticket}', [SupportController::class, 'show'])->name('support.show');
+        Route::post('/support/{ticket}/reply', [SupportController::class, 'reply'])->name('support.reply');
+        Route::post('/support/{ticket}/close', [SupportController::class, 'close'])->name('support.close');
+
+        // Settings
+        Route::get('/settings/general', [SettingsController::class, 'general'])->name('settings.general');
+        Route::post('/settings/general', [SettingsController::class, 'updateGeneral']);
+        Route::get('/settings/system', [SettingsController::class, 'system'])->name('settings.system');
+        Route::post('/settings/system', [SettingsController::class, 'updateSystem']);
+        Route::get('/settings/notifications', [SettingsController::class, 'notifications'])->name('settings.notifications');
+        Route::get('/settings/payment-gateways', [SettingsController::class, 'paymentGateways'])->name('settings.gateways');
+        Route::get('/settings/kyc', [SettingsController::class, 'kyc'])->name('settings.kyc');
+        Route::get('/settings/plans', [SettingsController::class, 'plans'])->name('settings.plans');
+        Route::get('/settings/seo', [SettingsController::class, 'seo'])->name('settings.seo');
+
+        // System
+        Route::get('/system/info', [HealthController::class, 'info'])->name('system.info');
+        Route::post('/system/cache/clear', [HealthController::class, 'clearCache'])->name('system.cache.clear');
+        Route::post('/system/queue/restart', [HealthController::class, 'restartQueue'])->name('system.queue.restart');
+
+        // Admin health
+        Route::get('/health', [HealthController::class, 'getStats']);
+
+        // Admin audit logs
+        Route::get('/audit-logs', [AdminController::class, 'auditLogs'])->name('audit-logs');
     });
 });
 

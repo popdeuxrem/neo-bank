@@ -21,9 +21,9 @@ import { toast } from '@/components/ui/Toast';
 
 interface HealthStats {
     cpu: {
-        1min: number;
-        5min: number;
-        15min: number;
+        "1min": number;
+        "5min": number;
+        "15min": number;
         percentage: number;
     };
     memory: {

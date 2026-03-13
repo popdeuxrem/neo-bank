@@ -1,5 +1,9 @@
 import type { Auth } from '@/types/auth';
 
+declare module 'lucide-react' {
+    export * from 'lucide-react';
+}
+
 declare module '@inertiajs/core' {
     export interface InertiaConfig {
         sharedPageProps: {

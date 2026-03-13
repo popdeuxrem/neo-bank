@@ -16,6 +16,76 @@ use Inertia\Response;
 
 class OversightController extends Controller
 {
+    public function kycIndex(): Response
+    {
+        $documents = IdentityDocument::with('user')
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($doc) {
+                return [
+                    'id' => $doc->id,
+                    'user_id' => $doc->user_id,
+                    'user_name' => $doc->user?->name,
+                    'user_email' => $doc->user?->email,
+                    'document_type' => $doc->document_type,
+                    'document_type_label' => $doc->getDocumentTypeLabel(),
+                    'file_path' => $doc->file_path,
+                    'status' => $doc->status,
+                    'created_at' => $doc->created_at->toIso8601String(),
+                ];
+            });
+
+        $stats = [
+            'pending' => IdentityDocument::whereIn('status', [
+                IdentityDocument::STATUS_PENDING,
+                IdentityDocument::STATUS_SUBMITTED,
+                IdentityDocument::STATUS_UNDER_REVIEW,
+            ])->count(),
+            'approved_today' => IdentityDocument::where('status', IdentityDocument::STATUS_APPROVED)
+                ->whereDate('updated_at', today())->count(),
+            'rejected_today' => IdentityDocument::where('status', IdentityDocument::STATUS_REJECTED)
+                ->whereDate('updated_at', today())->count(),
+        ];
+
+        return Inertia::render('admin/oversight/kyc', [
+            'documents' => $documents,
+            'stats' => $stats,
+        ]);
+    }
+
+    public function fraudIndex(): Response
+    {
+        $transactions = Transaction::with(['creator'])
+            ->where('status', Transaction::STATUS_FLAGGED)
+            ->orderBy('created_at', 'desc')
+            ->limit(50)
+            ->get()
+            ->map(function ($txn) {
+                $metadata = $txn->metadata ?? [];
+
+                return [
+                    'id' => $txn->id,
+                    'transaction_number' => $txn->transaction_number,
+                    'type' => $txn->type,
+                    'amount' => $txn->amount,
+                    'currency' => $txn->currency,
+                    'status' => $txn->status,
+                    'description' => $txn->description,
+                    'created_at' => $txn->created_at->toIso8601String(),
+                    'flagged_at' => $metadata['flagged_at'] ?? $txn->created_at->toIso8601String(),
+                    'user_id' => $txn->created_by,
+                    'user_name' => $txn->creator?->name,
+                    'user_email' => $txn->creator?->email,
+                    'fraud_score' => $metadata['fraud_score'] ?? null,
+                    'fraud_reason' => $metadata['fraud_reason'] ?? 'Manual review required',
+                ];
+            });
+
+        return Inertia::render('admin/oversight/fraud', [
+            'transactions' => $transactions,
+        ]);
+    }
+
     /**
      * Display the admin oversight dashboard.
      */

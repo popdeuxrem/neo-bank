@@ -53,9 +53,15 @@ class GenerateStatementJob implements ShouldQueue
                 ->orderBy('date', 'asc')
                 ->get();
 
+            // Get account relationship
+            $account = $this->statement->account;
+            $user = $this->statement->user;
+
             // Calculate opening balance (balance before the period)
-            $openingBalance = Account::find($this->statement->account_id)
-                ->balance_at($startDate->copy()->subDay());
+            $accountModel = Account::find($this->statement->account_id);
+            $openingBalance = $accountModel && method_exists($accountModel, 'balance_at') 
+                ? $accountModel->balance_at($startDate->copy()->subDay()) 
+                : 0;
 
             // Calculate closing balance
             $closingBalance = $openingBalance + $transactions
@@ -73,11 +79,15 @@ class GenerateStatementJob implements ShouldQueue
                 ->where('status', 'completed')
                 ->sum('amount');
 
-            // Generate PDF
-            $html = view('emails.statements.pdf', [
+            // Estimate total pages for page numbering
+            $transactionsPerPage = 25;
+            $totalPages = max(1, ceil($transactions->count() / $transactionsPerPage));
+
+            // Generate PDF using the high-fidelity template
+            $html = view('pdfs.statement', [
                 'statement' => $this->statement,
-                'account' => $this->statement->account,
-                'user' => $this->statement->user,
+                'account' => $account,
+                'user' => $user,
                 'period' => $period,
                 'startDate' => $startDate->format('F d, Y'),
                 'endDate' => $endDate->format('F d, Y'),
@@ -86,6 +96,8 @@ class GenerateStatementJob implements ShouldQueue
                 'closingBalance' => $closingBalance,
                 'totalCredits' => $totalCredits,
                 'totalDebits' => $totalDebits,
+                'page' => 1,
+                'totalPages' => $totalPages,
             ])->render();
 
             $options = new Options();

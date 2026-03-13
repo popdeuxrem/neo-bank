@@ -4,7 +4,7 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 import { Container } from '../core';
 import { HeroHeadline } from '../HeroHeadline';
-import { MagnetiqCard } from './MagnetiqCard';
+import { MagnetiqCard3D } from '../fintech/MagnetiqCard3D';
 import { LeadForm } from '../LeadForm';
 
 interface HeroProps {
@@ -95,9 +95,7 @@ export const Hero: React.FC<HeroProps> = ({ className }) => {
                         transition={{ duration: 0.6, delay: 0.2 }}
                         className="flex justify-center"
                     >
-                        <div className="perspective-1000">
-                            <MagnetiqCard />
-                        </div>
+                        <MagnetiqCard3D />
                     </motion.div>
                 </div>
             </Container>

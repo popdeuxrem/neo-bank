@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountStatementController;
+use App\Http\Controllers\Admin\OversightController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\LeadController;
@@ -41,6 +42,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/api/statements', [AccountStatementController::class, 'index']);
     Route::post('/api/statements', [AccountStatementController::class, 'store']);
     Route::get('/api/statements/{statement}/download', [AccountStatementController::class, 'download']);
+
+    // Admin Oversight routes
+    Route::get('/admin/oversight', [OversightController::class, 'index'])->name('admin.oversight');
+    Route::post('/admin/oversight/kyc/{document}/approve', [OversightController::class, 'approveKYC']);
+    Route::post('/admin/oversight/kyc/{document}/reject', [OversightController::class, 'rejectKYC']);
+    Route::post('/admin/oversight/fraud/{transaction}/resolve', [OversightController::class, 'resolveFraud']);
+    Route::post('/admin/oversight/user/{user}/block', [OversightController::class, 'blockUser']);
+    Route::get('/admin/oversight/updates', [OversightController::class, 'updates']);
 
     Route::prefix('api/ledger')->group(function () {
         Route::apiResource('accounts', AccountController::class);

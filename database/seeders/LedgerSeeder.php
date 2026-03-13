@@ -309,6 +309,13 @@ class LedgerSeeder extends Seeder
             return;
         }
 
+        // Check if audit_logs table has our expected schema
+        if (!\Schema::hasColumn('audit_logs', 'action')) {
+            $this->command->warn('Audit logs table does not have expected schema. Skipping.');
+
+            return;
+        }
+
         $actions = [
             'user.login',
             'user.logout',

@@ -30,6 +30,23 @@ Route::post('/leads', [LeadController::class, 'store'])->name('leads.store');
 
 /*
 |--------------------------------------------------------------------------
+| Google OAuth Routes
+|--------------------------------------------------------------------------
+*/
+Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('auth.google');
+Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('auth.google.callback');
+
+/*
+|--------------------------------------------------------------------------
+| KYC Pending Route
+|--------------------------------------------------------------------------
+*/
+Route::get('/kyc-pending', [PageController::class, 'kycPending'])
+    ->middleware('auth')
+    ->name('kyc.pending');
+
+/*
+|--------------------------------------------------------------------------
 | Authenticated Routes
 |--------------------------------------------------------------------------
 */

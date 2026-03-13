@@ -28,4 +28,9 @@ class PageController extends Controller
             'message' => 'Page not found',
         ]);
     }
+
+    public function kycPending()
+    {
+        return Inertia::render('auth/KycPending');
+    }
 }

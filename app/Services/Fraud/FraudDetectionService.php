@@ -2,10 +2,12 @@
 
 namespace App\Services\Fraud;
 
+use App\Events\Security\FraudAlertTriggered;
 use App\Models\AuditLog;
 use App\Models\Ledger\Account;
 use App\Models\Ledger\Transaction;
 use App\Models\Payment;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
 
 class FraudDetectionService
@@ -180,16 +182,28 @@ class FraudDetectionService
 
     protected function logFraudAlert(Account $account, int $amount, string $type, array $failedChecks): void
     {
-        $flags = implode(', ', array_column($failedChecks, 'flag'));
+        $flags = array_column($failedChecks, 'flag');
+        $flags = array_filter($flags);
+
+        $riskScore = $this->calculateRiskScore($failedChecks);
 
         Log::warning('FRAUD_ALERT', [
             'account_id' => $account->id,
             'account_number' => $account->account_number,
             'amount' => $amount,
             'type' => $type,
-            'flags' => $flags,
+            'flags' => implode(', ', $flags),
+            'risk_score' => $riskScore,
             'timestamp' => now()->toIso8601String(),
         ]);
+
+        Event::dispatch(new FraudAlertTriggered(
+            account: $account,
+            amount: $amount,
+            type: $type,
+            flags: $flags,
+            riskScore: $riskScore
+        ));
 
         AuditLog::log(
             'fraud.detected',
@@ -200,7 +214,8 @@ class FraudDetectionService
             [
                 'amount' => $amount,
                 'type' => $type,
-                'flags' => $flags,
+                'flags' => implode(', ', $flags),
+                'risk_score' => $riskScore,
             ]
         );
     }

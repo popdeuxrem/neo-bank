@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\Ledger\AccountController;
 use App\Http\Controllers\Ledger\LedgerController;
@@ -34,6 +35,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [PaymentController::class, 'index']);
         Route::post('/', [PaymentController::class, 'store']);
         Route::get('/{payment}', [PaymentController::class, 'show']);
+    });
+
+    Route::prefix('api/v1')->middleware('throttle:60,1')->group(function () {
+        Route::get('/accounts', [ApiController::class, 'accounts']);
+        Route::get('/accounts/{account}', [ApiController::class, 'showAccount']);
+        Route::get('/transactions', [ApiController::class, 'transactions']);
+        Route::get('/transactions/{transaction}', [ApiController::class, 'showTransaction']);
+        Route::get('/payments', [ApiController::class, 'payments']);
+        Route::get('/payments/{payment}', [ApiController::class, 'showPayment']);
+        Route::get('/stats', [ApiController::class, 'stats']);
     });
 
     Route::get('ledger/chart', [LedgerController::class, 'chartOfAccounts'])->name('ledger.chart');

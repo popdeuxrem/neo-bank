@@ -35,6 +35,8 @@ class Transaction extends Model
 
     public const TYPE_INTEREST = 'interest';
 
+    public const TYPE_REVERSAL = 'reversal';
+
     public const STATUS_PENDING = 'pending';
 
     public const STATUS_COMPLETED = 'completed';
@@ -56,6 +58,7 @@ class Transaction extends Model
         'status',
         'metadata',
         'posted_at',
+        'parent_id',
     ];
 
     protected $casts = [
@@ -67,6 +70,11 @@ class Transaction extends Model
     public function entries(): HasMany
     {
         return $this->hasMany(TransactionEntry::class, 'transaction_id');
+    }
+
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(Transaction::class, 'parent_id');
     }
 
     public function creator(): BelongsTo

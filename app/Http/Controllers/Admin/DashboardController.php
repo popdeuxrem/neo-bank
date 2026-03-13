@@ -10,6 +10,11 @@ class DashboardController extends Controller
 {
     public function __invoke(): Response
     {
+        return $this->index();
+    }
+
+    public function index(): Response
+    {
         $telemetry = [
             'system_health' => [
                 'status' => 'healthy',

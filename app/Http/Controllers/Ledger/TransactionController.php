@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Ledger;
 
 use App\Http\Controllers\Controller;
+use App\Mail\TransactionReversed;
 use App\Models\Ledger\Account;
 use App\Models\Ledger\Transaction;
+use App\Models\User;
 use App\Services\Ledger\AtomicTransferService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 use Inertia\Response;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
@@ -116,6 +119,12 @@ class TransactionController extends Controller
 
     public function reverse(Request $request, Transaction $transaction): JsonResponse
     {
+        $user = $request->user();
+
+        if (! $user || ! $user->hasRole('admin')) {
+            return response()->json(['error' => 'Unauthorized. Admin role required.'], SymfonyResponse::HTTP_FORBIDDEN);
+        }
+
         $validated = $request->validate([
             'reason' => 'required|string|max:500',
         ]);
@@ -126,6 +135,8 @@ class TransactionController extends Controller
                 $validated['reason']
             );
 
+            $this->sendReversalEmail($transaction, $reversal);
+
             return response()->json([
                 'message' => 'Transaction reversed successfully',
                 'reversal' => [
@@ -135,6 +146,15 @@ class TransactionController extends Controller
             ]);
         } catch (\InvalidArgumentException $e) {
             return response()->json(['error' => $e->getMessage()], SymfonyResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    protected function sendReversalEmail(Transaction $transaction, Transaction $reversal): void
+    {
+        $user = $transaction->creator;
+
+        if ($user && $user instanceof User && $user->email) {
+            Mail::to($user->email)->send(new TransactionReversed($transaction, $reversal));
         }
     }
 

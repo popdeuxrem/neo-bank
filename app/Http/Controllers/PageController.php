@@ -11,19 +11,14 @@ class PageController extends Controller
         return Inertia::render('Landing');
     }
 
-    public function privacy()
+    public function legalPage(string $type)
     {
-        return Inertia::render('legal/PrivacyPolicy');
-    }
-
-    public function terms()
-    {
-        return Inertia::render('legal/TermsOfService');
-    }
-
-    public function riskDisclosures()
-    {
-        return Inertia::render('legal/RiskDisclosures');
+        return match ($type) {
+            'privacy' => Inertia::render('legal/PrivacyPolicy'),
+            'terms' => Inertia::render('legal/TermsOfService'),
+            'risk-disclosures' => Inertia::render('legal/RiskDisclosures'),
+            default => $this->notFound(),
+        };
     }
 
     public function notFound()

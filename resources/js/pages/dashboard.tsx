@@ -281,7 +281,10 @@ export default function Dashboard() {
         try {
             const response = await fetch('/api/statements', {
                 headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+                    'X-CSRF-TOKEN':
+                        document
+                            .querySelector('meta[name="csrf-token"]')
+                            ?.getAttribute('content') || '',
                 },
             });
             const data = await response.json();
@@ -303,7 +306,10 @@ export default function Dashboard() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+                    'X-CSRF-TOKEN':
+                        document
+                            .querySelector('meta[name="csrf-token"]')
+                            ?.getAttribute('content') || '',
                 },
                 body: JSON.stringify({
                     account_id: statementForm.account_id,
@@ -314,10 +320,12 @@ export default function Dashboard() {
             const data = await response.json();
 
             if (response.ok) {
-                toast.success('Your statement is being generated and will be ready in a moment.');
+                toast.success(
+                    'Your statement is being generated and will be ready in a moment.',
+                );
                 setIsStatementOpen(false);
                 setStatementForm({ account_id: '', period: '' });
-                
+
                 // Refresh statements list
                 setTimeout(fetchStatements, 2000);
             } else {
@@ -332,11 +340,17 @@ export default function Dashboard() {
 
     const downloadStatement = async (statement: Statement) => {
         try {
-            const response = await fetch(`/api/statements/${statement.id}/download`, {
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+            const response = await fetch(
+                `/api/statements/${statement.id}/download`,
+                {
+                    headers: {
+                        'X-CSRF-TOKEN':
+                            document
+                                .querySelector('meta[name="csrf-token"]')
+                                ?.getAttribute('content') || '',
+                    },
                 },
-            });
+            );
 
             if (response.ok) {
                 const blob = await response.blob();
@@ -369,7 +383,10 @@ export default function Dashboard() {
             const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
             periods.push({
                 value: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`,
-                label: date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' }),
+                label: date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                }),
             });
         }
         return periods;
@@ -392,7 +409,10 @@ export default function Dashboard() {
                         </p>
                     </div>
                     <div className="flex gap-2">
-                        <Dialog open={isStatementOpen} onOpenChange={setIsStatementOpen}>
+                        <Dialog
+                            open={isStatementOpen}
+                            onOpenChange={setIsStatementOpen}
+                        >
                             <DialogTrigger asChild>
                                 <Button variant="outline" className="gap-2">
                                     <FileText className="h-4 w-4" />
@@ -401,62 +421,103 @@ export default function Dashboard() {
                             </DialogTrigger>
                             <DialogContent className="sm:max-w-[425px]">
                                 <DialogHeader>
-                                    <DialogTitle>Generate Account Statement</DialogTitle>
+                                    <DialogTitle>
+                                        Generate Account Statement
+                                    </DialogTitle>
                                     <DialogDescription>
-                                        Download a PDF statement for a specific period
+                                        Download a PDF statement for a specific
+                                        period
                                     </DialogDescription>
                                 </DialogHeader>
                                 <div className="grid gap-4 py-4">
                                     <div className="grid gap-2">
-                                        <Label htmlFor="statement-account">Account</Label>
+                                        <Label htmlFor="statement-account">
+                                            Account
+                                        </Label>
                                         <Select
                                             value={statementForm.account_id}
-                                            onValueChange={(value) => setStatementForm({ ...statementForm, account_id: value })}
+                                            onValueChange={(value) =>
+                                                setStatementForm({
+                                                    ...statementForm,
+                                                    account_id: value,
+                                                })
+                                            }
                                         >
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select account" />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {mockAccounts.map((account) => (
-                                                    <SelectItem key={account.id} value={account.id}>
-                                                        {account.name} - **** {account.account_number.slice(-4)}
+                                                    <SelectItem
+                                                        key={account.id}
+                                                        value={account.id}
+                                                    >
+                                                        {account.name} - ****{' '}
+                                                        {account.account_number.slice(
+                                                            -4,
+                                                        )}
                                                     </SelectItem>
                                                 ))}
                                             </SelectContent>
                                         </Select>
                                     </div>
                                     <div className="grid gap-2">
-                                        <Label htmlFor="statement-period">Period</Label>
+                                        <Label htmlFor="statement-period">
+                                            Period
+                                        </Label>
                                         <Select
                                             value={statementForm.period}
-                                            onValueChange={(value) => setStatementForm({ ...statementForm, period: value })}
+                                            onValueChange={(value) =>
+                                                setStatementForm({
+                                                    ...statementForm,
+                                                    period: value,
+                                                })
+                                            }
                                         >
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select month" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                {getAvailablePeriods().map((period) => (
-                                                    <SelectItem key={period.value} value={period.value}>
-                                                        {period.label}
-                                                    </SelectItem>
-                                                ))}
+                                                {getAvailablePeriods().map(
+                                                    (period) => (
+                                                        <SelectItem
+                                                            key={period.value}
+                                                            value={period.value}
+                                                        >
+                                                            {period.label}
+                                                        </SelectItem>
+                                                    ),
+                                                )}
                                             </SelectContent>
                                         </Select>
                                     </div>
                                 </div>
                                 <DialogFooter>
-                                    <Button variant="outline" onClick={() => setIsStatementOpen(false)}>
+                                    <Button
+                                        variant="outline"
+                                        onClick={() =>
+                                            setIsStatementOpen(false)
+                                        }
+                                    >
                                         Cancel
                                     </Button>
-                                    <Button onClick={generateStatement} disabled={isGenerating}>
-                                        {isGenerating ? 'Generating...' : 'Generate PDF'}
+                                    <Button
+                                        onClick={generateStatement}
+                                        disabled={isGenerating}
+                                    >
+                                        {isGenerating
+                                            ? 'Generating...'
+                                            : 'Generate PDF'}
                                     </Button>
                                 </DialogFooter>
                             </DialogContent>
                         </Dialog>
-                        <Dialog open={isTransferOpen} onOpenChange={setIsTransferOpen}>
+                        <Dialog
+                            open={isTransferOpen}
+                            onOpenChange={setIsTransferOpen}
+                        >
                             <DialogTrigger asChild>
-                                <Button className="gap-2">
+                                <Button className="gap-2" data-tour="transfer">
                                     <Send className="h-4 w-4" />
                                     Transfer
                                 </Button>
@@ -470,7 +531,9 @@ export default function Dashboard() {
                                 </DialogHeader>
                                 <div className="grid gap-4 py-4">
                                     <div className="grid gap-2">
-                                        <Label htmlFor="amount">Amount (USD)</Label>
+                                        <Label htmlFor="amount">
+                                            Amount (USD)
+                                        </Label>
                                         <Input
                                             id="amount"
                                             type="number"
@@ -541,7 +604,9 @@ export default function Dashboard() {
                 {statements.length > 0 && (
                     <Card className="border-purple-200 bg-purple-50 dark:bg-purple-950/20">
                         <CardHeader className="pb-2">
-                            <CardTitle className="text-sm">Recent Statements</CardTitle>
+                            <CardTitle className="text-sm">
+                                Recent Statements
+                            </CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="flex flex-wrap gap-2">
@@ -551,8 +616,13 @@ export default function Dashboard() {
                                         variant="outline"
                                         size="sm"
                                         className="gap-1"
-                                        onClick={() => statement.status === 'completed' && downloadStatement(statement)}
-                                        disabled={statement.status !== 'completed'}
+                                        onClick={() =>
+                                            statement.status === 'completed' &&
+                                            downloadStatement(statement)
+                                        }
+                                        disabled={
+                                            statement.status !== 'completed'
+                                        }
                                     >
                                         <Download className="h-3 w-3" />
                                         {statement.period}
@@ -570,7 +640,10 @@ export default function Dashboard() {
                 )}
 
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                    <Card className="bg-gradient-to-br from-emerald-500 to-emerald-600 text-white">
+                    <Card
+                        className="bg-gradient-to-br from-emerald-500 to-emerald-600 text-white"
+                        data-tour="balance"
+                    >
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                             <CardTitle className="text-sm font-medium text-emerald-100">
                                 Total Balance
@@ -818,7 +891,7 @@ export default function Dashboard() {
                         </CardContent>
                     </Card>
 
-                    <Card>
+                    <Card data-tour="transactions">
                         <CardHeader>
                             <CardTitle>Recent Transactions</CardTitle>
                             <CardDescription>

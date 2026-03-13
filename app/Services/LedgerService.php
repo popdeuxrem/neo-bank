@@ -70,4 +70,44 @@ class LedgerService
             return $debitTransaction;
         });
     }
+
+    public function reverseTransaction(Transaction $original, ?string $reason = null, ?User $reversedBy = null): Transaction
+    {
+        if ($original->status === Transaction::STATUS_REVERSED) {
+            throw new \InvalidArgumentException('Transaction is already reversed');
+        }
+
+        if ($original->status !== Transaction::STATUS_COMPLETED) {
+            throw new \InvalidArgumentException('Only completed transactions can be reversed');
+        }
+
+        return DB::transaction(function () use ($original, $reason, $reversedBy) {
+            $original->refresh();
+
+            $reversalTransaction = Transaction::create([
+                'transaction_number' => Transaction::generateTransactionNumber(),
+                'type' => Transaction::TYPE_REVERSAL,
+                'description' => $reason ?? 'Reversal of transaction '.$original->transaction_number,
+                'amount' => -$original->amount,
+                'currency' => $original->currency,
+                'created_by' => $reversedBy?->id ?? $this->user?->id,
+                'status' => Transaction::STATUS_COMPLETED,
+                'posted_at' => now(),
+                'parent_id' => $original->id,
+            ]);
+
+            $original->update(['status' => Transaction::STATUS_REVERSED]);
+
+            if ($original->entries()->count() > 0) {
+                foreach ($original->entries as $entry) {
+                    if ($entry->account && $entry->account->balance) {
+                        $entry->account->balance->decrement('balance', -$entry->amount);
+                        $entry->account->balance->decrement('available_balance', -$entry->amount);
+                    }
+                }
+            }
+
+            return $reversalTransaction;
+        });
+    }
 }

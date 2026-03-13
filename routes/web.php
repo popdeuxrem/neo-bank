@@ -22,9 +22,9 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 Route::get('/', [PageController::class, 'landing'])->name('home');
-Route::get('/privacy', [PageController::class, 'privacy'])->name('privacy');
-Route::get('/terms', [PageController::class, 'terms'])->name('terms');
-Route::get('/risk-disclosures', [PageController::class, 'riskDisclosures'])->name('risk-disclosures');
+Route::get('/{type}', [PageController::class, 'legalPage'])
+    ->where('type', 'privacy|terms|risk-disclosures')
+    ->name('legal.page');
 
 Route::post('/leads', [LeadController::class, 'store'])->name('leads.store');
 
@@ -40,6 +40,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('transactions', 'transactions')->name('transactions');
     Route::inertia('ledger', 'ledger')->name('ledger');
     Route::inertia('payments', 'payments')->name('payments');
+    Route::inertia('cards', 'Dashboard/Cards')->name('cards');
+
+    // Card management
+    Route::prefix('api/cards')->group(function () {
+        Route::get('/', [CardController::class, 'index']);
+        Route::post('/{card}/toggle-freeze', [CardController::class, 'toggleFreeze']);
+        Route::post('/{card}/reveal', [CardController::class, 'revealSensitiveData']);
+        Route::post('/{card}/update-pin', [CardController::class, 'updatePin']);
+        Route::post('/{card}/cancel', [CardController::class, 'cancel']);
+    });
+    Route::get('/api/cards/reveal/{token}', [CardController::class, 'revealWithToken']);
 
     // Ledger chart
     Route::get('ledger/chart', [LedgerController::class, 'chartOfAccounts'])->name('ledger.chart');
@@ -92,7 +103,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     */
     Route::middleware(['admin'])->group(function () {
         // Admin dashboard with telemetry
-        Route::get('/admin', [DashboardController::class])->name('admin');
+        Route::get('/admin', [DashboardController::class, 'index'])->name('admin');
 
         // Admin oversight
         Route::prefix('admin/oversight')->group(function () {

@@ -1,3 +1,4 @@
+export { TransferWizard } from './TransferWizard';
 export { BalanceCard } from './BalanceCard';
 export { TransactionList } from './TransactionList';
 export { SpendingChart } from './SpendingChart';

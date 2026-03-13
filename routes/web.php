@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\HealthController;
 use App\Http\Controllers\Admin\OversightController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\Ledger\AccountController;
 use App\Http\Controllers\Ledger\LedgerController;
@@ -12,17 +13,16 @@ use App\Http\Controllers\Ledger\TransactionController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AccountStatementController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
 | Public Routes
 |--------------------------------------------------------------------------
 */
-Route::get('/', fn () => Inertia::render('Landing'))->name('home');
-Route::get('/privacy', fn () => Inertia::render('legal/PrivacyPolicy'))->name('privacy');
-Route::get('/terms', fn () => Inertia::render('legal/TermsOfService'))->name('terms');
-Route::get('/risk-disclosures', fn () => Inertia::render('legal/RiskDisclosures'))->name('risk-disclosures');
+Route::get('/', [PageController::class, 'landing'])->name('home');
+Route::get('/privacy', [PageController::class, 'privacy'])->name('privacy');
+Route::get('/terms', [PageController::class, 'terms'])->name('terms');
+Route::get('/risk-disclosures', [PageController::class, 'riskDisclosures'])->name('risk-disclosures');
 
 Route::post('/leads', [LeadController::class, 'store'])->name('leads.store');
 
@@ -123,7 +123,4 @@ require __DIR__.'/settings.php';
 | Fallback Route (404)
 |--------------------------------------------------------------------------
 */
-Route::fallback(fn () => Inertia::render('Error', [
-    'status' => 404,
-    'message' => 'Page not found',
-]))->name('fallback');
+Route::fallback([PageController::class, 'notFound'])->name('fallback');

@@ -1,17 +1,18 @@
 <?php
 
+use App\Http\Controllers\AccountStatementController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\HealthController;
+use App\Http\Controllers\Admin\IdentityDocumentController;
 use App\Http\Controllers\Admin\OversightController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Api\ApiController;
-use App\Http\Controllers\PageController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\Ledger\AccountController;
 use App\Http\Controllers\Ledger\LedgerController;
 use App\Http\Controllers\Ledger\TransactionController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\AccountStatementController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -92,6 +93,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Admin oversight
         Route::prefix('admin/oversight')->group(function () {
             Route::get('/', [OversightController::class, 'index'])->name('admin.oversight');
+            Route::get('/documents/{document}', [IdentityDocumentController::class, 'show']);
+            Route::patch('/documents/{document}/status', [IdentityDocumentController::class, 'updateStatus']);
             Route::post('/kyc/{document}/approve', [OversightController::class, 'approveKYC']);
             Route::post('/kyc/{document}/reject', [OversightController::class, 'rejectKYC']);
             Route::post('/fraud/{transaction}/resolve', [OversightController::class, 'resolveFraud']);

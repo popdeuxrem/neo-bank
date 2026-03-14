@@ -81,7 +81,7 @@ export default function Dashboard() {
                     className="space-y-6"
                 >
                     <motion.div variants={fadeUp}>
-                        <div className="relative overflow-hidden rounded-2xl border border-indigo-500/20 bg-gradient-to-br from-indigo-600/20 via-violet-600/10 to-transparent p-6 shadow-2xl shadow-indigo-500/10">
+                        <div className="relative overflow-hidden rounded-2xl border border-indigo-500/20 bg-gradient-to-br from-indigo-600/20 via-violet-600/10 to-transparent p-6 shadow-2xl shadow-indigo-500/10" data-tour="balance">
                             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-50" />
                             
                             <div className="relative z-10">
@@ -131,7 +131,7 @@ export default function Dashboard() {
                                 </Link>
                             </Button>
                         </div>
-                        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" data-tour="accounts">
                             {accounts.map((account, index) => (
                                 <AccountCard 
                                     key={account.id} 
@@ -146,7 +146,7 @@ export default function Dashboard() {
 
                     <motion.div variants={fadeUp} className="grid gap-6 lg:grid-cols-7">
                         <div className="lg:col-span-4">
-                            <div className="rounded-2xl border border-white/10 bg-zinc-900/50 p-6 backdrop-blur-xl">
+                            <div className="rounded-2xl border border-white/10 bg-zinc-900/50 p-6 backdrop-blur-xl" data-tour="chart">
                                 <div className="mb-4 flex items-center justify-between">
                                     <h2 className="text-lg font-semibold text-white">Balance History</h2>
                                     <div className="flex gap-1">
@@ -256,7 +256,7 @@ export default function Dashboard() {
 
                     <motion.div variants={fadeUp} className="grid gap-6 lg:grid-cols-5">
                         <div className="lg:col-span-3">
-                            <div className="rounded-2xl border border-white/10 bg-zinc-900/50 p-6 backdrop-blur-xl">
+                            <div className="rounded-2xl border border-white/10 bg-zinc-900/50 p-6 backdrop-blur-xl" data-tour="transactions">
                                 <div className="mb-4 flex items-center justify-between">
                                     <h2 className="text-lg font-semibold text-white">Recent Activity</h2>
                                     <Button variant="ghost" size="sm" className="text-zinc-400" asChild>
@@ -274,7 +274,7 @@ export default function Dashboard() {
                         </div>
 
                         <div className="lg:col-span-2 space-y-6">
-                            <div className="rounded-2xl border border-white/10 bg-zinc-900/50 p-6 backdrop-blur-xl">
+                            <div className="rounded-2xl border border-white/10 bg-zinc-900/50 p-6 backdrop-blur-xl" data-tour="quick-actions">
                                 <h2 className="mb-4 text-lg font-semibold text-white">Quick Actions</h2>
                                 <QuickActionsPanel onAction={(actionId) => {
                                     if (actionId === 'send' || actionId === 'add') {

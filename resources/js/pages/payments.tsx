@@ -79,7 +79,7 @@ export default function Payments() {
         <UserLayout>
             <div className="grid gap-6 lg:grid-cols-3">
                 <div className="lg:col-span-2">
-                    <div className="rounded-2xl border border-white/10 bg-zinc-900/50 p-6 backdrop-blur-xl">
+                    <div className="rounded-2xl border border-white/10 bg-zinc-900/50 p-6 backdrop-blur-xl" data-tour="payments">
                         <div className="mb-6 flex items-center gap-2">
                             {[1, 2, 3].map((s) => (
                                 <div key={s} className="flex items-center gap-2">

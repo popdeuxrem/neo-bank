@@ -116,7 +116,7 @@ export default function KYC() {
 
     return (
         <UserLayout>
-            <div className="space-y-6">
+            <div className="space-y-6" data-tour="kyc">
                 <div>
                     <h1 className="text-2xl font-bold text-white">Identity Verification</h1>
                     <p className="text-sm text-zinc-400">Complete verification to unlock all features</p>

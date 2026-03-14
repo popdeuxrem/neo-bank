@@ -9,10 +9,13 @@ use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SupportController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\CardController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\Ledger\AccountController;
 use App\Http\Controllers\Ledger\LedgerController;
 use App\Http\Controllers\Ledger\TransactionController;
+use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TransferController;
@@ -105,6 +108,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Transfer API
     Route::post('/api/transfer', [TransferController::class, 'store'])->name('transfer.store');
+
+    // Onboarding API
+    Route::prefix('api/onboarding')->group(function () {
+        Route::get('/status', [OnboardingController::class, 'status']);
+        Route::post('/complete', [OnboardingController::class, 'complete']);
+        Route::post('/step', [OnboardingController::class, 'updateStep']);
+        Route::post('/skip', [OnboardingController::class, 'skip']);
+        Route::post('/reset', [OnboardingController::class, 'reset']);
+    });
 
     // External API v1 (throttled)
     Route::prefix('api/v1')->middleware('throttle:60,1')->group(function () {

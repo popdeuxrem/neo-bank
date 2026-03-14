@@ -51,6 +51,16 @@ import {
 import { SidebarProvider, useSidebar } from '@/components/ui/sidebar';
 import type { BreadcrumbItem } from '@/types';
 import { useInitials } from '@/hooks/use-initials';
+import {
+    TourProvider,
+    TourProgress,
+    TourSpotlight,
+    TourTooltip,
+    TourOverlay,
+    TourWelcome,
+    TourComplete,
+    useTour,
+} from '@/components/tour';
 
 const mainNavItems = [
     { title: 'Overview', href: '/dashboard', icon: LayoutDashboard },
@@ -142,6 +152,7 @@ function UserSidebar({ collapsed, setCollapsed }: { collapsed: boolean; setColla
             animate={{ width: collapsed ? 64 : 240 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="fixed left-0 top-0 z-40 flex h-screen flex-col border-r border-white/10 bg-zinc-900/95 backdrop-blur-xl dark:bg-black/50"
+            data-tour="sidebar"
         >
             <div className="flex h-16 items-center justify-between border-b border-white/10 px-4">
                 <Link href="/dashboard" className="flex items-center gap-2">
@@ -251,6 +262,7 @@ function TopBar({ title }: { title?: string }) {
                         variant="outline"
                         className="hidden h-9 w-64 border-white/10 bg-white/5 text-zinc-400 hover:bg-white/10 hover:text-white md:flex"
                         onClick={() => setSearchOpen(true)}
+                        data-tour="command"
                     >
                         <Search className="mr-2 h-4 w-4" />
                         <span className="text-xs">Search...</span>
@@ -261,7 +273,7 @@ function TopBar({ title }: { title?: string }) {
 
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon" className="relative text-zinc-400 hover:text-white">
+                            <Button variant="ghost" size="icon" className="relative text-zinc-400 hover:text-white" data-tour="notifications">
                                 <Bell className="h-5 w-5" />
                                 {unreadCount > 0 && (
                                     <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 text-[10px] font-bold text-white">
@@ -436,7 +448,7 @@ function MobileNav() {
     );
 }
 
-export default function UserLayout({ children, user }: UserLayoutProps) {
+function UserLayoutInner({ children, user }: UserLayoutProps) {
     const [collapsed, setCollapsed] = useState(false);
     const page = usePage();
     const currentPath = page.url;
@@ -466,5 +478,28 @@ export default function UserLayout({ children, user }: UserLayoutProps) {
                 <MobileNav />
             </div>
         </SidebarProvider>
+    );
+}
+
+export default function UserLayout({ children, user }: UserLayoutProps) {
+    const page = usePage();
+    const { onboarding, user: pageUser } = page.props as {
+        onboarding?: { completed: boolean; lastStep: number };
+        user?: { id: string; first_name: string; kyc_verified?: boolean };
+    };
+
+    return (
+        <TourProvider
+            autoStart={!onboarding?.completed}
+            initialStep={onboarding?.lastStep ?? 0}
+        >
+            <TourProgress />
+            <TourWelcome />
+            <TourComplete />
+            <TourOverlay />
+            <UserLayoutInner user={user}>
+                {children}
+            </UserLayoutInner>
+        </TourProvider>
     );
 }

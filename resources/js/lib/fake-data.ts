@@ -49,6 +49,69 @@ export interface Payment {
     reference: string;
 }
 
+export interface Notification {
+    id: string;
+    type: 'transaction' | 'alert' | 'system' | 'security';
+    title: string;
+    message: string;
+    read: boolean;
+    created_at: string;
+    icon?: string;
+}
+
+export interface SupportTicket {
+    id: string;
+    subject: string;
+    category: string;
+    status: 'open' | 'closed';
+    priority: 'low' | 'medium' | 'high';
+    created: string;
+    lastReply: string;
+}
+
+export interface Budget {
+    id: string;
+    category: string;
+    limit: number;
+    spent: number;
+    color: string;
+    icon: string;
+}
+
+export interface CardTransaction {
+    id: string;
+    cardId: string;
+    merchant: string;
+    amount: number;
+    currency: string;
+    status: 'completed' | 'pending' | 'declined';
+    timestamp: string;
+    category: string;
+    categoryColor: string;
+}
+
+export interface VirtualCard {
+    id: string;
+    name: string;
+    number: string;
+    expiry: string;
+    cvv: string;
+    status: 'active' | 'frozen' | 'cancelled';
+    balance: number;
+    limit: number;
+    type: 'virtual' | 'physical';
+    transactions: CardTransaction[];
+}
+
+export interface Referral {
+    id: string;
+    name: string;
+    email: string;
+    status: 'invited' | 'signed_up' | 'verified' | 'reward_paid';
+    date: string;
+    reward: number | null;
+}
+
 export interface LedgerEntry {
     id: string;
     entryNumber: string;
@@ -1494,3 +1557,235 @@ export function getPendingAmount(): number {
         .filter((t) => t.status === 'pending')
         .reduce((sum, t) => sum + Math.abs(t.amount), 0);
 }
+
+export const fakeNotifications: Notification[] = [
+    {
+        id: 'notif_001',
+        type: 'transaction',
+        title: 'Payment Received',
+        message: 'You received $12,847.50 from Stripe',
+        read: false,
+        created_at: '2026-03-14T10:30:00Z',
+    },
+    {
+        id: 'notif_002',
+        type: 'alert',
+        title: 'Large Transaction',
+        message: '$2,450.00 spent at Chase Mortgage',
+        read: false,
+        created_at: '2026-03-14T09:00:00Z',
+    },
+    {
+        id: 'notif_003',
+        type: 'transaction',
+        title: 'Transfer Complete',
+        message: 'Transfer of $2,000 to Savings completed',
+        read: true,
+        created_at: '2026-03-13T16:00:00Z',
+    },
+    {
+        id: 'notif_004',
+        type: 'system',
+        title: 'Statement Ready',
+        message: 'Your March 2026 statement is ready',
+        read: true,
+        created_at: '2026-03-13T08:00:00Z',
+    },
+    {
+        id: 'notif_005',
+        type: 'security',
+        title: 'New Login',
+        message: 'New login from Chrome on MacBook Pro',
+        read: true,
+        created_at: '2026-03-12T14:22:00Z',
+    },
+    {
+        id: 'notif_006',
+        type: 'alert',
+        title: 'Payment Due',
+        message: 'Chase Mortgage payment due in 3 days',
+        read: false,
+        created_at: '2026-03-12T10:00:00Z',
+    },
+    {
+        id: 'notif_007',
+        type: 'transaction',
+        title: 'Direct Deposit',
+        message: 'Payroll of $8,500.00 deposited',
+        read: true,
+        created_at: '2026-03-11T09:00:00Z',
+    },
+    {
+        id: 'notif_008',
+        type: 'system',
+        title: 'Card Activated',
+        message: 'Your new Virtual Card has been activated',
+        read: true,
+        created_at: '2026-03-10T11:00:00Z',
+    },
+];
+
+export const fakeSupportTickets: SupportTicket[] = [
+    {
+        id: 'TKT-001',
+        subject: 'Cannot complete wire transfer',
+        category: 'Payments',
+        status: 'open',
+        priority: 'high',
+        created: '2026-03-12T10:30:00Z',
+        lastReply: '2026-03-13T14:22:00Z',
+    },
+    {
+        id: 'TKT-002',
+        subject: 'Card not working abroad',
+        category: 'Cards',
+        status: 'closed',
+        priority: 'medium',
+        created: '2026-03-10T08:15:00Z',
+        lastReply: '2026-03-11T16:45:00Z',
+    },
+    {
+        id: 'TKT-003',
+        subject: 'Question about fees',
+        category: 'Account',
+        status: 'open',
+        priority: 'low',
+        created: '2026-03-08T14:00:00Z',
+        lastReply: '2026-03-09T10:30:00Z',
+    },
+    {
+        id: 'TKT-004',
+        subject: 'Unable to verify identity',
+        category: 'Verification',
+        status: 'closed',
+        priority: 'high',
+        created: '2026-03-05T09:00:00Z',
+        lastReply: '2026-03-07T11:20:00Z',
+    },
+    {
+        id: 'TKT-005',
+        subject: 'Missing transaction',
+        category: 'Transactions',
+        status: 'open',
+        priority: 'medium',
+        created: '2026-03-14T08:00:00Z',
+        lastReply: '2026-03-14T09:15:00Z',
+    },
+];
+
+export const fakeBudgets: Budget[] = [
+    { id: 'bud_001', category: 'Housing', limit: 3000, spent: 2450, color: '#6366f1', icon: 'Home' },
+    { id: 'bud_002', category: 'Food', limit: 1200, spent: 890, color: '#22c55e', icon: 'Utensils' },
+    { id: 'bud_003', category: 'Transport', limit: 500, spent: 340, color: '#8b5cf6', icon: 'Car' },
+    { id: 'bud_004', category: 'Entertainment', limit: 200, spent: 180, color: '#f59e0b', icon: 'Tv' },
+    { id: 'bud_005', category: 'Shopping', limit: 800, spent: 456, color: '#ec4899', icon: 'ShoppingBag' },
+    { id: 'bud_006', category: 'Subscriptions', limit: 150, spent: 125, color: '#f97316', icon: 'CreditCard' },
+];
+
+export const fakeVirtualCards: VirtualCard[] = [
+    {
+        id: 'card_001',
+        name: 'Primary Card',
+        number: '4532 1234 5678 4291',
+        expiry: '12/28',
+        cvv: '123',
+        status: 'active',
+        balance: 5430,
+        limit: 10000,
+        type: 'virtual',
+        transactions: [
+            { id: 'ct_001', cardId: 'card_001', merchant: 'Amazon', amount: -89.99, currency: 'USD', status: 'completed', timestamp: '2026-03-14T10:30:00Z', category: 'Shopping', categoryColor: '#ec4899' },
+            { id: 'ct_002', cardId: 'card_001', merchant: 'Netflix', amount: -15.99, currency: 'USD', status: 'completed', timestamp: '2026-03-13T14:00:00Z', category: 'Entertainment', categoryColor: '#f43f5e' },
+            { id: 'ct_003', cardId: 'card_001', merchant: 'Uber', amount: -24.50, currency: 'USD', status: 'completed', timestamp: '2026-03-12T22:30:00Z', category: 'Transport', categoryColor: '#8b5cf6' },
+            { id: 'ct_004', cardId: 'card_001', merchant: 'Whole Foods', amount: -156.78, currency: 'USD', status: 'completed', timestamp: '2026-03-12T14:30:00Z', category: 'Food', categoryColor: '#22c55e' },
+            { id: 'ct_005', cardId: 'card_001', merchant: 'Spotify', amount: -9.99, currency: 'USD', status: 'completed', timestamp: '2026-03-11T08:00:00Z', category: 'Entertainment', categoryColor: '#f43f5e' },
+        ],
+    },
+    {
+        id: 'card_002',
+        name: 'Travel Card',
+        number: '5425 2334 3010 9903',
+        expiry: '09/27',
+        cvv: '456',
+        status: 'active',
+        balance: 2100,
+        limit: 5000,
+        type: 'virtual',
+        transactions: [
+            { id: 'ct_006', cardId: 'card_002', merchant: 'Delta Airlines', amount: -389.00, currency: 'USD', status: 'completed', timestamp: '2026-03-10T16:00:00Z', category: 'Travel', categoryColor: '#0ea5e9' },
+            { id: 'ct_007', cardId: 'card_002', merchant: 'Marriott', amount: -456.00, currency: 'USD', status: 'completed', timestamp: '2026-03-08T14:00:00Z', category: 'Travel', categoryColor: '#0ea5e9' },
+            { id: 'ct_008', cardId: 'card_002', merchant: 'Airbnb', amount: -234.00, currency: 'USD', status: 'completed', timestamp: '2026-03-05T10:00:00Z', category: 'Travel', categoryColor: '#0ea5e9' },
+        ],
+    },
+    {
+        id: 'card_003',
+        name: 'Shopping Card',
+        number: '3782 8224 6310 005',
+        expiry: '06/26',
+        cvv: '789',
+        status: 'frozen',
+        balance: 890,
+        limit: 3000,
+        type: 'physical',
+        transactions: [
+            { id: 'ct_009', cardId: 'card_003', merchant: 'Target', amount: -89.45, currency: 'USD', status: 'completed', timestamp: '2026-03-01T14:00:00Z', category: 'Shopping', categoryColor: '#ec4899' },
+            { id: 'ct_010', cardId: 'card_003', merchant: 'Walmart', amount: -156.00, currency: 'USD', status: 'completed', timestamp: '2026-02-25T11:00:00Z', category: 'Shopping', categoryColor: '#ec4899' },
+        ],
+    },
+];
+
+export const fakeReferrals: Referral[] = [
+    { id: 'ref_001', name: 'John Smith', email: 'john.smith@email.com', status: 'verified', date: '2026-03-10', reward: 25 },
+    { id: 'ref_002', name: 'Sarah Miller', email: 'sarah.m@email.com', status: 'signed_up', date: '2026-03-08', reward: null },
+    { id: 'ref_003', name: 'Mike Rodriguez', email: 'mike.r@email.com', status: 'invited', date: '2026-03-05', reward: null },
+    { id: 'ref_004', name: 'Emily Kim', email: 'emily.k@email.com', status: 'verified', date: '2026-02-20', reward: 25 },
+    { id: 'ref_005', name: 'David Lee', email: 'david.lee@email.com', status: 'invited', date: '2026-02-15', reward: null },
+    { id: 'ref_006', name: 'Lisa Chen', email: 'lisa.chen@email.com', status: 'reward_paid', date: '2026-02-10', reward: 25 },
+    { id: 'ref_007', name: 'James Wilson', email: 'james.w@email.com', status: 'signed_up', date: '2026-02-05', reward: null },
+];
+
+export const fakeStatements = [
+    { id: 'stmt_001', period: 'March 2026', account: 'Primary Checking', accountId: 'acc_001', format: 'PDF', generated: '2026-03-01', size: '245 KB' },
+    { id: 'stmt_002', period: 'February 2026', account: 'Primary Checking', accountId: 'acc_001', format: 'PDF', generated: '2026-02-01', size: '238 KB' },
+    { id: 'stmt_003', period: 'January 2026', account: 'Primary Checking', accountId: 'acc_001', format: 'PDF', generated: '2026-01-01', size: '256 KB' },
+    { id: 'stmt_004', period: 'December 2025', account: 'Primary Checking', accountId: 'acc_001', format: 'PDF', generated: '2025-12-01', size: '242 KB' },
+    { id: 'stmt_005', period: 'March 2026', account: 'High-Yield Savings', accountId: 'acc_002', format: 'PDF', generated: '2026-03-01', size: '128 KB' },
+    { id: 'stmt_006', period: 'February 2026', account: 'High-Yield Savings', accountId: 'acc_002', format: 'PDF', generated: '2026-02-01', size: '125 KB' },
+    { id: 'stmt_007', period: 'March 2026', account: 'Euro Account', accountId: 'acc_003', format: 'PDF', generated: '2026-03-01', size: '156 KB' },
+    { id: 'stmt_008', period: 'February 2026', account: 'Euro Account', accountId: 'acc_003', format: 'PDF', generated: '2026-02-01', size: '148 KB' },
+];
+
+export const fakeAnalyticsData = {
+    monthlyIncome: [
+        { month: 'Apr 2025', income: 12500, expenses: 8500 },
+        { month: 'May 2025', income: 15000, expenses: 9200 },
+        { month: 'Jun 2025', income: 14200, expenses: 7800 },
+        { month: 'Jul 2025', income: 16800, expenses: 10200 },
+        { month: 'Aug 2025', income: 15500, expenses: 8900 },
+        { month: 'Sep 2025', income: 17200, expenses: 9500 },
+        { month: 'Oct 2025', income: 14800, expenses: 8700 },
+        { month: 'Nov 2025', income: 18500, expenses: 11000 },
+        { month: 'Dec 2025', income: 22000, expenses: 14500 },
+        { month: 'Jan 2026', income: 16200, expenses: 9800 },
+        { month: 'Feb 2026', income: 17800, expenses: 10200 },
+        { month: 'Mar 2026', income: 21347, expenses: 8900 },
+    ],
+    categoryBreakdown: [
+        { category: 'Housing', amount: 2450, percentage: 28, color: '#6366f1' },
+        { category: 'Food & Dining', amount: 1823, percentage: 21, color: '#22c55e' },
+        { category: 'Transportation', amount: 892, percentage: 10, color: '#8b5cf6' },
+        { category: 'Shopping', amount: 1245, percentage: 14, color: '#ec4899' },
+        { category: 'Entertainment', amount: 456, percentage: 5, color: '#f59e0b' },
+        { category: 'Subscriptions', amount: 678, percentage: 8, color: '#f97316' },
+        { category: 'Travel', amount: 1079, percentage: 12, color: '#06b6d4' },
+        { category: 'Other', amount: 277, percentage: 3, color: '#64748b' },
+    ],
+    dailySpending: Array.from({ length: 30 }, (_, i) => {
+        const date = new Date();
+        date.setDate(date.getDate() - (29 - i));
+        return {
+            date: date.toISOString().split('T')[0],
+            amount: Math.floor(Math.random() * 300) + 50,
+        };
+    }),
+};

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountStatementController;
+use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\HealthController;
 use App\Http\Controllers\Admin\IdentityDocumentController;
@@ -138,6 +139,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Admin dashboard with telemetry
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
+        // Customers
+        Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
+        Route::get('/customers/email', [CustomerController::class, 'email'])->name('customers.email');
+        Route::get('/customers/{user}', [CustomerController::class, 'show'])->name('customers.show');
+
         // Admin oversight
         Route::prefix('oversight')->group(function () {
             Route::get('/', [OversightController::class, 'index'])->name('oversight');
@@ -179,6 +185,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/settings/kyc', [SettingsController::class, 'kyc'])->name('settings.kyc');
         Route::get('/settings/plans', [SettingsController::class, 'plans'])->name('settings.plans');
         Route::get('/settings/seo', [SettingsController::class, 'seo'])->name('settings.seo');
+
+        // KYC
+        Route::get('/kyc', [OversightController::class, 'kycIndex'])->name('kyc.index');
+
+        // Stop impersonating
+        Route::post('/stop-impersonating', [CustomerController::class, 'stopImpersonating'])->name('stop-impersonating');
 
         // System
         Route::get('/system/info', [HealthController::class, 'info'])->name('system.info');

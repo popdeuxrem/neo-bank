@@ -9,7 +9,7 @@ import {
     type ComponentType,
 } from 'react';
 import { usePage } from '@inertiajs/react';
-import { router } from '@inertiajs/react';
+import axios from 'axios';
 import {
     Compass,
     TrendingUp,
@@ -206,10 +206,7 @@ export function TourProvider({ children, autoStart = false, initialStep = 0 }: T
         }
         
         try {
-            await router.post('/api/onboarding/step', { step }, {
-                preserveScroll: true,
-                preserveState: true,
-            });
+            await axios.post('/api/onboarding/step', { step });
         } catch (e) {
             console.error('Failed to sync step to backend:', e);
         }
@@ -221,10 +218,7 @@ export function TourProvider({ children, autoStart = false, initialStep = 0 }: T
         }
         
         try {
-            await router.post('/api/onboarding/complete', {}, {
-                preserveScroll: true,
-                preserveState: true,
-            });
+            await axios.post('/api/onboarding/complete');
         } catch (e) {
             console.error('Failed to complete onboarding:', e);
         }
@@ -240,10 +234,7 @@ export function TourProvider({ children, autoStart = false, initialStep = 0 }: T
         }
         
         try {
-            await router.post('/api/onboarding/skip', {}, {
-                preserveScroll: true,
-                preserveState: true,
-            });
+            await axios.post('/api/onboarding/skip');
         } catch (e) {
             console.error('Failed to skip onboarding:', e);
         }

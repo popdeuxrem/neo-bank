@@ -23,7 +23,7 @@ return new class extends Migration
         Schema::create('wire_transfers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('from_account_id')->nullable()->constrained('ledger_accounts')->onDelete('set null');
+            $table->foreignId('from_account_id')->nullable()->constrained('accounts')->onDelete('set null');
             $table->string('recipient_name');
             $table->text('recipient_address')->nullable();
             $table->string('bank_name');
@@ -44,7 +44,7 @@ return new class extends Migration
         Schema::create('scheduled_payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('from_account_id')->nullable()->constrained('ledger_accounts')->onDelete('set null');
+            $table->foreignId('from_account_id')->nullable()->constrained('accounts')->onDelete('set null');
             $table->string('recipient_name');
             $table->string('account_number', 50);
             $table->string('routing_number', 20)->nullable();
@@ -78,7 +78,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('plan_id')->constrained('dps_plans')->onDelete('cascade');
-            $table->foreignId('account_id')->nullable()->constrained('ledger_accounts')->onDelete('set null');
+            $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('set null');
             $table->decimal('monthly_amount', 20, 2);
             $table->date('start_date');
             $table->date('maturity_date');
@@ -120,7 +120,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('plan_id')->constrained('fdr_plans')->onDelete('cascade');
-            $table->foreignId('account_id')->nullable()->constrained('ledger_accounts')->onDelete('set null');
+            $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('set null');
             $table->decimal('principal', 20, 2);
             $table->decimal('interest_rate', 5, 2);
             $table->integer('duration_months');
@@ -155,7 +155,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('plan_id')->constrained('loan_plans')->onDelete('cascade');
-            $table->foreignId('account_id')->nullable()->constrained('ledger_accounts')->onDelete('set null');
+            $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('set null');
             $table->decimal('amount', 20, 2);
             $table->decimal('interest_rate', 5, 2);
             $table->integer('duration_months');
@@ -236,7 +236,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('provider_id')->constrained('bill_providers')->onDelete('cascade');
-            $table->foreignId('account_id')->nullable()->constrained('ledger_accounts')->onDelete('set null');
+            $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('set null');
             $table->string('bill_number', 50)->nullable();
             $table->decimal('amount', 20, 2);
             $table->decimal('fee', 10, 2)->default(0);
@@ -460,7 +460,7 @@ return new class extends Migration
         Schema::create('account_statements', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('account_id')->nullable()->constrained('ledger_accounts')->onDelete('set null');
+            $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('set null');
             $table->date('period_start');
             $table->date('period_end');
             $table->string('file_path', 255);
@@ -492,7 +492,7 @@ return new class extends Migration
         });
 
         // Update ledger_transactions table if needed
-        Schema::table('ledger_transactions', function (Blueprint $table) {
+        Schema::table('transactions', function (Blueprint $table) {
             if (! Schema::hasColumn('ledger_transactions', 'category')) {
                 $table->string('category', 50)->nullable()->after('description');
             }

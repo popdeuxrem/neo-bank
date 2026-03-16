@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Building2,
@@ -13,8 +12,10 @@ import {
     X,
     ChevronRight,
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useState } from 'react';
+import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -24,11 +25,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import UserLayout from '@/layouts/user-layout';
 import { AccountCard } from '@/components/user/account-card';
 import { TransactionItem } from '@/components/user/transaction-item';
+import UserLayout from '@/layouts/user-layout';
 import { fakeAccounts, getTransactionsByAccountId, getTotalBalance } from '@/lib/fake-data';
-import { toast } from 'sonner';
 
 const fadeUp = {
     hidden: { opacity: 0, y: 24 },
@@ -157,10 +157,14 @@ export default function Accounts() {
                                                 <p className="text-xl font-bold text-white">{formatCurrency(account.balance, account.currency)}</p>
                                             </div>
                                             <div className="flex gap-1">
-                                                <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-400" onClick={(e) => { e.stopPropagation(); copyToClipboard(account.accountNumber); }}>
+                                                <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-400" onClick={(e) => {
+ e.stopPropagation(); copyToClipboard(account.accountNumber); 
+}}>
                                                     <Copy className="h-4 w-4" />
                                                 </Button>
-                                                <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-400" onClick={(e) => { e.stopPropagation(); setSelectedAccount(account.id); }}>
+                                                <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-400" onClick={(e) => {
+ e.stopPropagation(); setSelectedAccount(account.id); 
+}}>
                                                     <Eye className="h-4 w-4" />
                                                 </Button>
                                             </div>

@@ -113,6 +113,7 @@ export default function About() {
                         <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
                             {stats.map((stat, index) => {
                                 const Icon = stat.icon;
+
                                 return (
                                     <motion.div
                                         key={stat.label}
@@ -164,6 +165,7 @@ export default function About() {
                                 },
                             ].map((item, index) => {
                                 const Icon = item.icon;
+
                                 return (
                                     <motion.div
                                         key={item.title}

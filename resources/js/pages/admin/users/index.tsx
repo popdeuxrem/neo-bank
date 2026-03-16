@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link, usePage } from "@inertiajs/react";
 import { motion } from "framer-motion";
 import {
@@ -14,10 +13,11 @@ import {
   ChevronUp,
   Download,
 } from "lucide-react";
-import AdminLayout from "@/layouts/admin-layout";
-import { PageHeader, FilterBar, FilterInput, FilterSelect } from "@/components/admin/filter-bar";
-import { DataTable } from "@/components/admin/data-table";
+import { useState } from "react";
 import { ConfirmModal } from "@/components/admin/confirm-modal";
+import { DataTable } from "@/components/admin/data-table";
+import { PageHeader, FilterBar, FilterInput, FilterSelect } from "@/components/admin/filter-bar";
+import AdminLayout from "@/layouts/admin-layout";
 
 interface User {
   id: number;
@@ -108,7 +108,9 @@ export default function UsersIndex({
     
     const params = new URLSearchParams();
     Object.entries(newFilters).forEach(([k, v]) => {
-      if (v) params.set(k, v);
+      if (v) {
+params.set(k, v);
+}
     });
     
     window.location.href = `/admin/users?${params.toString()}`;
@@ -128,7 +130,9 @@ export default function UsersIndex({
   const activeFilterCount = [filters.search, filters.status, filters.role].filter(Boolean).length;
 
   const handleBlockUser = async () => {
-    if (!selectedUser) return;
+    if (!selectedUser) {
+return;
+}
     
     const endpoint = selectedUser.account_status === "suspended" 
       ? `/admin/users/${selectedUser.id}/unblock`

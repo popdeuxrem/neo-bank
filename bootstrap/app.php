@@ -23,9 +23,11 @@ return Application::configure(basePath: dirname(__DIR__))
             AddLinkHeadersForPreloadedAssets::class,
         ]);
 
-        // Register admin middleware alias
+        // Register middleware aliases
         $middleware->alias([
             'admin' => IsAdmin::class,
+            'passcode' => CheckPasscode::class,
+            'not.suspended' => NotSuspended::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

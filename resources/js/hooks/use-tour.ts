@@ -28,5 +28,6 @@ export function useTourTarget(stepId: string) {
 
 export function useTour() {
     const { useTour: useTourEngine } = require('./tour-engine');
+
     return useTourEngine();
 }

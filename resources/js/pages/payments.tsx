@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Send,
@@ -9,10 +8,12 @@ import {
     Building,
     RefreshCw,
 } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
 import {
     Select,
     SelectContent,
@@ -22,7 +23,6 @@ import {
 } from '@/components/ui/select';
 import UserLayout from '@/layouts/user-layout';
 import { fakeAccounts, fakePayments } from '@/lib/fake-data';
-import { toast } from 'sonner';
 
 const formatCurrency = (amount: number, currency = 'USD') => {
     return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount);
@@ -56,7 +56,9 @@ export default function Payments() {
     const filteredPayments = activeTab === 'all' ? fakePayments : fakePayments.filter(p => p.status === activeTab);
 
     const handleNext = () => {
-        if (step < 3) setStep(step + 1);
+        if (step < 3) {
+setStep(step + 1);
+}
     };
 
     const handleSubmit = async () => {
@@ -103,7 +105,9 @@ export default function Payments() {
                                                 {recipients.map((r) => (
                                                     <button
                                                         key={r.id}
-                                                        onClick={() => { setSelectedRecipient(r.id); setFormData({ ...formData, recipientName: r.name, accountNumber: r.account, bankName: r.bank }); }}
+                                                        onClick={() => {
+ setSelectedRecipient(r.id); setFormData({ ...formData, recipientName: r.name, accountNumber: r.account, bankName: r.bank }); 
+}}
                                                         className={`flex w-full items-center gap-3 rounded-xl border p-4 text-left transition-all ${
                                                             selectedRecipient === r.id
                                                                 ? 'border-indigo-500 bg-indigo-500/10'
@@ -245,7 +249,9 @@ export default function Payments() {
                                     </p>
                                     <div className="flex justify-center gap-3">
                                         <Button variant="outline" onClick={resetForm}>Send Another</Button>
-                                        <Button className="bg-indigo-500 hover:bg-indigo-600" onClick={() => { setIsComplete(false); setStep(1); }}>Done</Button>
+                                        <Button className="bg-indigo-500 hover:bg-indigo-600" onClick={() => {
+ setIsComplete(false); setStep(1); 
+}}>Done</Button>
                                     </div>
                                 </motion.div>
                             )}

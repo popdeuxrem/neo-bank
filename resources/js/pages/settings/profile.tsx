@@ -1,11 +1,11 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { User, Mail, Phone, MapPin, Calendar, Briefcase, Camera, Save, Check } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import UserLayout from '@/layouts/user-layout';
-import { toast } from 'sonner';
 
 const fadeUp = {
     hidden: { opacity: 0, y: 24 },

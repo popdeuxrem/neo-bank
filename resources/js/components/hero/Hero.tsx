@@ -3,8 +3,8 @@ import { CheckCircle2 } from 'lucide-react';
 import * as React from 'react';
 import { cn } from '@/lib/utils';
 import { Container } from '../core';
-import { HeroHeadline } from '../HeroHeadline';
 import { MagnetiqCard3D } from '../fintech/MagnetiqCard3D';
+import { HeroHeadline } from '../HeroHeadline';
 import { LeadForm } from '../LeadForm';
 
 interface HeroProps {

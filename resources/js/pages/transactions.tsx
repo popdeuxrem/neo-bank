@@ -1,14 +1,14 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
     Search,
     Filter,
     Download,
 } from 'lucide-react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import UserLayout from '@/layouts/user-layout';
 import { TransactionItem } from '@/components/user/transaction-item';
+import UserLayout from '@/layouts/user-layout';
 import { fakeTransactions, fakeAccounts } from '@/lib/fake-data';
 
 const formatCurrency = (amount: number, currency = 'USD') => {
@@ -25,9 +25,18 @@ export default function Transactions() {
     const accounts = fakeAccounts;
 
     const filteredTransactions = transactions.filter(t => {
-        if (selectedAccount !== 'all' && t.accountId !== selectedAccount) return false;
-        if (search && !t.merchant.toLowerCase().includes(search.toLowerCase())) return false;
-        if (activeTab !== 'all' && t.status !== activeTab) return false;
+        if (selectedAccount !== 'all' && t.accountId !== selectedAccount) {
+return false;
+}
+
+        if (search && !t.merchant.toLowerCase().includes(search.toLowerCase())) {
+return false;
+}
+
+        if (activeTab !== 'all' && t.status !== activeTab) {
+return false;
+}
+
         return true;
     });
 

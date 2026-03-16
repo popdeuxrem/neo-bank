@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
     Shield, 
@@ -12,10 +11,11 @@ import {
     X,
     Check
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import UserLayout from '@/layouts/user-layout';
+import { useState } from 'react';
 import { toast } from 'sonner';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import UserLayout from '@/layouts/user-layout';
 
 interface KYCStep {
     id: number;
@@ -102,9 +102,11 @@ export default function KYC() {
             if (step.id === stepId) {
                 return { ...step, status: 'completed' as const };
             }
+
             if (step.id === stepId + 1) {
                 return { ...step, status: 'current' as const };
             }
+
             return step;
         }));
         

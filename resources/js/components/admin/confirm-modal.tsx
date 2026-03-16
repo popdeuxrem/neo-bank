@@ -1,6 +1,6 @@
+import { clsx } from "clsx";
 import { motion, AnimatePresence } from "framer-motion";
 import { AlertTriangle, CheckCircle, XCircle } from "lucide-react";
-import { clsx } from "clsx";
 
 interface ConfirmModalProps {
   isOpen: boolean;

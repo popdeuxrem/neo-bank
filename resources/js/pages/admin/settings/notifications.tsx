@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { clsx } from "clsx";
 import { motion } from "framer-motion";
 import {
   Bell,
@@ -6,10 +6,10 @@ import {
   Smartphone,
   Save,
 } from "lucide-react";
-import { clsx } from "clsx";
-import AdminLayout from "@/layouts/admin-layout";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import AdminLayout from "@/layouts/admin-layout";
 
 const notificationTypes = [
   { id: "deposits", name: "Deposits", description: "When you receive a deposit", enabled: true },

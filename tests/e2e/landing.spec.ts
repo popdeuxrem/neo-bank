@@ -36,6 +36,7 @@ test.describe('Landing Page', () => {
 
         const animationsComplete = await page.evaluate(() => {
             const elements = Array.from(document.querySelectorAll('*'));
+
             for (const el of elements) {
                 const style = window.getComputedStyle(el);
                 const transitionProperty = style.transitionProperty;
@@ -49,6 +50,7 @@ test.describe('Landing Page', () => {
                     return false;
                 }
             }
+
             return true;
         });
 

@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
 interface MagnetiqCardProps {
@@ -28,7 +28,10 @@ export function MagnetiqCard({
     const [isFlipped, setIsFlipped] = useState(false);
 
     const handleFlip = () => {
-        if (status !== 'active') return;
+        if (status !== 'active') {
+return;
+}
+
         const newState = !isFlipped;
         setIsFlipped(newState);
         onFlip?.(newState);

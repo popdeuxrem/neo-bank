@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link, usePage } from "@inertiajs/react";
 import { motion } from "framer-motion";
 import {
@@ -8,8 +7,9 @@ import {
   Clock,
   User,
 } from "lucide-react";
-import AdminLayout from "@/layouts/admin-layout";
+import { useState } from "react";
 import { PageHeader } from "@/components/admin/filter-bar";
+import AdminLayout from "@/layouts/admin-layout";
 
 interface Message {
   id: number;
@@ -72,9 +72,13 @@ export default function SupportShow({ ticket, messages }: SupportShowProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!reply.trim()) return;
+
+    if (!reply.trim()) {
+return;
+}
 
     setSending(true);
+
     try {
       const response = await fetch(`/admin/support/${ticket.id}/reply`, {
         method: "POST",
@@ -94,6 +98,7 @@ export default function SupportShow({ ticket, messages }: SupportShowProps) {
     } catch (error) {
       console.error("Failed to send reply:", error);
     }
+
     setSending(false);
   };
 

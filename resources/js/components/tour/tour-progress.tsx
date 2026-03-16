@@ -4,7 +4,9 @@ import { useTour } from './tour-engine';
 export function TourProgress() {
     const { isActive, currentStep, totalSteps } = useTour();
     
-    if (!isActive) return null;
+    if (!isActive) {
+return null;
+}
 
     const progress = ((currentStep + 1) / totalSteps) * 100;
 

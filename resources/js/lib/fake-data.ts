@@ -1783,6 +1783,7 @@ export const fakeAnalyticsData = {
     dailySpending: Array.from({ length: 30 }, (_, i) => {
         const date = new Date();
         date.setDate(date.getDate() - (29 - i));
+
         return {
             date: date.toISOString().split('T')[0],
             amount: Math.floor(Math.random() * 300) + 50,

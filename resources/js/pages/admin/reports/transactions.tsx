@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { usePage } from "@inertiajs/react";
 import { motion } from "framer-motion";
 import {
@@ -9,8 +8,9 @@ import {
   ArrowRightLeft,
   FileText,
 } from "lucide-react";
-import AdminLayout from "@/layouts/admin-layout";
+import { useState } from "react";
 import { PageHeader, FilterBar, FilterInput, FilterSelect } from "@/components/admin/filter-bar";
+import AdminLayout from "@/layouts/admin-layout";
 
 interface Transaction {
   id: number;
@@ -107,7 +107,9 @@ export default function TransactionReport({
 
     const params = new URLSearchParams();
     Object.entries(newFilters).forEach(([k, v]) => {
-      if (v) params.set(k, v);
+      if (v) {
+params.set(k, v);
+}
     });
 
     window.location.href = `/admin/reports/transactions?${params.toString()}`;

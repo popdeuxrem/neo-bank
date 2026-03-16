@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
 import { motion, useSpring, useTransform } from 'framer-motion';
 import { RefreshCw, ArrowRight, ArrowLeft } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -47,6 +47,7 @@ export function CurrencyConverter({ initialFrom = 'USD', initialTo = 'EUR', init
         const timer = setInterval(() => {
             setRateCountdown((prev) => (prev > 0 ? prev - 1 : 30));
         }, 1000);
+
         return () => clearInterval(timer);
     }, []);
 
@@ -67,6 +68,7 @@ export function CurrencyConverter({ initialFrom = 'USD', initialTo = 'EUR', init
 
     const getRate = () => {
         const key = `${fromCurrency}-${toCurrency}`;
+
         return exchangeRates[key] || 1;
     };
 

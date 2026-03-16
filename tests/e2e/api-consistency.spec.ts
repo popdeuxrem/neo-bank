@@ -181,6 +181,7 @@ test.describe('Mock vs Production Comparison', () => {
                     `Transaction ${index + 1}: amount is ${typeof txn.amount}, expected number`,
                 );
             }
+
             if (typeof txn.id !== 'string') {
                 mismatches.push(
                     `Transaction ${index + 1}: id is ${typeof txn.id}, expected string`,

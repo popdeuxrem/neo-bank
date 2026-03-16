@@ -1,5 +1,5 @@
 declare module 'lucide-react' {
-  import { FC, SVGProps } from 'react';
+  import type { FC, SVGProps } from 'react';
   type IconProps = SVGProps<SVGSVGElement> & { size?: string | number };
   type Icon = FC<IconProps>;
   

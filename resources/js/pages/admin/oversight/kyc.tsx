@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { usePage } from "@inertiajs/react";
 import { motion } from "framer-motion";
 import {
@@ -12,9 +11,10 @@ import {
   FileText,
   Eye,
 } from "lucide-react";
-import AdminLayout from "@/layouts/admin-layout";
-import { PageHeader, FilterBar, FilterInput, FilterSelect } from "@/components/admin/filter-bar";
+import { useState } from "react";
 import { ConfirmModal } from "@/components/admin/confirm-modal";
+import { PageHeader, FilterBar, FilterInput, FilterSelect } from "@/components/admin/filter-bar";
+import AdminLayout from "@/layouts/admin-layout";
 
 interface Document {
   id: number;
@@ -69,7 +69,10 @@ export default function KycIndex({ documents, stats }: KycPageProps) {
     : documents.filter(d => d.status === activeTab);
 
   const handleApprove = async () => {
-    if (!selectedDoc) return;
+    if (!selectedDoc) {
+return;
+}
+
     setLoading(true);
     
     try {
@@ -94,7 +97,10 @@ export default function KycIndex({ documents, stats }: KycPageProps) {
   };
 
   const handleReject = async () => {
-    if (!selectedDoc || !rejectReason.trim()) return;
+    if (!selectedDoc || !rejectReason.trim()) {
+return;
+}
+
     setLoading(true);
     
     try {

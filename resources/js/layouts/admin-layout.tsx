@@ -1,8 +1,8 @@
-import { useState, useEffect, createContext, useContext } from "react";
 import { Link, usePage } from "@inertiajs/react";
+import { clsx } from "clsx";
 import { motion, AnimatePresence } from "framer-motion";
 import * as LucideIcons from "lucide-react";
-import { clsx } from "clsx";
+import { useState, useEffect, createContext, useContext } from "react";
 
 const Icons = LucideIcons as Record<string, React.ComponentType<{ className?: string }>>;
 
@@ -401,7 +401,9 @@ const IconComponent = ({ name, className }: { name?: string; className?: string 
   if (!name || !Icons[name]) {
     return <div className={className} />;
   }
+
   const Icon = Icons[name];
+
   return <Icon className={className} />;
 };
 
@@ -412,6 +414,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     navigation.forEach((section) => {
       initial[section.title] = section.defaultOpen ?? true;
     });
+
     return initial;
   });
   const [darkMode, setDarkMode] = useState(true);
@@ -428,7 +431,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   };
 
   const isActive = (href: string) => {
-    if (href === "/admin") return currentPath === "/admin";
+    if (href === "/admin") {
+return currentPath === "/admin";
+}
+
     return currentPath.startsWith(href);
   };
 
@@ -438,11 +444,13 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         e.preventDefault();
         setSearchOpen(true);
       }
+
       if (e.key === "Escape") {
         setSearchOpen(false);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
+
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
@@ -511,6 +519,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                         {section.items.map((item) => {
                           const active = isActive(item.href);
                           const hasChildren = item.children && item.children.length > 0;
+
                           return (
                             <div key={item.href}>
                               <Link
@@ -548,6 +557,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                                 <div className="ml-4 mt-1 space-y-1 border-l border-white/10 pl-2">
                                   {item.children?.map((child) => {
                                     const childActive = isActive(child.href);
+
                                     return (
                                       <Link
                                         key={child.href}

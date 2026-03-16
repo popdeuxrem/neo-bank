@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronRight, ArrowUpRight, ArrowDownLeft, Clock, CheckCircle2, XCircle, AlertCircle, RefreshCw, Eye, Expand } from 'lucide-react';
+import { useState } from 'react';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import type { Transaction } from '@/lib/fake-data';
 
 const fadeUp = {
@@ -41,6 +41,7 @@ export function TransactionItem({ transaction, index = 0, showAccount = false, o
             style: 'currency',
             currency: transaction.currency || 'USD',
         }).format(Math.abs(amount));
+
         return isNegative ? `-${formatted}` : `+${formatted}`;
     };
 
@@ -52,10 +53,22 @@ export function TransactionItem({ transaction, index = 0, showAccount = false, o
         const diffHours = Math.floor(diffMins / 60);
         const diffDays = Math.floor(diffHours / 24);
 
-        if (diffMins < 1) return 'Just now';
-        if (diffMins < 60) return `${diffMins}m ago`;
-        if (diffHours < 24) return `${diffHours}h ago`;
-        if (diffDays < 7) return `${diffDays}d ago`;
+        if (diffMins < 1) {
+return 'Just now';
+}
+
+        if (diffMins < 60) {
+return `${diffMins}m ago`;
+}
+
+        if (diffHours < 24) {
+return `${diffHours}h ago`;
+}
+
+        if (diffDays < 7) {
+return `${diffDays}d ago`;
+}
+
         return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     };
 

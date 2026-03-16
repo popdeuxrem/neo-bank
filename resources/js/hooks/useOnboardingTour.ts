@@ -11,6 +11,7 @@ const getStoredTour = (): boolean => {
     }
 
     const stored = localStorage.getItem(TOUR_KEY);
+
     return stored === 'true';
 };
 
@@ -24,6 +25,7 @@ const setStoredTour = (completed: boolean): void => {
 
 const subscribe = (callback: () => void) => {
     listeners.add(callback);
+
     return () => listeners.delete(callback);
 };
 

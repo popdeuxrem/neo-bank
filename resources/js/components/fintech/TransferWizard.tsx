@@ -94,8 +94,12 @@ export const TransferWizard: React.FC<TransferWizardProps> = ({
     const selectedRecipient = users.find((u) => u.id === state.recipientId);
 
     const filteredUsers = React.useMemo(() => {
-        if (!searchQuery.trim()) return [];
+        if (!searchQuery.trim()) {
+return [];
+}
+
         const query = searchQuery.toLowerCase();
+
         return users.filter(
             (user) =>
                 user.name.toLowerCase().includes(query) ||
@@ -152,7 +156,9 @@ export const TransferWizard: React.FC<TransferWizardProps> = ({
     };
 
     const handleTransfer = async () => {
-        if (!selectedAccount) return;
+        if (!selectedAccount) {
+return;
+}
 
         setState((prev) => ({
             ...prev,

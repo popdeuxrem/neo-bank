@@ -14,7 +14,9 @@ interface KYCBannerProps {
 }
 
 export function KYCBanner({ status = 'pending', progress = 25 }: KYCBannerProps) {
-    if (status === 'verified') return null;
+    if (status === 'verified') {
+return null;
+}
 
     const statusConfig = {
         pending: {

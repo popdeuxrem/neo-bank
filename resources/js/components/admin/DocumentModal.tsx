@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -11,6 +10,7 @@ import {
     XCircle,
     Loader2,
 } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 interface PendingDocument {
     id: number;

@@ -27,6 +27,7 @@ test.describe('Lighthouse Performance', () => {
             const fcpEntry = paintEntries.find(
                 (entry) => entry.name === 'first-contentful-paint',
             );
+
             return fcpEntry ? fcpEntry.startTime : 0;
         });
 
@@ -46,6 +47,7 @@ test.describe('Responsive Navbar', () => {
         const navLinks = page.locator('nav a, nav button');
         
         const linksCount = await navLinks.count();
+
         if (linksCount > 3) {
             await expect(hamburgerButton).toBeVisible();
         }
@@ -61,6 +63,7 @@ test.describe('Responsive Navbar', () => {
         const hamburgerButton = page.locator('button[class*="hamburger"], button[class*="menu"], [aria-label="Menu"]');
         
         const hamburgerExists = await hamburgerButton.count();
+
         if (hamburgerExists > 0) {
             await hamburgerButton.click();
             await page.waitForTimeout(500);

@@ -124,9 +124,18 @@ export function UpcomingBillsList({ bills = [] }: { bills?: Array<{ id: string; 
         const now = new Date();
         const diffDays = Math.ceil((d.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
         
-        if (diffDays < 0) return { text: 'Overdue', color: 'text-rose-400 bg-rose-500/20' };
-        if (diffDays === 0) return { text: 'Due today', color: 'text-amber-400 bg-amber-500/20' };
-        if (diffDays === 1) return { text: 'Due tomorrow', color: 'text-amber-400 bg-amber-500/20' };
+        if (diffDays < 0) {
+return { text: 'Overdue', color: 'text-rose-400 bg-rose-500/20' };
+}
+
+        if (diffDays === 0) {
+return { text: 'Due today', color: 'text-amber-400 bg-amber-500/20' };
+}
+
+        if (diffDays === 1) {
+return { text: 'Due tomorrow', color: 'text-amber-400 bg-amber-500/20' };
+}
+
         return { text: `${diffDays} days`, color: 'text-zinc-400 bg-zinc-500/20' };
     };
 
@@ -147,6 +156,7 @@ export function UpcomingBillsList({ bills = [] }: { bills?: Array<{ id: string; 
         <div className="space-y-3">
             {bills.map((bill) => {
                 const dueInfo = formatDate(bill.dueDate);
+
                 return (
                     <div
                         key={bill.id}

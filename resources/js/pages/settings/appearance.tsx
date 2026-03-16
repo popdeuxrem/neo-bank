@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Sun, Moon, Monitor, Palette } from 'lucide-react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import UserLayout from '@/layouts/user-layout';
 

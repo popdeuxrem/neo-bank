@@ -1,10 +1,10 @@
+import { clsx } from "clsx";
 import { motion } from "framer-motion";
 import { 
   User, ArrowRightLeft, Shield, AlertTriangle, 
   CreditCard, MessageSquare, Settings, LogIn, 
   CheckCircle, XCircle, FileText 
 } from "lucide-react";
-import { clsx } from "clsx";
 
 interface ActivityItem {
   id: string;
@@ -61,10 +61,22 @@ export function ActivityFeed({ activities, loading = false, onItemClick }: Activ
     const diffHours = Math.floor(diffMins / 60);
     const diffDays = Math.floor(diffHours / 24);
 
-    if (diffMins < 1) return "Just now";
-    if (diffMins < 60) return `${diffMins}m ago`;
-    if (diffHours < 24) return `${diffHours}h ago`;
-    if (diffDays < 7) return `${diffDays}d ago`;
+    if (diffMins < 1) {
+return "Just now";
+}
+
+    if (diffMins < 60) {
+return `${diffMins}m ago`;
+}
+
+    if (diffHours < 24) {
+return `${diffHours}h ago`;
+}
+
+    if (diffDays < 7) {
+return `${diffDays}d ago`;
+}
+
     return date.toLocaleDateString();
   };
 

@@ -1,5 +1,6 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { TrendingUp, TrendingDown, DollarSign, PiggyBank, Percent } from 'lucide-react';
+import { useState } from 'react';
 import {
     AreaChart,
     Area,
@@ -16,7 +17,6 @@ import {
     LineChart,
     Line,
 } from 'recharts';
-import { TrendingUp, TrendingDown, DollarSign, PiggyBank, Percent } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import UserLayout from '@/layouts/user-layout';
 import { fakeSpendingCategories, fakeChartData } from '@/lib/fake-data';

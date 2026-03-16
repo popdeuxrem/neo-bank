@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { Link } from '@inertiajs/react';
 import { motion } from 'framer-motion';
 import { 
     ArrowLeft, 
@@ -11,12 +11,12 @@ import {
     User,
     Check
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useState, useRef, useEffect } from 'react';
+import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import UserLayout from '@/layouts/user-layout';
-import { Link } from '@inertiajs/react';
-import { toast } from 'sonner';
 
 interface Message {
     id: string;
@@ -95,7 +95,9 @@ export default function SupportShow() {
     }, [localMessages]);
 
     const handleSend = async () => {
-        if (!reply.trim()) return;
+        if (!reply.trim()) {
+return;
+}
         
         setSending(true);
         
@@ -157,10 +159,21 @@ export default function SupportShow() {
         const diffHours = Math.floor(diffMins / 60);
         const diffDays = Math.floor(diffHours / 24);
 
-        if (diffMins < 1) return 'Just now';
-        if (diffMins < 60) return `${diffMins}m ago`;
-        if (diffHours < 24) return `${diffHours}h ago`;
-        if (diffDays < 7) return `${diffDays}d ago`;
+        if (diffMins < 1) {
+return 'Just now';
+}
+
+        if (diffMins < 60) {
+return `${diffMins}m ago`;
+}
+
+        if (diffHours < 24) {
+return `${diffHours}h ago`;
+}
+
+        if (diffDays < 7) {
+return `${diffDays}d ago`;
+}
         
         return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     };

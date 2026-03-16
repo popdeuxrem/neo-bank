@@ -1,8 +1,8 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Bell, Transaction, AlertTriangle, Settings } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 interface Notification {
     id: string;
@@ -23,7 +23,10 @@ export function NotificationPanel({ notifications, onMarkRead, onMarkAllRead }: 
     const [filter, setFilter] = useState('all');
 
     const filterNotifications = (type: string) => {
-        if (type === 'all') return notifications;
+        if (type === 'all') {
+return notifications;
+}
+
         return notifications.filter(n => n.type === type);
     };
 
@@ -33,9 +36,18 @@ export function NotificationPanel({ notifications, onMarkRead, onMarkAllRead }: 
         const diffMs = now.getTime() - d.getTime();
         const diffMins = Math.floor(diffMs / 60000);
         
-        if (diffMins < 1) return 'Just now';
-        if (diffMins < 60) return `${diffMins}m ago`;
-        if (diffMins < 1440) return `${Math.floor(diffMins / 60)}h ago`;
+        if (diffMins < 1) {
+return 'Just now';
+}
+
+        if (diffMins < 60) {
+return `${diffMins}m ago`;
+}
+
+        if (diffMins < 1440) {
+return `${Math.floor(diffMins / 60)}h ago`;
+}
+
         return d.toLocaleDateString();
     };
 
@@ -102,6 +114,7 @@ export function NotificationPanel({ notifications, onMarkRead, onMarkAllRead }: 
                     <div className="space-y-1">
                         {filteredNotifications.map((notification, index) => {
                             const Icon = getIcon(notification.type);
+
                             return (
                                 <motion.button
                                     key={notification.id}

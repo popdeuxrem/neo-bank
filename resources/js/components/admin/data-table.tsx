@@ -1,6 +1,6 @@
 import { clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
 import { motion } from "framer-motion";
+import { twMerge } from "tailwind-merge";
 
 interface Column<T> {
   key: string;

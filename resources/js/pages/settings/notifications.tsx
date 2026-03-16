@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Bell, Mail, Smartphone, AlertTriangle, Shield, Settings, CheckCircle } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import UserLayout from '@/layouts/user-layout';
-import { toast } from 'sonner';
 
 interface NotificationSetting {
     id: string;
@@ -89,6 +89,7 @@ export default function Notifications() {
             if (setting.id === settingId) {
                 return { ...setting, [channel]: !setting[channel] };
             }
+
             return setting;
         }));
 

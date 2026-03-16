@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
 import { motion, useSpring, useTransform } from 'framer-motion';
 import { TrendingUp, TrendingDown } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import type { Account } from '@/lib/fake-data';
 
 interface BalanceWidgetProps {
@@ -31,6 +31,7 @@ export function BalanceWidget({
         const unsubscribe = springValue.on('change', (v) => {
             setDisplayValue(v);
         });
+
         return () => unsubscribe();
     }, [springValue]);
 
@@ -89,7 +90,9 @@ export function Sparkline({
     color = '#6366f1',
     strokeWidth = 2 
 }: SparklineProps) {
-    if (!data || data.length === 0) return null;
+    if (!data || data.length === 0) {
+return null;
+}
 
     const min = Math.min(...data);
     const max = Math.max(...data);
@@ -98,6 +101,7 @@ export function Sparkline({
     const points = data.map((value, index) => {
         const x = (index / (data.length - 1)) * width;
         const y = height - ((value - min) / range) * (height - 4) - 2;
+
         return `${x},${y}`;
     }).join(' ');
 

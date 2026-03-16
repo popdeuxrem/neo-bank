@@ -1,5 +1,6 @@
+import type { MotionValue } from 'framer-motion';
+import { animate, useMotionValue, useSpring } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import { animate, useMotionValue, useSpring, MotionValue } from 'framer-motion';
 
 interface UseAnimatedNumberOptions {
     duration?: number;
@@ -148,12 +149,15 @@ export function formatCompact(
     if (value >= 1_000_000_000) {
         return `${(value / 1_000_000_000).toFixed(decimals)}B+`;
     }
+
     if (value >= 1_000_000) {
         return `${(value / 1_000_000).toFixed(decimals)}M+`;
     }
+
     if (value >= 1_000) {
         return `${(value / 1_000).toFixed(decimals)}K+`;
     }
+
     return value.toFixed(decimals);
 }
 

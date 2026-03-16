@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, LayoutDashboard, CreditCard, ArrowRightLeft, Send, Layers, Settings, FileText, BarChart3, DollarSign, ArrowUpRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 
 interface CommandItem {
@@ -45,7 +45,9 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (!open) return;
+            if (!open) {
+return;
+}
             
             if (e.key === 'ArrowDown') {
                 e.preventDefault();
@@ -55,6 +57,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                 setSelectedIndex(i => Math.max(i - 1, 0));
             } else if (e.key === 'Enter') {
                 e.preventDefault();
+
                 if (filteredItems[selectedIndex]) {
                     filteredItems[selectedIndex].action();
                     onOpenChange(false);
@@ -65,6 +68,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
         };
 
         window.addEventListener('keydown', handleKeyDown);
+
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [open, selectedIndex, filteredItems, onOpenChange]);
 
@@ -117,6 +121,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                                     )}
                                     {filteredItems.slice(0, query ? filteredItems.length : 8).map((item, index) => {
                                         const Icon = item.icon;
+
                                         return (
                                             <button
                                                 key={item.id}

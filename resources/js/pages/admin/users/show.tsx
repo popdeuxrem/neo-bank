@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link, usePage } from "@inertiajs/react";
 import { motion } from "framer-motion";
 import {
@@ -17,9 +16,10 @@ import {
   FileText,
   Send,
 } from "lucide-react";
-import AdminLayout from "@/layouts/admin-layout";
-import { PageHeader } from "@/components/admin/filter-bar";
+import { useState } from "react";
 import { ConfirmModal } from "@/components/admin/confirm-modal";
+import { PageHeader } from "@/components/admin/filter-bar";
+import AdminLayout from "@/layouts/admin-layout";
 
 interface User {
   id: number;

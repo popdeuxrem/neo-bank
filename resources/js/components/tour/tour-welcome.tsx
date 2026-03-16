@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import { usePage } from '@inertiajs/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Hexagon, Lock, CheckCircle, Zap } from 'lucide-react';
+import { useEffect } from 'react';
 import { useTour } from './tour-engine';
-import { usePage } from '@inertiajs/react';
 
 export function TourWelcome() {
     const { isWelcome, startTour, skip } = useTour();
@@ -11,7 +11,10 @@ export function TourWelcome() {
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (!isWelcome) return;
+            if (!isWelcome) {
+return;
+}
+
             if (e.key === 'Escape') {
                 e.preventDefault();
                 skip();
@@ -19,6 +22,7 @@ export function TourWelcome() {
         };
 
         window.addEventListener('keydown', handleKeyDown);
+
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [isWelcome, skip]);
 

@@ -1,13 +1,3 @@
-import {
-    createContext,
-    useContext,
-    useState,
-    useCallback,
-    useEffect,
-    useMemo,
-    type ReactNode,
-    type ComponentType,
-} from 'react';
 import { usePage } from '@inertiajs/react';
 import axios from 'axios';
 import {
@@ -28,6 +18,17 @@ import {
     Home,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import {
+    createContext,
+    useContext,
+    useState,
+    useCallback,
+    useEffect,
+    useMemo
+    
+    
+} from 'react';
+import type {ReactNode, ComponentType} from 'react';
 
 interface TourStep {
     id: string;
@@ -148,6 +149,7 @@ const TOUR_STEPS: TourStep[] = [
         navigateTo: '/settings/kyc',
         skipIf: () => {
             const { user } = usePage().props as { user?: { kyc_verified?: boolean } };
+
             return user?.kyc_verified === true;
         },
         ctaLabel: 'Start Verification →',
@@ -255,6 +257,7 @@ export function TourProvider({ children, autoStart = false, initialStep = 0 }: T
             setIsActive(false);
             setShowComplete(true);
             await handleComplete();
+
             return;
         }
 
@@ -346,9 +349,11 @@ export function TourProvider({ children, autoStart = false, initialStep = 0 }: T
 
 export function useTour(): TourContextValue {
     const context = useContext(TourContext);
+
     if (!context) {
         throw new Error('useTour must be used within a TourProvider');
     }
+
     return context;
 }
 

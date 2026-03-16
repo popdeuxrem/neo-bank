@@ -1,6 +1,7 @@
 import { Form, Head } from '@inertiajs/react';
 import { motion } from 'framer-motion';
 import { Lock, Mail, User, X } from 'lucide-react';
+import { useState } from 'react';
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
@@ -9,7 +10,6 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthSplitLayout from '@/layouts/auth/auth-split-layout';
 import { login } from '@/routes';
-import { useState } from 'react';
 
 const fadeUp = {
     hidden: { opacity: 0, y: 24 },
@@ -32,10 +32,23 @@ const GoogleIcon = () => (
 function PasswordStrengthMeter({ password }: { password: string }) {
     const getStrength = () => {
         let score = 0;
-        if (password.length >= 8) score++;
-        if (/[A-Z]/.test(password)) score++;
-        if (/[0-9]/.test(password)) score++;
-        if (/[^A-Za-z0-9]/.test(password)) score++;
+
+        if (password.length >= 8) {
+score++;
+}
+
+        if (/[A-Z]/.test(password)) {
+score++;
+}
+
+        if (/[0-9]/.test(password)) {
+score++;
+}
+
+        if (/[^A-Za-z0-9]/.test(password)) {
+score++;
+}
+
         return score;
     };
 
@@ -43,7 +56,9 @@ function PasswordStrengthMeter({ password }: { password: string }) {
     const colors = ['bg-red-500', 'bg-orange-500', 'bg-amber-500', 'bg-emerald-500'];
     const labels = ['Weak', 'Fair', 'Good', 'Strong'];
 
-    if (!password) return null;
+    if (!password) {
+return null;
+}
 
     return (
         <div className="mt-2">

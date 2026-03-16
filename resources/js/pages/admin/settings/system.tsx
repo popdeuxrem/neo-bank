@@ -1,9 +1,9 @@
-import { useState } from "react";
 import { usePage } from "@inertiajs/react";
 import { motion } from "framer-motion";
 import { Save, Shield, Users, Mail, Lock, Wrench, GitBranch, MessageSquare, Key } from "lucide-react";
-import AdminLayout from "@/layouts/admin-layout";
+import { useState } from "react";
 import { PageHeader } from "@/components/admin/filter-bar";
+import AdminLayout from "@/layouts/admin-layout";
 
 interface SystemSettings {
   user_registration: boolean;

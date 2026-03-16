@@ -5,7 +5,9 @@ import { TourTooltip } from './tour-tooltip';
 export function TourOverlay() {
     const { isActive, currentStepData } = useTour();
 
-    if (!isActive || !currentStepData) return null;
+    if (!isActive || !currentStepData) {
+return null;
+}
 
     return (
         <>

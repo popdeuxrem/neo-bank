@@ -1,5 +1,5 @@
-import { useEffect, useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useTour } from './tour-engine';
 
 interface SpotlightProps {
@@ -15,10 +15,12 @@ export function TourSpotlight({ targetSelector, padding = 12 }: SpotlightProps) 
     const updateRect = useCallback(() => {
         if (!targetSelector) {
             setRect(null);
+
             return;
         }
 
         const element = document.querySelector(targetSelector) as HTMLElement | null;
+
         if (element) {
             const boundingRect = element.getBoundingClientRect();
             setRect(boundingRect);
@@ -42,6 +44,7 @@ export function TourSpotlight({ targetSelector, padding = 12 }: SpotlightProps) 
         window.addEventListener('resize', handleResize);
         
         const targetElement = document.querySelector(targetSelector);
+
         if (targetElement) {
             observer.observe(targetElement);
         }
@@ -56,7 +59,9 @@ export function TourSpotlight({ targetSelector, padding = 12 }: SpotlightProps) 
     }, [targetSelector, updateRect]);
 
     const pathData = useMemo(() => {
-        if (!rect) return '';
+        if (!rect) {
+return '';
+}
 
         const { x, y, width, height } = rect;
         const px = x - padding;
@@ -71,7 +76,9 @@ export function TourSpotlight({ targetSelector, padding = 12 }: SpotlightProps) 
     }, [rect, windowSize, padding]);
 
     const glowPath = useMemo(() => {
-        if (!rect) return '';
+        if (!rect) {
+return '';
+}
 
         const { x, y, width, height } = rect;
         const px = x - padding;
@@ -82,7 +89,9 @@ export function TourSpotlight({ targetSelector, padding = 12 }: SpotlightProps) 
         return `M ${px} ${py} L ${px + pw} ${py} L ${px + pw} ${py + ph} L ${px} ${py + ph} Z`;
     }, [rect, padding]);
 
-    if (!isActive || !rect) return null;
+    if (!isActive || !rect) {
+return null;
+}
 
     return (
         <AnimatePresence>

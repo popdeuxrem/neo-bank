@@ -1,6 +1,6 @@
+import { clsx } from "clsx";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
-import { clsx } from "clsx";
 
 interface BreadcrumbItem {
   label: string;

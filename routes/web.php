@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\AccountStatementController;
 use App\Http\Controllers\Admin\CustomerController;
-use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\HealthController;
 use App\Http\Controllers\Admin\IdentityDocumentController;
 use App\Http\Controllers\Admin\OversightController;
@@ -12,6 +12,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\CardController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\Ledger\AccountController;
 use App\Http\Controllers\Ledger\LedgerController;
@@ -58,14 +59,81 @@ Route::get('/kyc-pending', [PageController::class, 'kycPending'])
 | Authenticated Routes
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'not.suspended'])->group(function () {
     // User-facing pages (clean URLs)
-    Route::inertia('dashboard', 'dashboard')->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::inertia('accounts', 'accounts')->name('accounts');
     Route::inertia('transactions', 'transactions')->name('transactions');
     Route::inertia('ledger', 'ledger')->name('ledger');
     Route::inertia('payments', 'payments')->name('payments');
     Route::inertia('cards', 'Dashboard/Cards')->name('cards');
+
+    // Additional user routes per specification
+    Route::inertia('wallet', 'wallet')->name('wallet.index');
+    Route::inertia('wallet/deposit', 'wallet/deposit')->name('wallet.deposit');
+    Route::inertia('wallet/withdraw', 'wallet/withdraw')->name('wallet.withdraw');
+
+    Route::inertia('payments/local', 'payments/local')->name('payments.local');
+    Route::inertia('payments/international', 'payments/international')->name('payments.international');
+    Route::inertia('payments/history', 'payments/history')->name('payments.history');
+    Route::inertia('payments/scheduled', 'payments/scheduled')->name('payments.scheduled');
+
+    Route::inertia('transfers', 'transfers')->name('transfers.index');
+
+    Route::inertia('wire/new', 'wire/new')->name('wire.create');
+    Route::inertia('wire/swift', 'wire/swift')->name('wire.swift');
+    Route::inertia('wire/history', 'wire/history')->name('wire.history');
+
+    Route::inertia('bills', 'bills')->name('bills.index');
+    Route::inertia('bills/saved', 'bills/saved')->name('bills.saved');
+    Route::inertia('bills/history', 'bills/history')->name('bills.history');
+
+    Route::inertia('requests/new', 'requests/new')->name('requests.create');
+    Route::inertia('requests/incoming', 'requests/incoming')->name('requests.incoming');
+    Route::inertia('requests/outgoing', 'requests/outgoing')->name('requests.outgoing');
+
+    Route::inertia('dps', 'dps/index')->name('dps.index');
+    Route::inertia('dps/mine', 'dps/mine')->name('dps.mine');
+    Route::inertia('dps/calculator', 'dps/calculator')->name('dps.calculator');
+
+    Route::inertia('fdr', 'fdr/index')->name('fdr.index');
+    Route::inertia('fdr/mine', 'fdr/mine')->name('fdr.mine');
+    Route::inertia('fdr/calculator', 'fdr/calculator')->name('fdr.calculator');
+
+    Route::inertia('loans', 'loans/index')->name('loans.index');
+    Route::inertia('loans/apply', 'loans/apply')->name('loans.apply');
+    Route::inertia('loans/mine', 'loans/mine')->name('loans.mine');
+    Route::inertia('loans/emi', 'loans/emi')->name('loans.emi');
+    Route::inertia('loans/calculator', 'loans/calculator')->name('loans.calculator');
+
+    Route::inertia('cards/new', 'cards/new')->name('cards.create');
+    Route::inertia('cards/transactions', 'cards/transactions')->name('cards.transactions');
+    Route::inertia('cards/controls', 'cards/controls')->name('cards.controls');
+
+    Route::inertia('portfolio', 'portfolio/index')->name('portfolio.index');
+    Route::inertia('portfolio/badges', 'portfolio/badges')->name('portfolio.badges');
+    Route::inertia('portfolio/rankings', 'portfolio/rankings')->name('portfolio.rankings');
+    Route::inertia('portfolio/earnings', 'portfolio/earnings')->name('portfolio.earnings');
+
+    Route::inertia('rewards', 'rewards/index')->name('rewards.index');
+    Route::inertia('rewards/earn', 'rewards/earn')->name('rewards.earn');
+    Route::inertia('rewards/redeem', 'rewards/redeem')->name('rewards.redeem');
+    Route::inertia('rewards/history', 'rewards/history')->name('rewards.history');
+
+    Route::inertia('referrals', 'referrals/index')->name('referrals.index');
+    Route::inertia('referrals/network', 'referrals/network')->name('referrals.network');
+    Route::inertia('referrals/commissions', 'referrals/commissions')->name('referrals.commissions');
+    Route::inertia('referrals/leaderboard', 'referrals/leaderboard')->name('referrals.leaderboard');
+
+    Route::inertia('analytics', 'analytics/index')->name('analytics.index');
+    Route::inertia('analytics/spending', 'analytics/spending')->name('analytics.spending');
+    Route::inertia('analytics/income', 'analytics/income')->name('analytics.income');
+    Route::inertia('analytics/budgets', 'analytics/budgets')->name('analytics.budgets');
+    Route::inertia('analytics/net-worth', 'analytics/net-worth')->name('analytics.net-worth');
+
+    Route::inertia('support', 'support/index')->name('support.index');
+    Route::inertia('support/tickets', 'support/tickets')->name('support.tickets');
+    Route::inertia('support/new', 'support/new')->name('support.create');
 
     // Card management
     Route::prefix('api/cards')->group(function () {
@@ -137,7 +205,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     */
     Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function () {
         // Admin dashboard with telemetry
-        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
 
         // Customers
         Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');

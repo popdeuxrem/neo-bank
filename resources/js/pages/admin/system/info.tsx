@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { usePage } from "@inertiajs/react";
 import { motion } from "framer-motion";
 import {
@@ -10,8 +9,9 @@ import {
   CheckCircle,
   RefreshCw,
 } from "lucide-react";
-import AdminLayout from "@/layouts/admin-layout";
+import { useState, useEffect } from "react";
 import { PageHeader } from "@/components/admin/filter-bar";
+import AdminLayout from "@/layouts/admin-layout";
 
 interface SystemInfoProps {
   stats: {
@@ -50,10 +50,14 @@ interface SystemInfoProps {
 }
 
 function formatBytes(bytes: number): string {
-  if (bytes === 0) return "0 B";
+  if (bytes === 0) {
+return "0 B";
+}
+
   const k = 1024;
   const sizes = ["B", "KB", "MB", "GB", "TB"];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
+
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
 }
 
@@ -62,8 +66,14 @@ function formatMs(ms: number): string {
 }
 
 function getStatusColor(status: string): string {
-  if (status === "healthy") return "text-emerald-400 bg-emerald-500/20";
-  if (status === "degraded") return "text-amber-400 bg-amber-500/20";
+  if (status === "healthy") {
+return "text-emerald-400 bg-emerald-500/20";
+}
+
+  if (status === "degraded") {
+return "text-amber-400 bg-amber-500/20";
+}
+
   return "text-rose-400 bg-rose-500/20";
 }
 
@@ -76,6 +86,7 @@ export default function SystemInfo({ stats: initialStats }: { stats?: SystemInfo
 
   const fetchStats = async () => {
     setLoading(true);
+
     try {
       const response = await fetch("/admin/health");
       const data = await response.json();
@@ -83,11 +94,13 @@ export default function SystemInfo({ stats: initialStats }: { stats?: SystemInfo
     } catch (error) {
       console.error("Failed to fetch stats:", error);
     }
+
     setLoading(false);
   };
 
   const clearCache = async () => {
     setClearingCache(true);
+
     try {
       await fetch("/admin/system/cache/clear", {
         method: "POST",
@@ -99,11 +112,13 @@ export default function SystemInfo({ stats: initialStats }: { stats?: SystemInfo
     } catch (error) {
       console.error("Failed to clear cache:", error);
     }
+
     setClearingCache(false);
   };
 
   useEffect(() => {
     const interval = setInterval(fetchStats, 30000);
+
     return () => clearInterval(interval);
   }, []);
 

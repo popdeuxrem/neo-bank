@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
 import { clsx } from "clsx";
+import { motion } from "framer-motion";
 
 interface RiskBadgeProps {
   score: number;
@@ -9,8 +9,14 @@ interface RiskBadgeProps {
 
 export function RiskBadge({ score, showLabel = true, size = "md" }: RiskBadgeProps) {
   const getRiskLevel = (score: number) => {
-    if (score <= 30) return { level: "Low", color: "bg-emerald-500", textColor: "text-emerald-400", bgColor: "bg-emerald-500/10" };
-    if (score <= 60) return { level: "Medium", color: "bg-amber-500", textColor: "text-amber-400", bgColor: "bg-amber-500/10" };
+    if (score <= 30) {
+return { level: "Low", color: "bg-emerald-500", textColor: "text-emerald-400", bgColor: "bg-emerald-500/10" };
+}
+
+    if (score <= 60) {
+return { level: "Medium", color: "bg-amber-500", textColor: "text-amber-400", bgColor: "bg-amber-500/10" };
+}
+
     return { level: "High", color: "bg-rose-500", textColor: "text-rose-400", bgColor: "bg-rose-500/10" };
   };
 

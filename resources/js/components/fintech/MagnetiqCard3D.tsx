@@ -1,8 +1,5 @@
 'use client';
 
-import * as React from 'react';
-import { useRef, useMemo } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
 import {
     Environment,
     Float,
@@ -11,8 +8,11 @@ import {
     useTexture,
     RoundedBox,
 } from '@react-three/drei';
-import * as THREE from 'three';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { motion } from 'framer-motion';
+import * as React from 'react';
+import { useRef, useMemo } from 'react';
+import * as THREE from 'three';
 
 function CardModel({
     mousePosition,
@@ -229,6 +229,7 @@ export const MagnetiqCard3D: React.FC<MagnetiqCard3DProps> = ({
         };
 
         const container = containerRef.current;
+
         if (container) {
             container.addEventListener('mousemove', handleMouseMove);
         }

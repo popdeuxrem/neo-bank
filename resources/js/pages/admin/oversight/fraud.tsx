@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { usePage } from "@inertiajs/react";
 import { motion } from "framer-motion";
 import {
@@ -10,10 +9,11 @@ import {
   Shield,
   Eye,
 } from "lucide-react";
-import AdminLayout from "@/layouts/admin-layout";
+import { useState } from "react";
+import { ConfirmModal } from "@/components/admin/confirm-modal";
 import { PageHeader, FilterBar, FilterInput, FilterSelect } from "@/components/admin/filter-bar";
 import { RiskBadge } from "@/components/admin/risk-badge";
-import { ConfirmModal } from "@/components/admin/confirm-modal";
+import AdminLayout from "@/layouts/admin-layout";
 
 interface Transaction {
   id: number;
@@ -71,6 +71,7 @@ export default function FraudQueue({ transactions }: FraudPageProps) {
   const filteredTransactions = transactions.filter((txn) => {
     if (filters.search) {
       const search = filters.search.toLowerCase();
+
       if (
         !txn.transaction_number.toLowerCase().includes(search) &&
         !txn.user_name?.toLowerCase().includes(search) &&
@@ -79,17 +80,29 @@ export default function FraudQueue({ transactions }: FraudPageProps) {
         return false;
       }
     }
+
     if (filters.riskLevel) {
-      if (filters.riskLevel === "high" && (txn.fraud_score ?? 0) <= 60) return false;
-      if (filters.riskLevel === "medium" && ((txn.fraud_score ?? 0) <= 30 || (txn.fraud_score ?? 0) > 60))
-        return false;
-      if (filters.riskLevel === "low" && (txn.fraud_score ?? 0) > 30) return false;
+      if (filters.riskLevel === "high" && (txn.fraud_score ?? 0) <= 60) {
+return false;
+}
+
+      if (filters.riskLevel === "medium" && ((txn.fraud_score ?? 0) <= 30 || (txn.fraud_score ?? 0) > 60)) {
+return false;
+}
+
+      if (filters.riskLevel === "low" && (txn.fraud_score ?? 0) > 30) {
+return false;
+}
     }
+
     return true;
   });
 
   const handleResolve = async () => {
-    if (!selectedTx) return;
+    if (!selectedTx) {
+return;
+}
+
     setLoading(true);
 
     try {

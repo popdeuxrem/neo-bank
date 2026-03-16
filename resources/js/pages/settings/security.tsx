@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
     Shield, 
@@ -13,12 +12,13 @@ import {
     Copy,
     RefreshCw
 } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
 import UserLayout from '@/layouts/user-layout';
-import { toast } from 'sonner';
 
 const fadeUp = {
     hidden: { opacity: 0, y: 24 },
@@ -59,8 +59,10 @@ export default function Security() {
     const handlePasswordChange = async () => {
         if (passwordData.new !== passwordData.confirm) {
             toast.error('Passwords do not match');
+
             return;
         }
+
         setSavingPassword(true);
         await new Promise(resolve => setTimeout(resolve, 1000));
         setSavingPassword(false);
@@ -71,8 +73,10 @@ export default function Security() {
     const handleEnable2FA = async () => {
         if (verificationCode.length !== 6) {
             toast.error('Please enter a valid 6-digit code');
+
             return;
         }
+
         setTwoFactorEnabled(true);
         setShow2FASetup(false);
         toast.success('Two-factor authentication enabled');

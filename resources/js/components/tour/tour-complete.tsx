@@ -1,10 +1,10 @@
-import { useEffect, useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from '@inertiajs/react';
-import axios from 'axios';
-import { CheckCircle, PlusCircle, Shield, Home } from 'lucide-react';
-import { useTour } from './tour-engine';
 import { usePage } from '@inertiajs/react';
+import axios from 'axios';
+import { motion, AnimatePresence } from 'framer-motion';
+import { CheckCircle, PlusCircle, Shield, Home } from 'lucide-react';
+import { useEffect, useState, useCallback } from 'react';
+import { useTour } from './tour-engine';
 
 interface ConfettiParticle {
     id: number;
@@ -56,14 +56,18 @@ export function TourComplete() {
     }, [isComplete]);
 
     useEffect(() => {
-        if (!isComplete || particles.length === 0) return;
+        if (!isComplete || particles.length === 0) {
+return;
+}
 
         let frame = 0;
         const gravity = 0.3;
         const maxFrames = 250;
 
         const animate = () => {
-            if (frame >= maxFrames) return;
+            if (frame >= maxFrames) {
+return;
+}
 
             setParticles(prev =>
                 prev.map(p => ({

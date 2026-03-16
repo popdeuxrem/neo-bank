@@ -1,4 +1,5 @@
-import { Page, test as base } from '@playwright/test';
+import type { Page} from '@playwright/test';
+import { test as base } from '@playwright/test';
 
 export const TEST_USER_EMAIL = 'cody@example.com';
 
@@ -28,6 +29,7 @@ export async function waitForFramerMotionAnimation(page: Page): Promise<void> {
                 transitionProperty.includes('transform')
             ) {
                 const duration = parseFloat(transitionDuration) * 1000;
+
                 if (duration > 0 && duration < 500) {
                     await new Promise((resolve) =>
                         setTimeout(resolve, duration + 50),
@@ -39,8 +41,10 @@ export async function waitForFramerMotionAnimation(page: Page): Promise<void> {
         const animatedElements = Array.from(
             document.querySelectorAll('[data-state], [class*="animate"]'),
         );
+
         for (const el of animatedElements) {
             const style = window.getComputedStyle(el);
+
             if (style.opacity === '0' || style.transform !== 'none') {
                 await new Promise((resolve) => setTimeout(resolve, 100));
             }
@@ -63,6 +67,7 @@ export async function checkForWebGLErrors(
 
     page.on('console', (msg) => {
         const text = msg.text();
+
         if (
             text.toLowerCase().includes('webgl') ||
             text.toLowerCase().includes('webglcontext') ||

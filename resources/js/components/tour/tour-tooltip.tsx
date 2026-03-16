@@ -1,6 +1,6 @@
-import { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { useEffect, useState, useCallback } from 'react';
 import { useTour } from './tour-engine';
 
 interface TourTooltipProps {
@@ -12,10 +12,15 @@ export function TourTooltip({ targetSelector }: TourTooltipProps) {
     const [position, setPosition] = useState({ top: 0, left: 0 });
 
     const updatePosition = useCallback(() => {
-        if (!targetSelector || !currentStepData) return;
+        if (!targetSelector || !currentStepData) {
+return;
+}
 
         const element = document.querySelector(targetSelector) as HTMLElement | null;
-        if (!element) return;
+
+        if (!element) {
+return;
+}
 
         const rect = element.getBoundingClientRect();
         const tooltipWidth = 380;
@@ -65,11 +70,19 @@ export function TourTooltip({ targetSelector }: TourTooltipProps) {
         }
 
         const padding = 20;
-        if (left < padding) left = padding;
+
+        if (left < padding) {
+left = padding;
+}
+
         if (left + tooltipWidth > window.innerWidth - padding) {
             left = window.innerWidth - tooltipWidth - padding;
         }
-        if (top < padding) top = padding;
+
+        if (top < padding) {
+top = padding;
+}
+
         if (top + tooltipHeight > window.innerHeight - padding) {
             top = window.innerHeight - tooltipHeight - padding;
         }
@@ -93,7 +106,9 @@ export function TourTooltip({ targetSelector }: TourTooltipProps) {
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (!isActive) return;
+            if (!isActive) {
+return;
+}
             
             if (e.key === 'ArrowRight' || e.key === 'Enter') {
                 e.preventDefault();
@@ -108,10 +123,13 @@ export function TourTooltip({ targetSelector }: TourTooltipProps) {
         };
 
         window.addEventListener('keydown', handleKeyDown);
+
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [isActive, next, prev, skip]);
 
-    if (!isActive || !currentStepData) return null;
+    if (!isActive || !currentStepData) {
+return null;
+}
 
     const Icon = currentStepData.icon;
 

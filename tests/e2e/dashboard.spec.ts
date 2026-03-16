@@ -34,6 +34,7 @@ test.describe('Dashboard', () => {
         const balanceCard = page.locator('[class*="BalanceCard"]').first();
         
         const cardExists = await balanceCard.count();
+
         if (cardExists > 0) {
             await expect(balanceCard).toBeVisible();
         }

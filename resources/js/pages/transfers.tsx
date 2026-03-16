@@ -1,6 +1,7 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Check, RefreshCw } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -11,10 +12,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { TransactionItem } from '@/components/user/transaction-item';
 import UserLayout from '@/layouts/user-layout';
 import { fakeAccounts, getTransactionsByAccountId } from '@/lib/fake-data';
-import { TransactionItem } from '@/components/user/transaction-item';
-import { toast } from 'sonner';
 
 const formatCurrency = (amount: number, currency = 'USD') => {
     return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount);
@@ -39,7 +39,9 @@ export default function Transfers() {
     };
 
     const handleTransfer = async () => {
-        if (!fromAccount || !toAccount || !amount) return;
+        if (!fromAccount || !toAccount || !amount) {
+return;
+}
         
         setIsSubmitting(true);
         await new Promise(resolve => setTimeout(resolve, 1500));
@@ -151,7 +153,9 @@ export default function Transfers() {
                                 <p className="mb-6 text-sm text-zinc-400">
                                     {formatCurrency(parseFloat(amount) || 0)} transferred from {fromAcc?.name} to {toAcc?.name}
                                 </p>
-                                <Button className="bg-indigo-500 hover:bg-indigo-600" onClick={() => { setIsComplete(false); setAmount(''); setMemo(''); }}>
+                                <Button className="bg-indigo-500 hover:bg-indigo-600" onClick={() => {
+ setIsComplete(false); setAmount(''); setMemo(''); 
+}}>
                                     Transfer Again
                                 </Button>
                             </motion.div>

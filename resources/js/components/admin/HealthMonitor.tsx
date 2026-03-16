@@ -1,12 +1,3 @@
-import { useState, useEffect, useCallback } from 'react';
-import {
-    AreaChart,
-    Area,
-    XAxis,
-    YAxis,
-    ResponsiveContainer,
-    Tooltip,
-} from 'recharts';
 import {
     Activity,
     Layers,
@@ -17,6 +8,15 @@ import {
     XCircle,
     Server,
 } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import {
+    AreaChart,
+    Area,
+    XAxis,
+    YAxis,
+    ResponsiveContainer,
+    Tooltip,
+} from 'recharts';
 import { toast } from '@/components/ui/Toast';
 
 interface HealthStats {
@@ -54,10 +54,14 @@ interface ChartDataPoint {
 }
 
 function formatBytes(bytes: number): string {
-    if (bytes === 0) return '0 B';
+    if (bytes === 0) {
+return '0 B';
+}
+
     const k = 1024;
     const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
+
     return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
 }
 
@@ -116,6 +120,7 @@ export function HealthMonitor() {
             });
             setChartData(prev => {
                 const newData = [...prev, { time, load: data.cpu.percentage }];
+
                 return newData.slice(-60); // Keep last 60 data points
             });
         } catch (error) {
@@ -128,11 +133,13 @@ export function HealthMonitor() {
     useEffect(() => {
         fetchHealth();
         const interval = setInterval(fetchHealth, 5000);
+
         return () => clearInterval(interval);
     }, [fetchHealth]);
 
     const handleRestartQueue = async () => {
         setRestarting(true);
+
         try {
             const response = await fetch('/admin/health/restart-queue', {
                 method: 'POST',

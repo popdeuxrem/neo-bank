@@ -1,9 +1,9 @@
-import { useState } from "react";
 import { usePage } from "@inertiajs/react";
 import { motion } from "framer-motion";
 import { Save, Upload, Globe, Mail, Phone, MapPin } from "lucide-react";
-import AdminLayout from "@/layouts/admin-layout";
+import { useState } from "react";
 import { PageHeader } from "@/components/admin/filter-bar";
+import AdminLayout from "@/layouts/admin-layout";
 
 interface SettingsData {
   site_name: string;
@@ -44,6 +44,7 @@ export default function GeneralSettings({ settings: initialSettings }: GeneralSe
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
+
     try {
       await fetch("/admin/settings/general", {
         method: "POST",
@@ -56,6 +57,7 @@ export default function GeneralSettings({ settings: initialSettings }: GeneralSe
     } catch (error) {
       console.error("Failed to save settings:", error);
     }
+
     setSaving(false);
   };
 

@@ -1,6 +1,6 @@
-import { useState, useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Send, Eye, Sparkles } from 'lucide-react';
+import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import type { Account } from '@/lib/fake-data';
 
@@ -63,7 +63,10 @@ export function AccountCard({ account, index = 0, onSend, onViewDetails }: Accou
     const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-17.5deg", "17.5deg"]);
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!ref.current) return;
+        if (!ref.current) {
+return;
+}
+
         const rect = ref.current.getBoundingClientRect();
         const width = rect.width;
         const height = rect.height;

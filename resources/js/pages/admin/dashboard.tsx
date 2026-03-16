@@ -1,20 +1,5 @@
-import { useState } from "react";
 import { Link } from "@inertiajs/react";
 import { motion } from "framer-motion";
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-  LineChart,
-  Line,
-} from "recharts";
 import {
   Users,
   ArrowRightLeft,
@@ -30,9 +15,24 @@ import {
   ArrowRight,
   ChevronRight,
 } from "lucide-react";
-import AdminLayout from "@/layouts/admin-layout";
+import { useState } from "react";
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  LineChart,
+  Line,
+} from "recharts";
 import { PageHeader } from "@/components/admin/filter-bar";
 import { RiskBadge } from "@/components/admin/risk-badge";
+import AdminLayout from "@/layouts/admin-layout";
 
 interface Stat {
   totalUsers: number;
@@ -143,7 +143,10 @@ function formatDate(dateStr: string): string {
 }
 
 function calculateTrend(current: number, previous: number): number {
-  if (previous === 0) return current > 0 ? 100 : 0;
+  if (previous === 0) {
+return current > 0 ? 100 : 0;
+}
+
   return Math.round(((current - previous) / previous) * 100);
 }
 

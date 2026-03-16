@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "@inertiajs/react";
 import { motion } from "framer-motion";
 import {
@@ -10,8 +9,9 @@ import {
   Send,
   AlertCircle,
 } from "lucide-react";
-import AdminLayout from "@/layouts/admin-layout";
+import { useState } from "react";
 import { PageHeader } from "@/components/admin/filter-bar";
+import AdminLayout from "@/layouts/admin-layout";
 
 interface Ticket {
   id: number;

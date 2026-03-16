@@ -29,6 +29,7 @@ export function loadScriptWhenConsented(options: ScriptLoaderOptions): void {
 
     if (!id && !src) {
         console.warn('Script loader: Either id or src must be provided');
+
         return;
     }
 
@@ -40,12 +41,15 @@ export function loadScriptWhenConsented(options: ScriptLoaderOptions): void {
 
     if (!hasConsent()) {
         console.log(`Script "${scriptId}" deferred - awaiting cookie consent`);
+
         return;
     }
 
     const existingScript = document.getElementById(scriptId);
+
     if (existingScript) {
         loadedScripts.add(scriptId);
+
         return;
     }
 
@@ -87,10 +91,12 @@ export function loadStylesheetWhenConsented(
 
     if (!hasConsent()) {
         console.log(`Stylesheet "${id}" deferred - awaiting cookie consent`);
+
         return;
     }
 
     const existingLink = document.getElementById(id);
+
     if (existingLink) {
         return;
     }

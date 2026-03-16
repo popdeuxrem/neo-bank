@@ -1,5 +1,12 @@
-import { useState } from 'react';
+import { Link } from '@inertiajs/react';
 import { motion } from 'framer-motion';
+import {
+    Sparkles,
+    Send,
+    PlusCircle,
+    ChevronRight,
+} from 'lucide-react';
+import { useState } from 'react';
 import {
     AreaChart,
     Area,
@@ -12,20 +19,13 @@ import {
     Pie,
     Cell,
 } from 'recharts';
-import {
-    Sparkles,
-    Send,
-    PlusCircle,
-    ChevronRight,
-} from 'lucide-react';
-import { Link } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
-import UserLayout from '@/layouts/user-layout';
 import { AccountCard } from '@/components/user/account-card';
-import { TransactionItem } from '@/components/user/transaction-item';
-import { QuickActionsPanel, ScheduledPaymentsList, UpcomingBillsList } from '@/components/user/quick-action-tile';
 import { BalanceWidget } from '@/components/user/balance-widget';
+import { QuickActionsPanel, ScheduledPaymentsList, UpcomingBillsList } from '@/components/user/quick-action-tile';
 import { SendMoneyModal } from '@/components/user/send-money-modal';
+import { TransactionItem } from '@/components/user/transaction-item';
+import UserLayout from '@/layouts/user-layout';
 import {
     fakeAccounts,
     getTotalBalance,
@@ -311,6 +311,7 @@ export default function Dashboard() {
                                     { category: 'Entertainment', spent: 180, limit: 200, color: 'bg-amber-500' },
                                 ].map((budget) => {
                                     const percent = (budget.spent / budget.limit) * 100;
+
                                     return (
                                         <div key={budget.category}>
                                             <div className="mb-1 flex items-center justify-between text-sm">

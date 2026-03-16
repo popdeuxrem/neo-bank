@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import { Search, HelpCircle, MessageCircle, FileText, AlertTriangle, ChevronRight, Plus, Clock } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import UserLayout from '@/layouts/user-layout';
 
 const tickets = [

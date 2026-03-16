@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import { Copy, Share2, QrCode, Gift, Users, DollarSign, CheckCircle, Clock, XCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import UserLayout from '@/layouts/user-layout';
+import { useState } from 'react';
 import { toast } from 'sonner';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import UserLayout from '@/layouts/user-layout';
 
 const referrals = [
     { id: '1', name: 'John S.', status: 'verified', date: '2026-03-10', reward: 25 },

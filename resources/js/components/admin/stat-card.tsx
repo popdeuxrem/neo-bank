@@ -1,8 +1,10 @@
-import { cva, type VariantProps } from "class-variance-authority";
-import { motion } from "framer-motion";
+import { cva  } from "class-variance-authority";
+import type {VariantProps} from "class-variance-authority";
 import { clsx } from "clsx";
+import { motion } from "framer-motion";
+import type { LucideIcon} from "lucide-react";
+import { TrendingUp, TrendingDown, Minus } from "lucide-react";
 import { twMerge } from "tailwind-merge";
-import { LucideIcon, TrendingUp, TrendingDown, Minus } from "lucide-react";
 
 const cardVariants = cva(
   "relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-6",

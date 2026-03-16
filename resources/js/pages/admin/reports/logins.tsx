@@ -1,9 +1,9 @@
-import { useState } from "react";
 import { usePage } from "@inertiajs/react";
 import { motion } from "framer-motion";
 import { LogIn, Search, Monitor, Globe, Clock } from "lucide-react";
-import AdminLayout from "@/layouts/admin-layout";
+import { useState } from "react";
 import { PageHeader, FilterBar, FilterInput } from "@/components/admin/filter-bar";
+import AdminLayout from "@/layouts/admin-layout";
 
 interface LoginLog {
   id: number;
@@ -44,8 +44,14 @@ function formatDate(dateStr: string): string {
 }
 
 function getDeviceIcon(userAgent: string): string {
-  if (userAgent.toLowerCase().includes("mobile")) return "📱";
-  if (userAgent.toLowerCase().includes("tablet")) return "�Tablet";
+  if (userAgent.toLowerCase().includes("mobile")) {
+return "📱";
+}
+
+  if (userAgent.toLowerCase().includes("tablet")) {
+return "�Tablet";
+}
+
   return "💻";
 }
 
@@ -58,7 +64,9 @@ export default function LoginsReport({ logs, pagination, filters: initialFilters
 
     const params = new URLSearchParams();
     Object.entries(newFilters).forEach(([k, v]) => {
-      if (v) params.set(k, v);
+      if (v) {
+params.set(k, v);
+}
     });
 
     window.location.href = `/admin/reports/logins?${params.toString()}`;

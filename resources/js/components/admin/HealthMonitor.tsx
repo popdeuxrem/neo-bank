@@ -9,6 +9,7 @@ import {
     Server,
 } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
+import { usePage } from '@inertiajs/react';
 import {
     AreaChart,
     Area,
@@ -96,6 +97,7 @@ function PulseIndicator({ status }: { status: 'healthy' | 'degraded' | 'critical
 }
 
 export function HealthMonitor() {
+    const { adminPrefix = 'secure-admin' } = usePage().props as any;
     const [stats, setStats] = useState<HealthStats | null>(null);
     const [chartData, setChartData] = useState<ChartDataPoint[]>([]);
     const [loading, setLoading] = useState(true);
@@ -103,7 +105,7 @@ export function HealthMonitor() {
 
     const fetchHealth = useCallback(async () => {
         try {
-            const response = await fetch('/admin/health', {
+            const response = await fetch(`/${adminPrefix}/health`, {
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
                 },
@@ -141,7 +143,7 @@ export function HealthMonitor() {
         setRestarting(true);
 
         try {
-            const response = await fetch('/admin/health/restart-queue', {
+            const response = await fetch(`/${adminPrefix}/health/restart-queue`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

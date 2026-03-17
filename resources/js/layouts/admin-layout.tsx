@@ -36,364 +36,6 @@ interface NavSection {
   defaultOpen?: boolean;
 }
 
-const navigation: NavSection[] = [
-  {
-    title: "OVERVIEW",
-    items: [
-      { label: "Dashboard", href: "/admin", icon: "LayoutDashboard" },
-    ],
-  },
-  {
-    title: "CUSTOMERS",
-    items: [
-      { label: "All Customers", href: "/admin/customers", icon: "Users" },
-      { label: "Active Customers", href: "/admin/customers?status=active", icon: "UserCheck" },
-      { label: "Inactive Customers", href: "/admin/customers?status=inactive", icon: "Users" },
-      { label: "KYC Pending", href: "/admin/customers?kyc=pending", icon: "ShieldCheck", badge: 3, badgeType: 'warning' },
-      { label: "KYC Verified", href: "/admin/customers?kyc=verified", icon: "ShieldCheck" },
-      { label: "Banned Customers", href: "/admin/customers?status=banned", icon: "AlertTriangle", badge: 1, badgeType: 'danger' },
-      { label: "Email Customers", href: "/admin/customers/email", icon: "Mail" },
-    ],
-  },
-  {
-    title: "FINANCIAL OPERATIONS",
-    items: [
-      { 
-        label: "Fund Transfer", 
-        href: "/admin/transfers", 
-        icon: "ArrowRightLeft",
-        children: [
-          { label: "All Transfers", href: "/admin/transfers", icon: "ArrowRightLeft" },
-          { label: "Pending Transfers", href: "/admin/transfers?status=pending", icon: "Clock" },
-          { label: "Completed Transfers", href: "/admin/transfers?status=completed", icon: "CheckCircle" },
-          { label: "Failed Transfers", href: "/admin/transfers?status=failed", icon: "XCircle" },
-          { label: "Manual Transfer", href: "/admin/transfers/manual", icon: "Plus" },
-          { label: "Transfer Settings", href: "/admin/transfers/settings", icon: "Settings" },
-        ]
-      },
-      { 
-        label: "Wire & SWIFT", 
-        href: "/admin/wire", 
-        icon: "Landmark",
-        children: [
-          { label: "Wire Transfer Requests", href: "/admin/wire", icon: "ArrowRightLeft" },
-          { label: "SWIFT Configuration", href: "/admin/wire/settings", icon: "Settings" },
-          { label: "Correspondent Banks", href: "/admin/wire/correspondent-banks", icon: "Building2" },
-          { label: "Wire Fees", href: "/admin/wire/fees", icon: "DollarSign" },
-        ]
-      },
-      { 
-        label: "Deposits", 
-        href: "/admin/deposits", 
-        icon: "ArrowDownCircle",
-        children: [
-          { label: "All Deposits", href: "/admin/deposits", icon: "ArrowDownCircle" },
-          { label: "Pending Approval", href: "/admin/deposits/pending", icon: "Clock" },
-          { label: "Deposit Methods", href: "/admin/deposits/methods", icon: "Layers" },
-        ]
-      },
-      { 
-        label: "Withdrawals", 
-        href: "/admin/withdrawals", 
-        icon: "ArrowUpCircle",
-        children: [
-          { label: "All Withdrawals", href: "/admin/withdrawals", icon: "ArrowUpCircle" },
-          { label: "Pending Approval", href: "/admin/withdrawals/pending", icon: "Clock" },
-          { label: "Withdrawal Methods", href: "/admin/withdrawals/methods", icon: "Layers" },
-        ]
-      },
-      { 
-        label: "Bill Payments", 
-        href: "/admin/bills", 
-        icon: "FileText",
-        children: [
-          { label: "Transactions", href: "/admin/bills/transactions", icon: "FileText" },
-          { label: "Providers", href: "/admin/bills/providers", icon: "Building" },
-          { label: "Categories", href: "/admin/bills/categories", icon: "Folder" },
-        ]
-      },
-    ],
-  },
-  {
-    title: "BANKING PRODUCTS",
-    items: [
-      { 
-        label: "DPS Plans", 
-        href: "/admin/dps", 
-        icon: "PiggyBank",
-        children: [
-          { label: "DPS Plans", href: "/admin/dps/plans", icon: "FileText" },
-          { label: "Active DPS", href: "/admin/dps/subscriptions", icon: "Activity" },
-          { label: "Matured DPS", href: "/admin/dps/matured", icon: "CheckCircle" },
-          { label: "DPS Settings", href: "/admin/dps/settings", icon: "Settings" },
-        ]
-      },
-      { 
-        label: "FDR Plans", 
-        href: "/admin/fdr", 
-        icon: "Lock",
-        children: [
-          { label: "FDR Plans", href: "/admin/fdr/plans", icon: "FileText" },
-          { label: "Active FDRs", href: "/admin/fdr/subscriptions", icon: "Activity" },
-          { label: "Compounding Log", href: "/admin/fdr/compounding", icon: "RefreshCw" },
-          { label: "FDR Settings", href: "/admin/fdr/settings", icon: "Settings" },
-        ]
-      },
-      { 
-        label: "Loans", 
-        href: "/admin/loans", 
-        icon: "Landmark",
-        children: [
-          { label: "Loan Plans", href: "/admin/loans/plans", icon: "FileText" },
-          { label: "Loan Applications", href: "/admin/loans/applications", icon: "FileCheck" },
-          { label: "Active Loans", href: "/admin/loans/active", icon: "Activity" },
-          { label: "Overdue Loans", href: "/admin/loans/overdue", icon: "AlertTriangle" },
-          { label: "Loan Settings", href: "/admin/loans/settings", icon: "Settings" },
-        ]
-      },
-    ],
-  },
-  {
-    title: "PORTFOLIO & REWARDS",
-    items: [
-      { 
-        label: "Portfolio", 
-        href: "/admin/portfolio", 
-        icon: "Briefcase",
-        children: [
-          { label: "Portfolio Tiers", href: "/admin/portfolio/tiers", icon: "Layers" },
-          { label: "Badges", href: "/admin/portfolio/badges", icon: "Award" },
-          { label: "User Rankings", href: "/admin/portfolio/rankings", icon: "Trophy" },
-        ]
-      },
-      { 
-        label: "Reward Points", 
-        href: "/admin/rewards", 
-        icon: "Star",
-        children: [
-          { label: "Reward Settings", href: "/admin/rewards/settings", icon: "Settings" },
-          { label: "Point Transactions", href: "/admin/rewards/transactions", icon: "FileText" },
-          { label: "Redeem Requests", href: "/admin/rewards/redeem", icon: "Gift" },
-        ]
-      },
-      { 
-        label: "Referrals", 
-        href: "/admin/referrals", 
-        icon: "Users",
-        children: [
-          { label: "Referral Settings", href: "/admin/referrals/settings", icon: "Settings" },
-          { label: "Referral Tree", href: "/admin/referrals/tree", icon: "GitBranch" },
-          { label: "Referral Commissions", href: "/admin/referrals/commissions", icon: "DollarSign" },
-        ]
-      },
-    ],
-  },
-  {
-    title: "SUPPORT",
-    items: [
-      { 
-        label: "Support Tickets", 
-        href: "/admin/support", 
-        icon: "MessageCircle",
-        children: [
-          { label: "All Tickets", href: "/admin/support", icon: "MessageCircle" },
-          { label: "Pending Tickets", href: "/admin/support?status=pending", icon: "Clock", badge: 5, badgeType: 'warning' },
-          { label: "Answered Tickets", href: "/admin/support?status=answered", icon: "MessageSquare" },
-          { label: "Closed Tickets", href: "/admin/support?status=closed", icon: "CheckCircle" },
-          { label: "Ticket Categories", href: "/admin/support/categories", icon: "Folder" },
-        ]
-      },
-    ],
-  },
-  {
-    title: "KYC",
-    items: [
-      { 
-        label: "KYC Verification", 
-        href: "/admin/kyc", 
-        icon: "ShieldCheck",
-        children: [
-          { label: "KYC Requests (Pending)", href: "/admin/kyc", icon: "Clock", badge: 3, badgeType: 'warning' },
-          { label: "Approved KYC", href: "/admin/kyc/approved", icon: "CheckCircle" },
-          { label: "Rejected KYC", href: "/admin/kyc/rejected", icon: "XCircle" },
-          { label: "KYC Settings", href: "/admin/kyc/settings", icon: "Settings" },
-        ]
-      },
-    ],
-  },
-  {
-    title: "STAFF & ROLES",
-    items: [
-      { 
-        label: "Staff Management", 
-        href: "/admin/staff", 
-        icon: "Users",
-        children: [
-          { label: "All Staff", href: "/admin/staff", icon: "Users" },
-          { label: "Add New Staff", href: "/admin/staff/create", icon: "UserPlus" },
-          { label: "Staff Roles", href: "/admin/roles", icon: "Shield" },
-          { label: "Staff Activity Log", href: "/admin/staff/activity", icon: "History" },
-        ]
-      },
-    ],
-  },
-  {
-    title: "REPORTS",
-    items: [
-      { label: "Transaction History", href: "/admin/reports/transactions", icon: "FileText" },
-      { label: "Profit Report", href: "/admin/profits/overview", icon: "TrendingUp" },
-      { label: "Login History", href: "/admin/reports/logins", icon: "LogIn" },
-      { label: "Notification History", href: "/admin/notifications/history", icon: "Bell" },
-    ],
-  },
-  {
-    title: "MARKETING",
-    items: [
-      { 
-        label: "Notifications", 
-        href: "/admin/notifications", 
-        icon: "Bell",
-        children: [
-          { label: "Send User Notification", href: "/admin/notifications/send", icon: "Send" },
-          { label: "Send All Users Notification", href: "/admin/notifications/send-all", icon: "BellRing" },
-          { label: "Notification History", href: "/admin/notifications/history", icon: "History" },
-          { label: "Notification Templates", href: "/admin/notifications/templates", icon: "FileText" },
-          { label: "Notification Settings", href: "/admin/notifications/settings", icon: "Settings" },
-        ]
-      },
-      { 
-        label: "Newsletter", 
-        href: "/admin/marketing", 
-        icon: "Mail",
-        children: [
-          { label: "Campaigns", href: "/admin/marketing/newsletter", icon: "Send" },
-          { label: "Subscribers", href: "/admin/marketing/subscribers", icon: "Users" },
-        ]
-      },
-    ],
-  },
-  {
-    title: "PAYMENT GATEWAYS",
-    items: [
-      { 
-        label: "Gateways", 
-        href: "/admin/gateways", 
-        icon: "Globe",
-        children: [
-          { label: "Payment Gateways", href: "/admin/gateways", icon: "Globe" },
-          { label: "Deposit Gateways", href: "/admin/gateways/deposits", icon: "ArrowDownCircle" },
-          { label: "Withdrawal Gateways", href: "/admin/gateways/withdrawals", icon: "ArrowUpCircle" },
-          { label: "Gateway Logs", href: "/admin/gateways/logs", icon: "FileText" },
-        ]
-      },
-    ],
-  },
-  {
-    title: "SETTINGS",
-    items: [
-      { label: "General Settings", href: "/admin/settings/general", icon: "Settings" },
-      { label: "System Config", href: "/admin/settings/system", icon: "Server" },
-      { 
-        label: "Security", 
-        href: "/admin/settings/security", 
-        icon: "Shield",
-        children: [
-          { label: "2FA Settings", href: "/admin/settings/security", icon: "Lock" },
-          { label: "Admin URL", href: "/admin/settings/admin-url", icon: "Link2" },
-          { label: "Passcode", href: "/admin/settings/passcode", icon: "Key" },
-        ]
-      },
-      { 
-        label: "Currencies", 
-        href: "/admin/currencies", 
-        icon: "DollarSign",
-        children: [
-          { label: "Fiat Currencies", href: "/admin/currencies/fiat", icon: "DollarSign" },
-          { label: "Crypto Currencies", href: "/admin/currencies/crypto", icon: "Bitcoin" },
-          { label: "Exchange Rates", href: "/admin/currencies/rates", icon: "RefreshCw" },
-        ]
-      },
-      { label: "SMS Settings", href: "/admin/settings/sms", icon: "Smartphone" },
-      { label: "Bonuses", href: "/admin/settings/bonuses", icon: "Gift" },
-      { 
-        label: "Language", 
-        href: "/admin/settings/language", 
-        icon: "Globe",
-        children: [
-          { label: "Languages", href: "/admin/settings/language", icon: "Globe" },
-          { label: "Translations", href: "/admin/settings/translations", icon: "FileText" },
-        ]
-      },
-      { 
-        label: "Theme", 
-        href: "/admin/themes", 
-        icon: "Palette",
-        children: [
-          { label: "Active Theme", href: "/admin/themes", icon: "Layout" },
-          { label: "Theme Settings", href: "/admin/themes/settings", icon: "Settings" },
-          { label: "Color Customizer", href: "/admin/themes/colors", icon: "Palette" },
-          { label: "Landing Page Theme", href: "/admin/themes/landing", icon: "Layout" },
-        ]
-      },
-      { 
-        label: "Landing Page", 
-        href: "/admin/landing", 
-        icon: "Layout",
-        children: [
-          { label: "Hero Section", href: "/admin/landing/hero", icon: "Layout" },
-          { label: "Features Section", href: "/admin/landing/features", icon: "Star" },
-          { label: "Pricing Section", href: "/admin/landing/pricing", icon: "DollarSign" },
-          { label: "Statistics", href: "/admin/landing/stats", icon: "BarChart" },
-          { label: "Testimonials", href: "/admin/landing/testimonials", icon: "MessageCircle" },
-        ]
-      },
-      { 
-        label: "Pages & Navigation", 
-        href: "/admin/pages", 
-        icon: "FileText",
-        children: [
-          { label: "All Pages", href: "/admin/pages", icon: "FileText" },
-          { label: "Site Navigation", href: "/admin/pages/navigation", icon: "Menu" },
-          { label: "Footer", href: "/admin/pages/footer", icon: "Scroll" },
-        ]
-      },
-      { 
-        label: "SEO & Analytics", 
-        href: "/admin/settings/seo", 
-        icon: "Search",
-        children: [
-          { label: "SEO Settings", href: "/admin/settings/seo", icon: "Search" },
-          { label: "Google Analytics", href: "/admin/settings/analytics", icon: "BarChart" },
-        ]
-      },
-      { 
-        label: "Integrations", 
-        href: "/admin/settings/integrations", 
-        icon: "Plug",
-        children: [
-          { label: "Google Analytics", href: "/admin/settings/analytics", icon: "BarChart" },
-          { label: "Google reCaptcha", href: "/admin/settings/recaptcha", icon: "Shield" },
-          { label: "Tawk Chat", href: "/admin/settings/tawk", icon: "MessageCircle" },
-          { label: "Messenger", href: "/admin/settings/messenger", icon: "MessageCircle" },
-        ]
-      },
-      { label: "GDPR Settings", href: "/admin/settings/gdpr", icon: "Shield" },
-      { label: "Maintenance Mode", href: "/admin/settings/maintenance", icon: "Wrench" },
-      { label: "Inactive Users", href: "/admin/settings/inactive-users", icon: "UserMinus" },
-      { label: "Custom CSS", href: "/admin/settings/customization", icon: "Code" },
-    ],
-  },
-  {
-    title: "SYSTEM",
-    items: [
-      { label: "System Info", href: "/admin/system/info", icon: "Server" },
-      { label: "Cache Management", href: "/admin/system/cache", icon: "Database" },
-      { label: "Queue Monitor", href: "/admin/system/queue", icon: "Clock" },
-      { label: "Audit Logs", href: "/admin/audit-logs", icon: "FileText" },
-    ],
-  },
-];
-
 interface AdminLayoutProps {
   children: React.ReactNode;
 }
@@ -409,6 +51,367 @@ const IconComponent = ({ name, className }: { name?: string; className?: string 
 };
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
+  const { url } = usePage();
+  const { adminPrefix = 'secure-admin' } = usePage().props as any;
+
+  const navigation: NavSection[] = [
+    {
+      title: "OVERVIEW",
+      items: [
+        { label: "Dashboard", href: `/${adminPrefix}`, icon: "LayoutDashboard" },
+      ],
+    },
+    {
+      title: "CUSTOMERS",
+      items: [
+        { label: "All Customers", href: `/${adminPrefix}/customers`, icon: "Users" },
+        { label: "Active Customers", href: `/${adminPrefix}/customers?status=active`, icon: "UserCheck" },
+        { label: "Inactive Customers", href: `/${adminPrefix}/customers?status=inactive`, icon: "Users" },
+        { label: "KYC Pending", href: `/${adminPrefix}/customers?kyc=pending`, icon: "ShieldCheck", badge: 3, badgeType: 'warning' },
+        { label: "KYC Verified", href: `/${adminPrefix}/customers?kyc=verified`, icon: "ShieldCheck" },
+        { label: "Banned Customers", href: `/${adminPrefix}/customers?status=banned`, icon: "AlertTriangle", badge: 1, badgeType: 'danger' },
+        { label: "Email Customers", href: `/${adminPrefix}/customers/email`, icon: "Mail" },
+      ],
+    },
+    {
+      title: "FINANCIAL OPERATIONS",
+      items: [
+        { 
+          label: "Fund Transfer", 
+          href: `/${adminPrefix}/transfers`, 
+          icon: "ArrowRightLeft",
+          children: [
+            { label: "All Transfers", href: `/${adminPrefix}/transfers`, icon: "ArrowRightLeft" },
+            { label: "Pending Transfers", href: `/${adminPrefix}/transfers?status=pending`, icon: "Clock" },
+            { label: "Completed Transfers", href: `/${adminPrefix}/transfers?status=completed`, icon: "CheckCircle" },
+            { label: "Failed Transfers", href: `/${adminPrefix}/transfers?status=failed`, icon: "XCircle" },
+            { label: "Manual Transfer", href: `/${adminPrefix}/transfers/manual`, icon: "Plus" },
+            { label: "Transfer Settings", href: `/${adminPrefix}/transfers/settings`, icon: "Settings" },
+          ]
+        },
+        { 
+          label: "Wire & SWIFT", 
+          href: `/${adminPrefix}/wire`, 
+          icon: "Landmark",
+          children: [
+            { label: "Wire Transfer Requests", href: `/${adminPrefix}/wire`, icon: "ArrowRightLeft" },
+            { label: "SWIFT Configuration", href: `/${adminPrefix}/wire/settings`, icon: "Settings" },
+            { label: "Correspondent Banks", href: `/${adminPrefix}/wire/correspondent-banks`, icon: "Building2" },
+            { label: "Wire Fees", href: `/${adminPrefix}/wire/fees`, icon: "DollarSign" },
+          ]
+        },
+        { 
+          label: "Deposits", 
+          href: `/${adminPrefix}/deposits`, 
+          icon: "ArrowDownCircle",
+          children: [
+            { label: "All Deposits", href: `/${adminPrefix}/deposits`, icon: "ArrowDownCircle" },
+            { label: "Pending Approval", href: `/${adminPrefix}/deposits/pending`, icon: "Clock" },
+            { label: "Deposit Methods", href: `/${adminPrefix}/deposits/methods`, icon: "Layers" },
+          ]
+        },
+        { 
+          label: "Withdrawals", 
+          href: `/${adminPrefix}/withdrawals`, 
+          icon: "ArrowUpCircle",
+          children: [
+            { label: "All Withdrawals", href: `/${adminPrefix}/withdrawals`, icon: "ArrowUpCircle" },
+            { label: "Pending Approval", href: `/${adminPrefix}/withdrawals/pending`, icon: "Clock" },
+            { label: "Withdrawal Methods", href: `/${adminPrefix}/withdrawals/methods`, icon: "Layers" },
+          ]
+        },
+        { 
+          label: "Bill Payments", 
+          href: `/${adminPrefix}/bills`, 
+          icon: "FileText",
+          children: [
+            { label: "Transactions", href: `/${adminPrefix}/bills/transactions`, icon: "FileText" },
+            { label: "Providers", href: `/${adminPrefix}/bills/providers`, icon: "Building" },
+            { label: "Categories", href: `/${adminPrefix}/bills/categories`, icon: "Folder" },
+          ]
+        },
+      ],
+    },
+    {
+      title: "BANKING PRODUCTS",
+      items: [
+        { 
+          label: "DPS Plans", 
+          href: `/${adminPrefix}/dps`, 
+          icon: "PiggyBank",
+          children: [
+            { label: "DPS Plans", href: `/${adminPrefix}/dps/plans`, icon: "FileText" },
+            { label: "Active DPS", href: `/${adminPrefix}/dps/subscriptions`, icon: "Activity" },
+            { label: "Matured DPS", href: `/${adminPrefix}/dps/matured`, icon: "CheckCircle" },
+            { label: "DPS Settings", href: `/${adminPrefix}/dps/settings`, icon: "Settings" },
+          ]
+        },
+        { 
+          label: "FDR Plans", 
+          href: `/${adminPrefix}/fdr`, 
+          icon: "Lock",
+          children: [
+            { label: "FDR Plans", href: `/${adminPrefix}/fdr/plans`, icon: "FileText" },
+            { label: "Active FDRs", href: `/${adminPrefix}/fdr/subscriptions`, icon: "Activity" },
+            { label: "Compounding Log", href: `/${adminPrefix}/fdr/compounding`, icon: "RefreshCw" },
+            { label: "FDR Settings", href: `/${adminPrefix}/fdr/settings`, icon: "Settings" },
+          ]
+        },
+        { 
+          label: "Loans", 
+          href: `/${adminPrefix}/loans`, 
+          icon: "Landmark",
+          children: [
+            { label: "Loan Plans", href: `/${adminPrefix}/loans/plans`, icon: "FileText" },
+            { label: "Loan Applications", href: `/${adminPrefix}/loans/applications`, icon: "FileCheck" },
+            { label: "Active Loans", href: `/${adminPrefix}/loans/active`, icon: "Activity" },
+            { label: "Overdue Loans", href: `/${adminPrefix}/loans/overdue`, icon: "AlertTriangle" },
+            { label: "Loan Settings", href: `/${adminPrefix}/loans/settings`, icon: "Settings" },
+          ]
+        },
+      ],
+    },
+    {
+      title: "PORTFOLIO & REWARDS",
+      items: [
+        { 
+          label: "Portfolio", 
+          href: `/${adminPrefix}/portfolio`, 
+          icon: "Briefcase",
+          children: [
+            { label: "Portfolio Tiers", href: `/${adminPrefix}/portfolio/tiers`, icon: "Layers" },
+            { label: "Badges", href: `/${adminPrefix}/portfolio/badges`, icon: "Award" },
+            { label: "User Rankings", href: `/${adminPrefix}/portfolio/rankings`, icon: "Trophy" },
+          ]
+        },
+        { 
+          label: "Reward Points", 
+          href: `/${adminPrefix}/rewards`, 
+          icon: "Star",
+          children: [
+            { label: "Reward Settings", href: `/${adminPrefix}/rewards/settings`, icon: "Settings" },
+            { label: "Point Transactions", href: `/${adminPrefix}/rewards/transactions`, icon: "FileText" },
+            { label: "Redeem Requests", href: `/${adminPrefix}/rewards/redeem`, icon: "Gift" },
+          ]
+        },
+        { 
+          label: "Referrals", 
+          href: `/${adminPrefix}/referrals`, 
+          icon: "Users",
+          children: [
+            { label: "Referral Settings", href: `/${adminPrefix}/referrals/settings`, icon: "Settings" },
+            { label: "Referral Tree", href: `/${adminPrefix}/referrals/tree`, icon: "GitBranch" },
+            { label: "Referral Commissions", href: `/${adminPrefix}/referrals/commissions`, icon: "DollarSign" },
+          ]
+        },
+      ],
+    },
+    {
+      title: "SUPPORT",
+      items: [
+        { 
+          label: "Support Tickets", 
+          href: `/${adminPrefix}/support`, 
+          icon: "MessageCircle",
+          children: [
+            { label: "All Tickets", href: `/${adminPrefix}/support`, icon: "MessageCircle" },
+            { label: "Pending Tickets", href: `/${adminPrefix}/support?status=pending`, icon: "Clock", badge: 5, badgeType: 'warning' },
+            { label: "Answered Tickets", href: `/${adminPrefix}/support?status=answered`, icon: "MessageSquare" },
+            { label: "Closed Tickets", href: `/${adminPrefix}/support?status=closed`, icon: "CheckCircle" },
+            { label: "Ticket Categories", href: `/${adminPrefix}/support/categories`, icon: "Folder" },
+          ]
+        },
+      ],
+    },
+    {
+      title: "KYC",
+      items: [
+        { 
+          label: "KYC Verification", 
+          href: `/${adminPrefix}/kyc`, 
+          icon: "ShieldCheck",
+          children: [
+            { label: "KYC Requests (Pending)", href: `/${adminPrefix}/kyc`, icon: "Clock", badge: 3, badgeType: 'warning' },
+            { label: "Approved KYC", href: `/${adminPrefix}/kyc/approved`, icon: "CheckCircle" },
+            { label: "Rejected KYC", href: `/${adminPrefix}/kyc/rejected`, icon: "XCircle" },
+            { label: "KYC Settings", href: `/${adminPrefix}/kyc/settings`, icon: "Settings" },
+          ]
+        },
+      ],
+    },
+    {
+      title: "STAFF & ROLES",
+      items: [
+        { 
+          label: "Staff Management", 
+          href: `/${adminPrefix}/staff`, 
+          icon: "Users",
+          children: [
+            { label: "All Staff", href: `/${adminPrefix}/staff`, icon: "Users" },
+            { label: "Add New Staff", href: `/${adminPrefix}/staff/create`, icon: "UserPlus" },
+            { label: "Staff Roles", href: `/${adminPrefix}/roles`, icon: "Shield" },
+            { label: "Staff Activity Log", href: `/${adminPrefix}/staff/activity`, icon: "History" },
+          ]
+        },
+      ],
+    },
+    {
+      title: "REPORTS",
+      items: [
+        { label: "Transaction History", href: `/${adminPrefix}/reports/transactions`, icon: "FileText" },
+        { label: "Profit Report", href: `/${adminPrefix}/profits/overview`, icon: "TrendingUp" },
+        { label: "Login History", href: `/${adminPrefix}/reports/logins`, icon: "LogIn" },
+        { label: "Notification History", href: `/${adminPrefix}/notifications/history`, icon: "Bell" },
+      ],
+    },
+    {
+      title: "MARKETING",
+      items: [
+        { 
+          label: "Notifications", 
+          href: `/${adminPrefix}/notifications`, 
+          icon: "Bell",
+          children: [
+            { label: "Send User Notification", href: `/${adminPrefix}/notifications/send`, icon: "Send" },
+            { label: "Send All Users Notification", href: `/${adminPrefix}/notifications/send-all`, icon: "BellRing" },
+            { label: "Notification History", href: `/${adminPrefix}/notifications/history`, icon: "History" },
+            { label: "Notification Templates", href: `/${adminPrefix}/notifications/templates`, icon: "FileText" },
+            { label: "Notification Settings", href: `/${adminPrefix}/notifications/settings`, icon: "Settings" },
+          ]
+        },
+        { 
+          label: "Newsletter", 
+          href: `/${adminPrefix}/marketing`, 
+          icon: "Mail",
+          children: [
+            { label: "Campaigns", href: `/${adminPrefix}/marketing/newsletter`, icon: "Send" },
+            { label: "Subscribers", href: `/${adminPrefix}/marketing/subscribers`, icon: "Users" },
+          ]
+        },
+      ],
+    },
+    {
+      title: "PAYMENT GATEWAYS",
+      items: [
+        { 
+          label: "Gateways", 
+          href: `/${adminPrefix}/gateways`, 
+          icon: "Globe",
+          children: [
+            { label: "Payment Gateways", href: `/${adminPrefix}/gateways`, icon: "Globe" },
+            { label: "Deposit Gateways", href: `/${adminPrefix}/gateways/deposits`, icon: "ArrowDownCircle" },
+            { label: "Withdrawal Gateways", href: `/${adminPrefix}/gateways/withdrawals`, icon: "ArrowUpCircle" },
+            { label: "Gateway Logs", href: `/${adminPrefix}/gateways/logs`, icon: "FileText" },
+          ]
+        },
+      ],
+    },
+    {
+      title: "SETTINGS",
+      items: [
+        { label: "General Settings", href: `/${adminPrefix}/settings/general`, icon: "Settings" },
+        { label: "System Config", href: `/${adminPrefix}/settings/system`, icon: "Server" },
+        { 
+          label: "Security", 
+          href: `/${adminPrefix}/settings/security`, 
+          icon: "Shield",
+          children: [
+            { label: "2FA Settings", href: `/${adminPrefix}/settings/security`, icon: "Lock" },
+            { label: "Admin URL", href: `/${adminPrefix}/settings/admin-url`, icon: "Link2" },
+            { label: "Passcode", href: `/${adminPrefix}/settings/passcode`, icon: "Key" },
+          ]
+        },
+        { 
+          label: "Currencies", 
+          href: `/${adminPrefix}/currencies`, 
+          icon: "DollarSign",
+          children: [
+            { label: "Fiat Currencies", href: `/${adminPrefix}/currencies/fiat`, icon: "DollarSign" },
+            { label: "Crypto Currencies", href: `/${adminPrefix}/currencies/crypto`, icon: "Bitcoin" },
+            { label: "Exchange Rates", href: `/${adminPrefix}/currencies/rates`, icon: "RefreshCw" },
+          ]
+        },
+        { label: "SMS Settings", href: `/${adminPrefix}/settings/sms`, icon: "Smartphone" },
+        { label: "Bonuses", href: `/${adminPrefix}/settings/bonuses`, icon: "Gift" },
+        { 
+          label: "Language", 
+          href: `/${adminPrefix}/settings/language`, 
+          icon: "Globe",
+          children: [
+            { label: "Languages", href: `/${adminPrefix}/settings/language`, icon: "Globe" },
+            { label: "Translations", href: `/${adminPrefix}/settings/translations`, icon: "FileText" },
+          ]
+        },
+        { 
+          label: "Theme", 
+          href: `/${adminPrefix}/themes`, 
+          icon: "Palette",
+          children: [
+            { label: "Active Theme", href: `/${adminPrefix}/themes`, icon: "Layout" },
+            { label: "Theme Settings", href: `/${adminPrefix}/themes/settings`, icon: "Settings" },
+            { label: "Color Customizer", href: `/${adminPrefix}/themes/colors`, icon: "Palette" },
+            { label: "Landing Page Theme", href: `/${adminPrefix}/themes/landing`, icon: "Layout" },
+          ]
+        },
+        { 
+          label: "Landing Page", 
+          href: `/${adminPrefix}/landing`, 
+          icon: "Layout",
+          children: [
+            { label: "Hero Section", href: `/${adminPrefix}/landing/hero`, icon: "Layout" },
+            { label: "Features Section", href: `/${adminPrefix}/landing/features`, icon: "Star" },
+            { label: "Pricing Section", href: `/${adminPrefix}/landing/pricing`, icon: "DollarSign" },
+            { label: "Statistics", href: `/${adminPrefix}/landing/stats`, icon: "BarChart" },
+            { label: "Testimonials", href: `/${adminPrefix}/landing/testimonials`, icon: "MessageCircle" },
+          ]
+        },
+        { 
+          label: "Pages & Navigation", 
+          href: `/${adminPrefix}/pages`, 
+          icon: "FileText",
+          children: [
+            { label: "All Pages", href: `/${adminPrefix}/pages`, icon: "FileText" },
+            { label: "Site Navigation", href: `/${adminPrefix}/pages/navigation`, icon: "Menu" },
+            { label: "Footer", href: `/${adminPrefix}/pages/footer`, icon: "Scroll" },
+          ]
+        },
+        { 
+          label: "SEO & Analytics", 
+          href: `/${adminPrefix}/settings/seo`, 
+          icon: "Search",
+          children: [
+            { label: "SEO Settings", href: `/${adminPrefix}/settings/seo`, icon: "Search" },
+            { label: "Google Analytics", href: `/${adminPrefix}/settings/analytics`, icon: "BarChart" },
+          ]
+        },
+        { 
+          label: "Integrations", 
+          href: `/${adminPrefix}/settings/integrations`, 
+          icon: "Plug",
+          children: [
+            { label: "Google Analytics", href: `/${adminPrefix}/settings/analytics`, icon: "BarChart" },
+            { label: "Google reCaptcha", href: `/${adminPrefix}/settings/recaptcha`, icon: "Shield" },
+            { label: "Tawk Chat", href: `/${adminPrefix}/settings/tawk`, icon: "MessageCircle" },
+            { label: "Messenger", href: `/${adminPrefix}/settings/messenger`, icon: "MessageCircle" },
+          ]
+        },
+        { label: "GDPR Settings", href: `/${adminPrefix}/settings/gdpr`, icon: "Shield" },
+        { label: "Maintenance Mode", href: `/${adminPrefix}/settings/maintenance`, icon: "Wrench" },
+        { label: "Inactive Users", href: `/${adminPrefix}/settings/inactive-users`, icon: "UserMinus" },
+        { label: "Custom CSS", href: `/${adminPrefix}/settings/customization`, icon: "Code" },
+      ],
+    },
+    {
+      title: "SYSTEM",
+      items: [
+        { label: "System Info", href: `/${adminPrefix}/system/info`, icon: "Server" },
+        { label: "Cache Management", href: `/${adminPrefix}/system/cache`, icon: "Database" },
+        { label: "Queue Monitor", href: `/${adminPrefix}/system/queue`, icon: "Clock" },
+        { label: "Audit Logs", href: `/${adminPrefix}/audit-logs`, icon: "FileText" },
+      ],
+    },
+  ];
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>(() => {
     const initial: Record<string, boolean> = {};
@@ -420,7 +423,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   });
   const [darkMode, setDarkMode] = useState(true);
   const [searchOpen, setSearchOpen] = useState(false);
-  const { url } = usePage();
 
   const currentPath = url;
 
@@ -432,9 +434,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   };
 
   const isActive = (href: string) => {
-    if (href === "/admin") {
-return currentPath === "/admin";
-}
+    const dashboardPath = `/${adminPrefix}`;
+    if (href === dashboardPath) {
+      return currentPath === dashboardPath;
+    }
 
     return currentPath.startsWith(href);
   };
@@ -477,7 +480,7 @@ return currentPath === "/admin";
           )}
         >
           <div className="flex h-16 items-center justify-between border-b border-white/10 px-4">
-            <Link href="/admin" className="flex items-center gap-3">
+            <Link href={`/${adminPrefix}`} className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600">
                 <span className="text-lg font-bold text-white">M</span>
               </div>
@@ -699,14 +702,14 @@ return currentPath === "/admin";
                 <Icons.Menu className="h-5 w-5" />
               </button>
               <div className="hidden items-center gap-2 text-sm text-slate-400 lg:flex">
-                <Link href="/admin" className="hover:text-white">
+                <Link href={`/${adminPrefix}`} className="hover:text-white">
                   Admin
                 </Link>
-                {currentPath !== "/admin" && (
+                {currentPath !== `/${adminPrefix}` && (
                   <>
                     <Icons.ChevronRight className="h-4 w-4" />
                     <span className="text-white capitalize">
-                      {currentPath.replace("/admin/", "").split("/").pop()?.replace(/-/g, " ")}
+                      {currentPath.replace(`/${adminPrefix}/`, "").split("/").pop()?.replace(/-/g, " ")}
                     </span>
                   </>
                 )}
@@ -742,7 +745,7 @@ return currentPath === "/admin";
               </button>
 
               <Link
-                href="/admin/settings"
+                href={`/${adminPrefix}/settings`}
                 className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 p-1.5 pr-3 hover:bg-white/10"
               >
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600">
@@ -763,13 +766,13 @@ return currentPath === "/admin";
         {/* Mobile Bottom Tab Bar */}
         <nav className="fixed bottom-0 left-0 right-0 z-30 lg:hidden bg-slate-900/95 backdrop-blur-xl border-t border-white/10 flex items-center justify-around px-2 pb-safe pt-2">
           {[
-            { icon: "LayoutDashboard", label: "Dashboard", href: "/admin" },
-            { icon: "Users", label: "Customers", href: "/admin/customers" },
-            { icon: "ArrowRightLeft", label: "Transfers", href: "/admin/transfers" },
-            { icon: "ShieldCheck", label: "KYC", href: "/admin/kyc" },
+            { icon: "LayoutDashboard", label: "Dashboard", href: `/${adminPrefix}` },
+            { icon: "Users", label: "Customers", href: `/${adminPrefix}/customers` },
+            { icon: "ArrowRightLeft", label: "Transfers", href: `/${adminPrefix}/transfers` },
+            { icon: "ShieldCheck", label: "KYC", href: `/${adminPrefix}/kyc` },
             { icon: "Menu", label: "More", action: () => setSidebarOpen(true) },
           ].map((item) => {
-            const isActive = item.href ? url === item.href || (item.href !== "/admin" && url.startsWith(item.href)) : false;
+            const isActive = item.href ? url === item.href || (item.href !== `/${adminPrefix}` && url.startsWith(item.href)) : false;
             const IconComponent = Icons[item.icon];
 
             return (

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 $prefix = config('admin.prefix', 'secure-admin');
 
 Route::prefix($prefix)
-    ->name('admin.')
+    ->name('secure-admin.')
     ->middleware(['web', 'admin.ip'])
     ->group(function () {
 

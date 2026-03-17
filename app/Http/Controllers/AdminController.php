@@ -366,4 +366,422 @@ class AdminController extends Controller
             ],
         ]);
     }
+
+    public function deposits(Request $request): Response
+    {
+        return Inertia::render('admin/deposits/index', [
+            'deposits' => [],
+            'stats' => ['total' => 0, 'pending' => 0, 'completed' => 0],
+        ]);
+    }
+
+    public function pendingDeposits(Request $request): Response
+    {
+        return Inertia::render('admin/deposits/pending', [
+            'deposits' => [],
+        ]);
+    }
+
+    public function depositMethods(Request $request): Response
+    {
+        return Inertia::render('admin/deposits/methods', [
+            'methods' => [],
+        ]);
+    }
+
+    public function withdrawals(Request $request): Response
+    {
+        return Inertia::render('admin/withdrawals/index', [
+            'withdrawals' => [],
+            'stats' => ['total' => 0, 'pending' => 0, 'completed' => 0],
+        ]);
+    }
+
+    public function pendingWithdrawals(Request $request): Response
+    {
+        return Inertia::render('admin/withdrawals/pending', [
+            'withdrawals' => [],
+        ]);
+    }
+
+    public function withdrawalMethods(Request $request): Response
+    {
+        return Inertia::render('admin/withdrawals/methods', [
+            'methods' => [],
+        ]);
+    }
+
+    public function dpsPlans(Request $request): Response
+    {
+        return Inertia::render('admin/dps/plans', [
+            'plans' => [],
+        ]);
+    }
+
+    public function dpsSubscriptions(Request $request): Response
+    {
+        return Inertia::render('admin/dps/subscriptions', [
+            'subscriptions' => [],
+        ]);
+    }
+
+    public function fdrPlans(Request $request): Response
+    {
+        return Inertia::render('admin/fdr/plans', [
+            'plans' => [],
+        ]);
+    }
+
+    public function fdrSubscriptions(Request $request): Response
+    {
+        return Inertia::render('admin/fdr/subscriptions', [
+            'subscriptions' => [],
+        ]);
+    }
+
+    public function fdrCompounding(Request $request): Response
+    {
+        return Inertia::render('admin/fdr/compounding', [
+            'data' => [],
+        ]);
+    }
+
+    public function loanPlans(Request $request): Response
+    {
+        return Inertia::render('admin/loans/plans', [
+            'plans' => [],
+        ]);
+    }
+
+    public function loanApplications(Request $request): Response
+    {
+        return Inertia::render('admin/loans/applications', [
+            'applications' => [],
+        ]);
+    }
+
+    public function activeLoans(Request $request): Response
+    {
+        return Inertia::render('admin/loans/active', [
+            'loans' => [],
+        ]);
+    }
+
+    public function overdueLoans(Request $request): Response
+    {
+        return Inertia::render('admin/loans/active', [
+            'loans' => [],
+            'filter' => 'overdue',
+        ]);
+    }
+
+    public function wireTransfers(Request $request): Response
+    {
+        return Inertia::render('admin/transfers/index', [
+            'transfers' => [],
+        ]);
+    }
+
+    public function wireSettings(Request $request): Response
+    {
+        return Inertia::render('admin/transfers/index', [
+            'settings' => [],
+        ]);
+    }
+
+    public function transfers(Request $request): Response
+    {
+        return Inertia::render('admin/transfers/index', [
+            'transfers' => [],
+        ]);
+    }
+
+    public function manualTransfer(Request $request): Response
+    {
+        return Inertia::render('admin/transfers/manual', [
+            'users' => [],
+        ]);
+    }
+
+    public function transferSettings(Request $request): Response
+    {
+        return Inertia::render('admin/transfers/index', [
+            'settings' => [],
+        ]);
+    }
+
+    public function billTransactions(Request $request): Response
+    {
+        return Inertia::render('admin/bills/transactions', [
+            'transactions' => [],
+        ]);
+    }
+
+    public function billProviders(Request $request): Response
+    {
+        return Inertia::render('admin/bills/providers', [
+            'providers' => [],
+        ]);
+    }
+
+    public function billCategories(Request $request): Response
+    {
+        return Inertia::render('admin/bills/categories', [
+            'categories' => [],
+        ]);
+    }
+
+    public function gateways(Request $request): Response
+    {
+        return Inertia::render('admin/gateways/index', [
+            'gateways' => [],
+        ]);
+    }
+
+    public function gatewayLogs(Request $request): Response
+    {
+        return Inertia::render('admin/gateways/logs', [
+            'logs' => [],
+        ]);
+    }
+
+    public function kycApproved(Request $request): Response
+    {
+        return Inertia::render('admin/kyc/index', [
+            'documents' => [],
+            'filter' => 'approved',
+        ]);
+    }
+
+    public function kycRejected(Request $request): Response
+    {
+        return Inertia::render('admin/kyc/index', [
+            'documents' => [],
+            'filter' => 'rejected',
+        ]);
+    }
+
+    public function kycSettings(Request $request): Response
+    {
+        return Inertia::render('admin/kyc/settings', [
+            'settings' => [],
+        ]);
+    }
+
+    public function landingHero(Request $request): Response
+    {
+        return Inertia::render('admin/landing/hero', [
+            'content' => [],
+        ]);
+    }
+
+    public function landingFeatures(Request $request): Response
+    {
+        return Inertia::render('admin/landing/features', [
+            'features' => [],
+        ]);
+    }
+
+    public function landingPricing(Request $request): Response
+    {
+        return Inertia::render('admin/landing/pricing', [
+            'pricing' => [],
+        ]);
+    }
+
+    public function landingTestimonials(Request $request): Response
+    {
+        return Inertia::render('admin/landing/testimonials', [
+            'testimonials' => [],
+        ]);
+    }
+
+    public function pages(Request $request): Response
+    {
+        return Inertia::render('admin/pages/index', [
+            'pages' => [],
+        ]);
+    }
+
+    public function footer(Request $request): Response
+    {
+        return Inertia::render('admin/pages/footer', [
+            'content' => [],
+        ]);
+    }
+
+    public function navigation(Request $request): Response
+    {
+        return Inertia::render('admin/pages/navigation', [
+            'items' => [],
+        ]);
+    }
+
+    public function profitOverview(Request $request): Response
+    {
+        return Inertia::render('admin/profits/overview', [
+            'stats' => [],
+        ]);
+    }
+
+    public function profitFees(Request $request): Response
+    {
+        return Inertia::render('admin/profits/overview', [
+            'fees' => [],
+        ]);
+    }
+
+    public function referralSettings(Request $request): Response
+    {
+        return Inertia::render('admin/referrals/settings', [
+            'settings' => [],
+        ]);
+    }
+
+    public function referralTree(Request $request): Response
+    {
+        return Inertia::render('admin/referrals/tree', [
+            'tree' => [],
+        ]);
+    }
+
+    public function referralCommissions(Request $request): Response
+    {
+        return Inertia::render('admin/referrals/commissions', [
+            'commissions' => [],
+        ]);
+    }
+
+    public function rewardsSettings(Request $request): Response
+    {
+        return Inertia::render('admin/rewards/settings', [
+            'settings' => [],
+        ]);
+    }
+
+    public function rewardTransactions(Request $request): Response
+    {
+        return Inertia::render('admin/rewards/transactions', [
+            'transactions' => [],
+        ]);
+    }
+
+    public function redeemRequests(Request $request): Response
+    {
+        return Inertia::render('admin/rewards/redeem', [
+            'requests' => [],
+        ]);
+    }
+
+    public function portfolioTiers(Request $request): Response
+    {
+        return Inertia::render('admin/portfolio/tiers', [
+            'tiers' => [],
+        ]);
+    }
+
+    public function portfolioBadges(Request $request): Response
+    {
+        return Inertia::render('admin/portfolio/badges', [
+            'badges' => [],
+        ]);
+    }
+
+    public function staff(Request $request): Response
+    {
+        return Inertia::render('admin/staff/index', [
+            'staff' => [],
+        ]);
+    }
+
+    public function createStaff(Request $request): Response
+    {
+        return Inertia::render('admin/staff/create', [
+            'roles' => [],
+        ]);
+    }
+
+    public function roles(Request $request): Response
+    {
+        return Inertia::render('admin/roles/index', [
+            'roles' => [],
+        ]);
+    }
+
+    public function permissions(Request $request): Response
+    {
+        return Inertia::render('admin/roles/permissions', [
+            'permissions' => [],
+        ]);
+    }
+
+    public function themes(Request $request): Response
+    {
+        return Inertia::render('admin/themes/index', [
+            'themes' => [],
+        ]);
+    }
+
+    public function themeSettings(Request $request): Response
+    {
+        return Inertia::render('admin/themes/settings', [
+            'settings' => [],
+        ]);
+    }
+
+    public function notificationsSend(Request $request): Response
+    {
+        return Inertia::render('admin/notifications/send', [
+            'users' => [],
+        ]);
+    }
+
+    public function notificationHistory(Request $request): Response
+    {
+        return Inertia::render('admin/notifications/history', [
+            'notifications' => [],
+        ]);
+    }
+
+    public function notificationTemplates(Request $request): Response
+    {
+        return Inertia::render('admin/notifications/templates', [
+            'templates' => [],
+        ]);
+    }
+
+    public function newsletter(Request $request): Response
+    {
+        return Inertia::render('admin/marketing/newsletter', [
+            'subscribers' => [],
+        ]);
+    }
+
+    public function marketingNewsletter(Request $request): Response
+    {
+        return Inertia::render('admin/marketing/newsletter', [
+            'data' => [],
+        ]);
+    }
+
+    public function fiatCurrencies(Request $request): Response
+    {
+        return Inertia::render('admin/currencies/fiat', [
+            'currencies' => [],
+        ]);
+    }
+
+    public function cryptoCurrencies(Request $request): Response
+    {
+        return Inertia::render('admin/currencies/crypto', [
+            'currencies' => [],
+        ]);
+    }
+
+    public function exchangeRates(Request $request): Response
+    {
+        return Inertia::render('admin/currencies/rates', [
+            'rates' => [],
+        ]);
+    }
 }

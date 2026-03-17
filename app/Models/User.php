@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Banking\BillPayment;
+use App\Models\Banking\Deposit;
 use App\Models\Banking\DpsSubscription;
 use App\Models\Banking\FdrSubscription;
 use App\Models\Banking\Loan;
@@ -11,6 +12,7 @@ use App\Models\Banking\ScheduledPayment;
 use App\Models\Banking\VirtualCard;
 use App\Models\Banking\Wallet;
 use App\Models\Banking\WireTransfer;
+use App\Models\Banking\Withdrawal;
 use App\Models\Ledger\Account;
 use App\Models\Ledger\TransactionEntry;
 use App\Models\Rewards\RewardTransaction;
@@ -256,7 +258,7 @@ class User extends Authenticatable
 
     public function loginHistory(): HasMany
     {
-        return $this->hasMany(LoginHistory::class);
+        return $this->hasMany(AccountStatement::class);
     }
 
     public function getTotalBalance(): float

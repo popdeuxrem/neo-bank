@@ -1,8 +1,9 @@
-import { Link, usePage, router } from "@inertiajs/react";
+import { useState } from 'react'
+import { usePage, Link, router } from "@inertiajs/react";
 import { clsx } from "clsx";
 import { motion, AnimatePresence } from "framer-motion";
 import * as LucideIcons from "lucide-react";
-import { useState, useEffect, createContext, useContext } from "react";
+import { useEffect, createContext, useContext } from "react";
 import { ErrorBoundary } from "@/components/error-boundary";
 
 const Icons = LucideIcons as Record<string, React.ComponentType<{ className?: string }>>;
@@ -50,11 +51,8 @@ const IconComponent = ({ name, className }: { name?: string; className?: string 
   return <Icon className={className} />;
 };
 
-export default function AdminLayout({ children }: AdminLayoutProps) {
-  const { url } = usePage();
-  const { adminPrefix = 'secure-admin' } = usePage().props as any;
-
-  const navigation: NavSection[] = [
+function buildNavigation(adminPrefix: string): NavSection[] {
+  return [
     {
       title: "OVERVIEW",
       items: [
@@ -411,18 +409,27 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       ],
     },
   ];
+}
+
+export default function AdminLayout({ children }: AdminLayoutProps) {
+  const page = usePage();
+  const adminPrefix = (page.props as any).adminPrefix ?? 'secure-admin';
+  const { url } = page;
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>(() => {
+  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({});
+  const [darkMode, setDarkMode] = useState(true);
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  const navigation = buildNavigation(adminPrefix);
+
+  useEffect(() => {
     const initial: Record<string, boolean> = {};
     navigation.forEach((section) => {
       initial[section.title] = section.defaultOpen ?? true;
     });
-
-    return initial;
-  });
-  const [darkMode, setDarkMode] = useState(true);
-  const [searchOpen, setSearchOpen] = useState(false);
+    setExpandedSections(initial);
+  }, [navigation]);
 
   const currentPath = url;
 
@@ -438,7 +445,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     if (href === dashboardPath) {
       return currentPath === dashboardPath;
     }
-
     return currentPath.startsWith(href);
   };
 
@@ -448,13 +454,11 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         e.preventDefault();
         setSearchOpen(true);
       }
-
       if (e.key === "Escape") {
         setSearchOpen(false);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
-
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
@@ -579,7 +583,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                                         <div className="ml-4 mt-1 space-y-1 border-l border-white/10 pl-2">
                                           {item.children?.map((child) => {
                                             const childActive = isActive(child.href);
-
                                             return (
                                               <Link
                                                 key={child.href}
@@ -683,7 +686,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 View Site
               </Link>
               <Link
-                href="/logout"
+                href={`/${adminPrefix}/logout`}
+                method="post"
+                as="button"
                 className="flex items-center justify-center rounded-lg bg-white/5 px-3 py-2 text-slate-300 hover:bg-white/10"
               >
                 <Icons.LogOut className="h-4 w-4" />
@@ -763,7 +768,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           </main>
         </div>
 
-        {/* Mobile Bottom Tab Bar */}
         <nav className="fixed bottom-0 left-0 right-0 z-30 lg:hidden bg-slate-900/95 backdrop-blur-xl border-t border-white/10 flex items-center justify-around px-2 pb-safe pt-2">
           {[
             { icon: "LayoutDashboard", label: "Dashboard", href: `/${adminPrefix}` },

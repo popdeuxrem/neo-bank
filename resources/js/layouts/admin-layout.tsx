@@ -471,8 +471,8 @@ return currentPath === "/admin";
 
         <aside
           className={clsx(
-            "fixed left-0 top-0 z-50 h-screen w-[260px] flex flex-col border-r border-white/10 bg-slate-900/95 backdrop-blur-xl transition-transform duration-300 lg:translate-x-0",
-            sidebarOpen ? "translate-x-0" : "-translate-x-full"
+            "fixed left-0 top-0 z-50 h-screen w-[260px] flex flex-col border-r border-white/10 bg-slate-900/95 backdrop-blur-xl transition-transform duration-300",
+            sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
           )}
         >
           <div className="flex h-16 items-center justify-between border-b border-white/10 px-4">
@@ -752,8 +752,42 @@ return currentPath === "/admin";
             </div>
           </header>
 
-          <main className="p-4 lg:p-8">{children}</main>
+          <main className="p-4 lg:p-8 pb-20 lg:pb-8">{children}</main>
         </div>
+
+        {/* Mobile Bottom Tab Bar */}
+        <nav className="fixed bottom-0 left-0 right-0 z-30 lg:hidden bg-slate-900/95 backdrop-blur-xl border-t border-white/10 flex items-center justify-around px-2 pb-safe pt-2">
+          {[
+            { icon: "LayoutDashboard", label: "Dashboard", href: "/admin" },
+            { icon: "Users", label: "Customers", href: "/admin/customers" },
+            { icon: "ArrowRightLeft", label: "Transfers", href: "/admin/transfers" },
+            { icon: "ShieldCheck", label: "KYC", href: "/admin/kyc" },
+            { icon: "Menu", label: "More", action: () => setSidebarOpen(true) },
+          ].map((item) => {
+            const isActive = item.href ? url === item.href || (item.href !== "/admin" && url.startsWith(item.href)) : false;
+            const IconComponent = Icons[item.icon];
+
+            return (
+              <button
+                key={item.label}
+                onClick={() => {
+                  if (item.action) {
+                    item.action();
+                  } else if (item.href) {
+                    window.location.href = item.href;
+                  }
+                }}
+                className={clsx(
+                  "flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all min-w-0",
+                  isActive ? "text-indigo-400" : "text-slate-500 hover:text-slate-300"
+                )}
+              >
+                <IconComponent className="w-5 h-5 flex-shrink-0" />
+                <span className="text-xs font-medium truncate">{item.label}</span>
+              </button>
+            );
+          })}
+        </nav>
 
         <AnimatePresence>
           {searchOpen && (

@@ -41,7 +41,30 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'name' => config('app.name'),
             'auth' => [
-                'user' => $user,
+                'user' => $user ? [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'phone' => $user->phone,
+                    'avatar' => $user->avatar,
+                    'account_status' => $user->account_status,
+                    'kyc_status' => $user->kyc_status,
+                    'preferred_currency' => $user->preferred_currency,
+                    'preferred_language' => $user->preferred_language,
+                    'theme_preference' => $user->theme_preference,
+                    'notification_sound_enabled' => $user->notification_sound_enabled,
+                    'roles' => $user->getRoleNames(),
+                    'isAdmin' => $user->hasAnyRole(['admin', 'auditor', 'staff']),
+                    'isImpersonating' => session()->has(
+                        config('admin.impersonation_session_key')
+                    ),
+                ] : null,
+            ],
+            'adminPrefix' => config('admin.prefix'),
+            'flash' => [
+                'success' => session('success'),
+                'error' => session('error'),
+                'info' => session('info'),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'onboarding' => [

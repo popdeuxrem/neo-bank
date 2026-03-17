@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -85,5 +86,71 @@ class SettingsController extends Controller
     public function updateSeo(Request $request): JsonResponse
     {
         return response()->json(['message' => 'SEO settings updated']);
+    }
+
+    public function security(): Response
+    {
+        return Inertia::render('admin/settings/security');
+    }
+
+    public function updateSecurity(Request $request): JsonResponse
+    {
+        return response()->json(['message' => 'Security settings updated']);
+    }
+
+    public function adminUrl(): Response
+    {
+        return Inertia::render('admin/settings/admin-url', [
+            'currentPrefix' => config('admin.prefix'),
+        ]);
+    }
+
+    public function updateAdminUrl(Request $request)
+    {
+        $validated = $request->validate([
+            'prefix' => [
+                'required',
+                'string',
+                'min:4',
+                'max:30',
+                'regex:/^[a-z0-9\-]+$/',
+                'not_in:api,login,logout,register,dashboard,app,assets,public,storage',
+            ],
+            'current_prefix_confirm' => [
+                'required',
+                function ($attr, $value, $fail) {
+                    if ($value !== config('admin.prefix')) {
+                        $fail('Confirmation does not match current prefix.');
+                    }
+                },
+            ],
+        ]);
+
+        $this->updateEnvValue('ADMIN_URL_PREFIX', $validated['prefix']);
+
+        Artisan::call('config:clear');
+        Artisan::call('route:clear');
+
+        $newAdminUrl = url($validated['prefix']);
+
+        return Inertia::location($newAdminUrl.'/settings/admin-url');
+    }
+
+    private function updateEnvValue(string $key, string $value): void
+    {
+        $path = base_path('.env');
+        $content = file_get_contents($path);
+
+        if (str_contains($content, "{$key}=")) {
+            $content = preg_replace(
+                "/^{$key}=.*/m",
+                "{$key}={$value}",
+                $content
+            );
+        } else {
+            $content .= "\n{$key}={$value}";
+        }
+
+        file_put_contents($path, $content);
     }
 }

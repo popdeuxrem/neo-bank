@@ -8,16 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // Wallets
-        Schema::create('wallets', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->decimal('balance', 20, 2)->default(0);
-            $table->string('currency', 3)->default('USD');
-            $table->string('status', 20)->default('active');
-            $table->timestamps();
-            $table->unique(['user_id', 'currency']);
-        });
+        // ======== PHASE 1: TABLES WITH NO FK TO NEW TABLES ========
 
         // Wire Transfers
         Schema::create('wire_transfers', function (Blueprint $table) {
@@ -73,33 +64,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // DPS Subscriptions
-        Schema::create('dps_subscriptions', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('plan_id')->constrained('dps_plans')->onDelete('cascade');
-            $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('set null');
-            $table->decimal('monthly_amount', 20, 2);
-            $table->date('start_date');
-            $table->date('maturity_date');
-            $table->decimal('total_deposited', 20, 2)->default(0);
-            $table->decimal('interest_earned', 20, 2)->default(0);
-            $table->string('status', 20)->default('active');
-            $table->timestamps();
-        });
-
-        // DPS Installments
-        Schema::create('dps_installments', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('subscription_id')->constrained('dps_subscriptions')->onDelete('cascade');
-            $table->integer('installment_number');
-            $table->date('due_date');
-            $table->decimal('amount', 20, 2);
-            $table->dateTime('paid_at')->nullable();
-            $table->string('status', 20)->default('pending');
-            $table->timestamps();
-        });
-
         // FDR Plans
         Schema::create('fdr_plans', function (Blueprint $table) {
             $table->id();
@@ -111,24 +75,6 @@ return new class extends Migration
             $table->string('compounding_frequency', 20)->default('monthly');
             $table->decimal('early_withdrawal_penalty', 5, 2)->default(0);
             $table->text('description')->nullable();
-            $table->string('status', 20)->default('active');
-            $table->timestamps();
-        });
-
-        // FDR Subscriptions
-        Schema::create('fdr_subscriptions', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('plan_id')->constrained('fdr_plans')->onDelete('cascade');
-            $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('set null');
-            $table->decimal('principal', 20, 2);
-            $table->decimal('interest_rate', 5, 2);
-            $table->integer('duration_months');
-            $table->string('compounding_frequency', 20)->default('monthly');
-            $table->date('start_date');
-            $table->date('maturity_date');
-            $table->decimal('current_value', 20, 2)->default(0);
-            $table->decimal('interest_earned', 20, 2)->default(0);
             $table->string('status', 20)->default('active');
             $table->timestamps();
         });
@@ -147,41 +93,6 @@ return new class extends Migration
             $table->boolean('collateral_required')->default(false);
             $table->text('description')->nullable();
             $table->string('status', 20)->default('active');
-            $table->timestamps();
-        });
-
-        // Loans
-        Schema::create('loans', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('plan_id')->constrained('loan_plans')->onDelete('cascade');
-            $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('set null');
-            $table->decimal('amount', 20, 2);
-            $table->decimal('interest_rate', 5, 2);
-            $table->integer('duration_months');
-            $table->decimal('emi_amount', 20, 2);
-            $table->decimal('total_payable', 20, 2);
-            $table->decimal('total_paid', 20, 2)->default(0);
-            $table->text('purpose')->nullable();
-            $table->string('employment_type', 50)->nullable();
-            $table->decimal('monthly_income', 20, 2)->nullable();
-            $table->string('status', 20)->default('pending');
-            $table->dateTime('disbursed_at')->nullable();
-            $table->timestamps();
-        });
-
-        // Loan EMIs
-        Schema::create('loan_emis', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('loan_id')->constrained('loans')->onDelete('cascade');
-            $table->integer('month');
-            $table->date('due_date');
-            $table->decimal('emi_amount', 20, 2);
-            $table->decimal('principal_amount', 20, 2);
-            $table->decimal('interest_amount', 20, 2);
-            $table->decimal('late_fee', 10, 2)->default(0);
-            $table->dateTime('paid_at')->nullable();
-            $table->string('status', 20)->default('pending');
             $table->timestamps();
         });
 
@@ -218,7 +129,152 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Bill Providers
+        // Badges
+        Schema::create('badges', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->string('icon', 50)->nullable();
+            $table->json('criteria')->nullable();
+            $table->timestamps();
+        });
+
+        // Reward Settings
+        Schema::create('reward_settings', function (Blueprint $table) {
+            $table->id();
+            $table->string('type', 50)->unique();
+            $table->integer('points')->default(0);
+            $table->string('calculation_type', 20)->default('fixed');
+            $table->integer('per_amount_unit')->nullable();
+            $table->decimal('percentage', 5, 2)->nullable();
+            $table->boolean('enabled')->default(true);
+            $table->timestamps();
+        });
+
+        // Deposit Methods (MUST be before deposits)
+        Schema::create('deposit_methods', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('type', 20);
+            $table->json('currencies');
+            $table->decimal('min_amount', 20, 2);
+            $table->decimal('max_amount', 20, 2);
+            $table->json('fee_structure')->nullable();
+            $table->string('processing_time')->nullable();
+            $table->text('instructions')->nullable();
+            $table->string('icon', 50)->nullable();
+            $table->string('status', 20)->default('active');
+            $table->timestamps();
+        });
+
+        // Withdrawal Methods (MUST be before withdrawals)
+        Schema::create('withdrawal_methods', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('type', 20);
+            $table->json('currencies');
+            $table->decimal('min_amount', 20, 2);
+            $table->decimal('max_amount', 20, 2);
+            $table->json('fee_structure')->nullable();
+            $table->string('processing_time')->nullable();
+            $table->json('required_fields')->nullable();
+            $table->string('status', 20)->default('active');
+            $table->timestamps();
+        });
+
+        // Ticket Categories (MUST be before support_tickets)
+        Schema::create('ticket_categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->string('color', 7)->nullable();
+            $table->integer('order')->default(0);
+            $table->timestamps();
+        });
+
+        // ======== PHASE 2: TABLES THAT REFERENCE PHASE 1 TABLES ========
+
+        // DPS Subscriptions (references dps_plans)
+        Schema::create('dps_subscriptions', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('plan_id')->constrained('dps_plans')->onDelete('cascade');
+            $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('set null');
+            $table->decimal('monthly_amount', 20, 2);
+            $table->date('start_date');
+            $table->date('maturity_date');
+            $table->decimal('total_deposited', 20, 2)->default(0);
+            $table->decimal('interest_earned', 20, 2)->default(0);
+            $table->string('status', 20)->default('active');
+            $table->timestamps();
+        });
+
+        // DPS Installments (references dps_subscriptions)
+        Schema::create('dps_installments', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('subscription_id')->constrained('dps_subscriptions')->onDelete('cascade');
+            $table->integer('installment_number');
+            $table->date('due_date');
+            $table->decimal('amount', 20, 2);
+            $table->dateTime('paid_at')->nullable();
+            $table->string('status', 20)->default('pending');
+            $table->timestamps();
+        });
+
+        // FDR Subscriptions (references fdr_plans)
+        Schema::create('fdr_subscriptions', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('plan_id')->constrained('fdr_plans')->onDelete('cascade');
+            $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('set null');
+            $table->decimal('principal', 20, 2);
+            $table->decimal('interest_rate', 5, 2);
+            $table->integer('duration_months');
+            $table->string('compounding_frequency', 20)->default('monthly');
+            $table->date('start_date');
+            $table->date('maturity_date');
+            $table->decimal('current_value', 20, 2)->default(0);
+            $table->decimal('interest_earned', 20, 2)->default(0);
+            $table->string('status', 20)->default('active');
+            $table->timestamps();
+        });
+
+        // Loans (references loan_plans)
+        Schema::create('loans', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('plan_id')->constrained('loan_plans')->onDelete('cascade');
+            $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('set null');
+            $table->decimal('amount', 20, 2);
+            $table->decimal('interest_rate', 5, 2);
+            $table->integer('duration_months');
+            $table->decimal('emi_amount', 20, 2);
+            $table->decimal('total_payable', 20, 2);
+            $table->decimal('total_paid', 20, 2)->default(0);
+            $table->text('purpose')->nullable();
+            $table->string('employment_type', 50)->nullable();
+            $table->decimal('monthly_income', 20, 2)->nullable();
+            $table->string('status', 20)->default('pending');
+            $table->dateTime('disbursed_at')->nullable();
+            $table->timestamps();
+        });
+
+        // Loan EMIs (references loans)
+        Schema::create('loan_emis', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('loan_id')->constrained('loans')->onDelete('cascade');
+            $table->integer('month');
+            $table->date('due_date');
+            $table->decimal('emi_amount', 20, 2);
+            $table->decimal('principal_amount', 20, 2);
+            $table->decimal('interest_amount', 20, 2);
+            $table->decimal('late_fee', 10, 2)->default(0);
+            $table->dateTime('paid_at')->nullable();
+            $table->string('status', 20)->default('pending');
+            $table->timestamps();
+        });
+
+        // Bill Providers (references bill_categories)
         Schema::create('bill_providers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')->constrained('bill_categories')->onDelete('cascade');
@@ -231,7 +287,82 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Bill Payments
+        // User Badges (references badges)
+        Schema::create('user_badges', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('badge_id')->constrained('badges')->onDelete('cascade');
+            $table->dateTime('earned_at');
+            $table->timestamps();
+            $table->unique(['user_id', 'badge_id']);
+        });
+
+        // Deposits (references deposit_methods)
+        Schema::create('deposits', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('method_id')->nullable()->constrained('deposit_methods')->onDelete('set null');
+            $table->decimal('amount', 20, 2);
+            $table->string('currency', 3)->default('USD');
+            $table->decimal('fee', 10, 2)->default(0);
+            $table->string('status', 20)->default('pending');
+            $table->string('proof_path', 255)->nullable();
+            $table->string('reference', 50)->nullable();
+            $table->text('notes')->nullable();
+            $table->timestamps();
+        });
+
+        // Withdrawals (references withdrawal_methods)
+        Schema::create('withdrawals', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('method_id')->nullable()->constrained('withdrawal_methods')->onDelete('set null');
+            $table->decimal('amount', 20, 2);
+            $table->string('currency', 3)->default('USD');
+            $table->decimal('fee', 10, 2)->default(0);
+            $table->decimal('net_amount', 20, 2);
+            $table->json('account_details');
+            $table->string('status', 20)->default('pending');
+            $table->text('failure_reason')->nullable();
+            $table->timestamps();
+        });
+
+        // Support Tickets (references ticket_categories)
+        Schema::create('support_tickets', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('subject');
+            $table->foreignId('category_id')->nullable()->constrained('ticket_categories')->onDelete('set null');
+            $table->string('priority', 20)->default('medium');
+            $table->string('status', 20)->default('open');
+            $table->timestamps();
+        });
+
+        // Ticket Messages (references support_tickets)
+        Schema::create('ticket_messages', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('ticket_id')->constrained('support_tickets')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->text('message');
+            $table->json('attachments')->nullable();
+            $table->boolean('is_admin')->default(false);
+            $table->timestamps();
+        });
+
+        // ======== PHASE 3: TABLES WITH NO FK OR FK TO EXISTING TABLES ========
+
+        // Wallets (references users - from earlier migrations)
+        Schema::create('wallets', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->decimal('balance', 20, 2)->default(0);
+            $table->string('currency', 3)->default('USD');
+            $table->string('status', 20)->default('active');
+            $table->timestamps();
+            $table->unique(['user_id', 'currency']);
+        });
+
+        // Bill Payments (references bill_providers)
         Schema::create('bill_payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
@@ -269,26 +400,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Badges
-        Schema::create('badges', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->string('icon', 50)->nullable();
-            $table->json('criteria')->nullable();
-            $table->timestamps();
-        });
-
-        // User Badges
-        Schema::create('user_badges', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('badge_id')->constrained('badges')->onDelete('cascade');
-            $table->dateTime('earned_at');
-            $table->timestamps();
-            $table->unique(['user_id', 'badge_id']);
-        });
-
         // User Rewards
         Schema::create('user_rewards', function (Blueprint $table) {
             $table->id();
@@ -308,18 +419,6 @@ return new class extends Migration
             $table->string('reason', 100)->nullable();
             $table->decimal('reference_amount', 20, 2)->nullable();
             $table->decimal('cash_value', 20, 2)->nullable();
-            $table->timestamps();
-        });
-
-        // Reward Settings
-        Schema::create('reward_settings', function (Blueprint $table) {
-            $table->id();
-            $table->string('type', 50)->unique();
-            $table->integer('points')->default(0);
-            $table->string('calculation_type', 20)->default('fixed');
-            $table->integer('per_amount_unit')->nullable();
-            $table->decimal('percentage', 5, 2)->nullable();
-            $table->boolean('enabled')->default(true);
             $table->timestamps();
         });
 
@@ -349,99 +448,6 @@ return new class extends Migration
             $table->string('country', 2)->nullable();
             $table->string('swift', 11)->nullable();
             $table->string('iban', 50)->nullable();
-            $table->timestamps();
-        });
-
-        // Deposit Methods (must create before deposits)
-        Schema::create('deposit_methods', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('type', 20);
-            $table->json('currencies');
-            $table->decimal('min_amount', 20, 2);
-            $table->decimal('max_amount', 20, 2);
-            $table->json('fee_structure')->nullable();
-            $table->string('processing_time')->nullable();
-            $table->text('instructions')->nullable();
-            $table->string('icon', 50)->nullable();
-            $table->string('status', 20)->default('active');
-            $table->timestamps();
-        });
-
-        // Withdrawal Methods (must create before withdrawals)
-        Schema::create('withdrawal_methods', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('type', 20);
-            $table->json('currencies');
-            $table->decimal('min_amount', 20, 2);
-            $table->decimal('max_amount', 20, 2);
-            $table->json('fee_structure')->nullable();
-            $table->string('processing_time')->nullable();
-            $table->json('required_fields')->nullable();
-            $table->string('status', 20)->default('active');
-            $table->timestamps();
-        });
-
-        // Ticket Categories (must create before support_tickets)
-        Schema::create('ticket_categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->string('color', 7)->nullable();
-            $table->integer('order')->default(0);
-            $table->timestamps();
-        });
-
-        // Deposits
-        Schema::create('deposits', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('method_id')->nullable()->constrained('deposit_methods')->onDelete('set null');
-            $table->decimal('amount', 20, 2);
-            $table->string('currency', 3)->default('USD');
-            $table->decimal('fee', 10, 2)->default(0);
-            $table->string('status', 20)->default('pending');
-            $table->string('proof_path', 255)->nullable();
-            $table->string('reference', 50)->nullable();
-            $table->text('notes')->nullable();
-            $table->timestamps();
-        });
-
-        // Withdrawals
-        Schema::create('withdrawals', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('method_id')->nullable()->constrained('withdrawal_methods')->onDelete('set null');
-            $table->decimal('amount', 20, 2);
-            $table->string('currency', 3)->default('USD');
-            $table->decimal('fee', 10, 2)->default(0);
-            $table->decimal('net_amount', 20, 2);
-            $table->json('account_details');
-            $table->string('status', 20)->default('pending');
-            $table->text('failure_reason')->nullable();
-            $table->timestamps();
-        });
-
-        // Support Tickets
-        Schema::create('support_tickets', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('subject');
-            $table->foreignId('category_id')->nullable()->constrained('ticket_categories')->onDelete('set null');
-            $table->string('priority', 20)->default('medium');
-            $table->string('status', 20)->default('open');
-            $table->timestamps();
-        });
-
-        // Ticket Messages
-        Schema::create('ticket_messages', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('ticket_id')->constrained('support_tickets')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->text('message');
-            $table->json('attachments')->nullable();
-            $table->boolean('is_admin')->default(false);
             $table->timestamps();
         });
 
@@ -507,30 +513,33 @@ return new class extends Migration
 
     public function down(): void
     {
+        // Drop in REVERSE order (children before parents)
+
+        // Phase 3 tables
         Schema::dropIfExists('scheduled_notifications');
         Schema::dropIfExists('login_history');
         Schema::dropIfExists('account_statements');
         Schema::dropIfExists('budgets');
-        Schema::dropIfExists('ticket_categories');
-        Schema::dropIfExists('ticket_messages');
-        Schema::dropIfExists('support_tickets');
-        Schema::dropIfExists('withdrawal_methods');
-        Schema::dropIfExists('deposit_methods');
-        Schema::dropIfExists('withdrawals');
-        Schema::dropIfExists('deposits');
         Schema::dropIfExists('saved_recipients');
         Schema::dropIfExists('referral_commissions');
         Schema::dropIfExists('reward_settings');
         Schema::dropIfExists('reward_transactions');
         Schema::dropIfExists('user_rewards');
-        Schema::dropIfExists('user_badges');
-        Schema::dropIfExists('badges');
-        Schema::dropIfExists('user_portfolios');
         Schema::dropIfExists('money_requests');
         Schema::dropIfExists('bill_payments');
+        Schema::dropIfExists('wallets');
+
+        // Phase 2 tables (have FK references)
+        Schema::dropIfExists('ticket_messages');
+        Schema::dropIfExists('support_tickets');
+        Schema::dropIfExists('ticket_categories');
+        Schema::dropIfExists('withdrawals');
+        Schema::dropIfExists('withdrawal_methods');
+        Schema::dropIfExists('deposits');
+        Schema::dropIfExists('deposit_methods');
+        Schema::dropIfExists('user_badges');
         Schema::dropIfExists('bill_providers');
         Schema::dropIfExists('bill_categories');
-        Schema::dropIfExists('virtual_cards');
         Schema::dropIfExists('loan_emis');
         Schema::dropIfExists('loans');
         Schema::dropIfExists('loan_plans');
@@ -539,8 +548,9 @@ return new class extends Migration
         Schema::dropIfExists('dps_installments');
         Schema::dropIfExists('dps_subscriptions');
         Schema::dropIfExists('dps_plans');
+        Schema::dropIfExists('badges');
+        Schema::dropIfExists('virtual_cards');
         Schema::dropIfExists('scheduled_payments');
         Schema::dropIfExists('wire_transfers');
-        Schema::dropIfExists('wallets');
     }
 };

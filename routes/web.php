@@ -260,8 +260,112 @@ Route::middleware(['auth', 'verified', 'not.suspended'])->group(function () {
         // Stop impersonating
         Route::post('/stop-impersonating', [CustomerController::class, 'stopImpersonating'])->name('stop-impersonating');
 
+        // Profits
+        Route::get('/profits/overview', [AdminController::class, 'profitOverview'])->name('profits.overview');
+        Route::get('/profits/fees', [AdminController::class, 'profitFees'])->name('profits.fees');
+
+        // Transfers
+        Route::get('/transfers', [AdminController::class, 'transfers'])->name('transfers.index');
+        Route::get('/transfers/manual', [AdminController::class, 'manualTransfer'])->name('transfers.manual');
+        Route::get('/transfers/settings', [AdminController::class, 'transferSettings'])->name('transfers.settings');
+
+        // Wire Transfers
+        Route::get('/wire', [AdminController::class, 'wireTransfers'])->name('wire.index');
+        Route::get('/wire/settings', [AdminController::class, 'wireSettings'])->name('wire.settings');
+
+        // Deposits
+        Route::get('/deposits', [AdminController::class, 'deposits'])->name('deposits.index');
+        Route::get('/deposits/pending', [AdminController::class, 'pendingDeposits'])->name('deposits.pending');
+        Route::get('/deposits/methods', [AdminController::class, 'depositMethods'])->name('deposits.methods');
+
+        // Withdrawals
+        Route::get('/withdrawals', [AdminController::class, 'withdrawals'])->name('withdrawals.index');
+        Route::get('/withdrawals/pending', [AdminController::class, 'pendingWithdrawals'])->name('withdrawals.pending');
+        Route::get('/withdrawals/methods', [AdminController::class, 'withdrawalMethods'])->name('withdrawals.methods');
+
+        // DPS
+        Route::get('/dps/plans', [AdminController::class, 'dpsPlans'])->name('dps.plans');
+        Route::get('/dps/subscriptions', [AdminController::class, 'dpsSubscriptions'])->name('dps.subscriptions');
+
+        // FDR
+        Route::get('/fdr/plans', [AdminController::class, 'fdrPlans'])->name('fdr.plans');
+        Route::get('/fdr/subscriptions', [AdminController::class, 'fdrSubscriptions'])->name('fdr.subscriptions');
+        Route::get('/fdr/compounding', [AdminController::class, 'fdrCompounding'])->name('fdr.compounding');
+
+        // Loans
+        Route::get('/loans/plans', [AdminController::class, 'loanPlans'])->name('loans.plans');
+        Route::get('/loans/applications', [AdminController::class, 'loanApplications'])->name('loans.applications');
+        Route::get('/loans/active', [AdminController::class, 'activeLoans'])->name('loans.active');
+        Route::get('/loans/overdue', [AdminController::class, 'overdueLoans'])->name('loans.overdue');
+
+        // Bills
+        Route::get('/bills/transactions', [AdminController::class, 'billTransactions'])->name('bills.transactions');
+        Route::get('/bills/providers', [AdminController::class, 'billProviders'])->name('bills.providers');
+        Route::get('/bills/categories', [AdminController::class, 'billCategories'])->name('bills.categories');
+
+        // Portfolio
+        Route::get('/portfolio/tiers', [AdminController::class, 'portfolioTiers'])->name('portfolio.tiers');
+        Route::get('/portfolio/badges', [AdminController::class, 'portfolioBadges'])->name('portfolio.badges');
+
+        // Rewards
+        Route::get('/rewards/settings', [AdminController::class, 'rewardsSettings'])->name('rewards.settings');
+        Route::get('/rewards/transactions', [AdminController::class, 'rewardTransactions'])->name('rewards.transactions');
+        Route::get('/rewards/redeem', [AdminController::class, 'redeemRequests'])->name('rewards.redeem');
+
+        // Referrals
+        Route::get('/referrals/settings', [AdminController::class, 'referralSettings'])->name('referrals.settings');
+        Route::get('/referrals/tree', [AdminController::class, 'referralTree'])->name('referrals.tree');
+        Route::get('/referrals/commissions', [AdminController::class, 'referralCommissions'])->name('referrals.commissions');
+
+        // Gateways
+        Route::get('/gateways', [AdminController::class, 'gateways'])->name('gateways.index');
+        Route::get('/gateways/logs', [AdminController::class, 'gatewayLogs'])->name('gateways.logs');
+
+        // Currencies
+        Route::get('/currencies/fiat', [AdminController::class, 'fiatCurrencies'])->name('currencies.fiat');
+        Route::get('/currencies/crypto', [AdminController::class, 'cryptoCurrencies'])->name('currencies.crypto');
+        Route::get('/currencies/rates', [AdminController::class, 'exchangeRates'])->name('currencies.rates');
+
+        // Landing
+        Route::get('/landing/hero', [AdminController::class, 'landingHero'])->name('landing.hero');
+        Route::get('/landing/features', [AdminController::class, 'landingFeatures'])->name('landing.features');
+        Route::get('/landing/pricing', [AdminController::class, 'landingPricing'])->name('landing.pricing');
+        Route::get('/landing/testimonials', [AdminController::class, 'landingTestimonials'])->name('landing.testimonials');
+
+        // Pages
+        Route::get('/pages', [AdminController::class, 'pages'])->name('pages.index');
+        Route::get('/pages/navigation', [AdminController::class, 'navigation'])->name('pages.navigation');
+        Route::get('/pages/footer', [AdminController::class, 'footer'])->name('pages.footer');
+
+        // Themes
+        Route::get('/themes', [AdminController::class, 'themes'])->name('themes.index');
+        Route::get('/themes/settings', [AdminController::class, 'themeSettings'])->name('themes.settings');
+
+        // Marketing
+        Route::get('/marketing/newsletter', [AdminController::class, 'newsletter'])->name('marketing.newsletter');
+
+        // Notifications
+        Route::get('/notifications/send', [AdminController::class, 'sendNotification'])->name('notifications.send');
+        Route::get('/notifications/history', [AdminController::class, 'notificationHistory'])->name('notifications.history');
+        Route::get('/notifications/templates', [AdminController::class, 'notificationTemplates'])->name('notifications.templates');
+
+        // Staff
+        Route::get('/staff', [AdminController::class, 'staff'])->name('staff.index');
+        Route::get('/staff/create', [AdminController::class, 'createStaff'])->name('staff.create');
+
+        // Roles
+        Route::get('/roles', [AdminController::class, 'roles'])->name('roles.index');
+        Route::get('/roles/permissions', [AdminController::class, 'permissions'])->name('roles.permissions');
+
+        // KYC
+        Route::get('/kyc/approved', [AdminController::class, 'kycApproved'])->name('kyc.approved');
+        Route::get('/kyc/rejected', [AdminController::class, 'kycRejected'])->name('kyc.rejected');
+        Route::get('/kyc/settings', [AdminController::class, 'kycSettings'])->name('kyc.settings');
+
         // System
         Route::get('/system/info', [HealthController::class, 'info'])->name('system.info');
+        Route::post('/system/cache/clear', [HealthController::class, 'clearCache'])->name('system.cache.clear');
+        Route::post('/system/queue/restart', [HealthController::class, 'restartQueue'])->name('system.queue.restart');
         Route::post('/system/cache/clear', [HealthController::class, 'clearCache'])->name('system.cache.clear');
         Route::post('/system/queue/restart', [HealthController::class, 'restartQueue'])->name('system.queue.restart');
 

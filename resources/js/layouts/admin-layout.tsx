@@ -519,81 +519,135 @@ return currentPath === "/admin";
                         {section.items.map((item) => {
                           const active = isActive(item.href);
                           const hasChildren = item.children && item.children.length > 0;
+                          const [dropdownOpen, setDropdownOpen] = useState(false);
 
                           return (
                             <div key={item.href}>
-                              <Link
-                                href={item.href}
-                                className={clsx(
-                                  "group flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium transition-all",
-                                  active
-                                    ? "bg-indigo-500/20 text-indigo-400"
-                                    : "text-slate-400 hover:bg-white/5 hover:text-white"
-                                )}
-                                onClick={() => setSidebarOpen(false)}
-                              >
-                                <div className="flex items-center gap-3">
-                                  <IconComponent 
-                                    name={item.icon} 
+                              {hasChildren ? (
+                                <>
+                                  <button
+                                    onClick={() => setDropdownOpen(!dropdownOpen)}
                                     className={clsx(
-                                      "h-5 w-5",
-                                      active ? "text-indigo-400" : "text-slate-500 group-hover:text-white"
+                                      "group flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium transition-all",
+                                      active
+                                        ? "bg-indigo-500/20 text-indigo-400"
+                                        : "text-slate-400 hover:bg-white/5 hover:text-white"
                                     )}
-                                  />
-                                  <span>{item.label}</span>
-                                </div>
-                                {item.badge !== undefined && item.badge > 0 && (
-                                  <span className={clsx(
-                                    "flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-xs font-semibold",
-                                    item.badgeType === 'danger' ? "bg-rose-500/20 text-rose-400" :
-                                    item.badgeType === 'warning' ? "bg-amber-500/20 text-amber-400" :
-                                    "bg-indigo-500/20 text-indigo-400"
-                                  )}>
-                                    {item.badge}
-                                  </span>
-                                )}
-                              </Link>
-                              {hasChildren && active && (
-                                <div className="ml-4 mt-1 space-y-1 border-l border-white/10 pl-2">
-                                  {item.children?.map((child) => {
-                                    const childActive = isActive(child.href);
-
-                                    return (
-                                      <Link
-                                        key={child.href}
-                                        href={child.href}
+                                  >
+                                    <div className="flex items-center gap-3">
+                                      <IconComponent 
+                                        name={item.icon} 
                                         className={clsx(
-                                          "group flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-all",
-                                          childActive
-                                            ? "bg-indigo-500/20 text-indigo-400"
-                                            : "text-slate-400 hover:bg-white/5 hover:text-white"
+                                          "h-5 w-5",
+                                          active ? "text-indigo-400" : "text-slate-500 group-hover:text-white"
                                         )}
-                                        onClick={() => setSidebarOpen(false)}
+                                      />
+                                      <span>{item.label}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                      {item.badge !== undefined && item.badge > 0 && (
+                                        <span className={clsx(
+                                          "flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-xs font-semibold",
+                                          item.badgeType === 'danger' ? "bg-rose-500/20 text-rose-400" :
+                                          item.badgeType === 'warning' ? "bg-amber-500/20 text-amber-400" :
+                                          "bg-indigo-500/20 text-indigo-400"
+                                        )}>
+                                          {item.badge}
+                                        </span>
+                                      )}
+                                      <motion.span
+                                        animate={{ rotate: dropdownOpen ? 90 : 0 }}
+                                        transition={{ duration: 0.2 }}
                                       >
-                                        <div className="flex items-center gap-3">
-                                          <IconComponent 
-                                            name={child.icon} 
-                                            className={clsx(
-                                              "h-4 w-4",
-                                              childActive ? "text-indigo-400" : "text-slate-500 group-hover:text-white"
-                                            )}
-                                          />
-                                          <span>{child.label}</span>
+                                        <Icons.ChevronRight className="h-4 w-4" />
+                                      </motion.span>
+                                    </div>
+                                  </button>
+                                  <AnimatePresence>
+                                    {(dropdownOpen || active) && (
+                                      <motion.div
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{ height: "auto", opacity: 1 }}
+                                        exit={{ height: 0, opacity: 0 }}
+                                        transition={{ duration: 0.2 }}
+                                        className="overflow-hidden"
+                                      >
+                                        <div className="ml-4 mt-1 space-y-1 border-l border-white/10 pl-2">
+                                          {item.children?.map((child) => {
+                                            const childActive = isActive(child.href);
+
+                                            return (
+                                              <Link
+                                                key={child.href}
+                                                href={child.href}
+                                                className={clsx(
+                                                  "group flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-all",
+                                                  childActive
+                                                    ? "bg-indigo-500/20 text-indigo-400"
+                                                    : "text-slate-400 hover:bg-white/5 hover:text-white"
+                                                )}
+                                                onClick={() => setSidebarOpen(false)}
+                                              >
+                                                <div className="flex items-center gap-3">
+                                                  <IconComponent 
+                                                    name={child.icon} 
+                                                    className={clsx(
+                                                      "h-4 w-4",
+                                                      childActive ? "text-indigo-400" : "text-slate-500 group-hover:text-white"
+                                                    )}
+                                                  />
+                                                  <span>{child.label}</span>
+                                                </div>
+                                                {child.badge !== undefined && child.badge > 0 && (
+                                                  <span className={clsx(
+                                                    "flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-xs font-semibold",
+                                                    child.badgeType === 'danger' ? "bg-rose-500/20 text-rose-400" :
+                                                    child.badgeType === 'warning' ? "bg-amber-500/20 text-amber-400" :
+                                                    "bg-indigo-500/20 text-indigo-400"
+                                                  )}>
+                                                    {child.badge}
+                                                  </span>
+                                                )}
+                                              </Link>
+                                            );
+                                          })}
                                         </div>
-                                        {child.badge !== undefined && child.badge > 0 && (
-                                          <span className={clsx(
-                                            "flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-xs font-semibold",
-                                            child.badgeType === 'danger' ? "bg-rose-500/20 text-rose-400" :
-                                            child.badgeType === 'warning' ? "bg-amber-500/20 text-amber-400" :
-                                            "bg-indigo-500/20 text-indigo-400"
-                                          )}>
-                                            {child.badge}
-                                          </span>
-                                        )}
-                                      </Link>
-                                    );
-                                  })}
-                                </div>
+                                      </motion.div>
+                                    )}
+                                  </AnimatePresence>
+                                </>
+                              ) : (
+                                <Link
+                                  href={item.href}
+                                  className={clsx(
+                                    "group flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium transition-all",
+                                    active
+                                      ? "bg-indigo-500/20 text-indigo-400"
+                                      : "text-slate-400 hover:bg-white/5 hover:text-white"
+                                  )}
+                                  onClick={() => setSidebarOpen(false)}
+                                >
+                                  <div className="flex items-center gap-3">
+                                    <IconComponent 
+                                      name={item.icon} 
+                                      className={clsx(
+                                        "h-5 w-5",
+                                        active ? "text-indigo-400" : "text-slate-500 group-hover:text-white"
+                                      )}
+                                    />
+                                    <span>{item.label}</span>
+                                  </div>
+                                  {item.badge !== undefined && item.badge > 0 && (
+                                    <span className={clsx(
+                                      "flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-xs font-semibold",
+                                      item.badgeType === 'danger' ? "bg-rose-500/20 text-rose-400" :
+                                      item.badgeType === 'warning' ? "bg-amber-500/20 text-amber-400" :
+                                      "bg-indigo-500/20 text-indigo-400"
+                                    )}>
+                                      {item.badge}
+                                    </span>
+                                  )}
+                                </Link>
                               )}
                             </div>
                           );

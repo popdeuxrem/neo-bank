@@ -18,8 +18,12 @@ return Application::configure(basePath: dirname(__DIR__))
         channels: __DIR__.'/../routes/channels.php',
         then: function () {
             require base_path('routes/admin.php');
-            require base_path('routes/auth.php');
-            require base_path('routes/settings.php');
+            if (file_exists(base_path('routes/auth.php'))) {
+                require base_path('routes/auth.php');
+            }
+            if (file_exists(base_path('routes/settings.php'))) {
+                require base_path('routes/settings.php');
+            }
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {

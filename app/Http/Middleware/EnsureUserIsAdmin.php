@@ -10,14 +10,20 @@ class EnsureUserIsAdmin
     public function handle(Request $request, Closure $next)
     {
         if (! $request->user()) {
-            $prefix = config('admin.prefix');
+            $prefix = config('admin.prefix', 'secure-admin');
 
             return redirect("/{$prefix}/login");
         }
 
-        if (! $request->user()->hasAnyRole([
-            'admin', 'auditor', 'staff', 'manager',
-        ])) {
+        try {
+            $hasRole = $request->user()->hasAnyRole([
+                'admin', 'auditor', 'staff', 'manager',
+            ]);
+        } catch (\Exception $e) {
+            $hasRole = false;
+        }
+
+        if (! $hasRole) {
             abort(403, 'Access denied.');
         }
 

@@ -37,6 +37,18 @@ class HandleInertiaRequests extends Middleware
     {
         $user = $request->user();
 
+        $roles = [];
+        $isAdmin = false;
+
+        try {
+            if ($user) {
+                $roles = $user->getRoleNames()->toArray() ?? [];
+                $isAdmin = $user->hasAnyRole(['admin', 'auditor', 'staff', 'manager']) ?? false;
+            }
+        } catch (\Exception $e) {
+            // Spatie roles not available or not configured
+        }
+
         return [
             ...parent::share($request),
             'name' => config('app.name'),
@@ -53,14 +65,14 @@ class HandleInertiaRequests extends Middleware
                     'preferred_language' => $user->preferred_language,
                     'theme_preference' => $user->theme_preference,
                     'notification_sound_enabled' => $user->notification_sound_enabled,
-                    'roles' => $user->getRoleNames(),
-                    'isAdmin' => $user->hasAnyRole(['admin', 'auditor', 'staff']),
+                    'roles' => $roles,
+                    'isAdmin' => $isAdmin,
                     'isImpersonating' => session()->has(
                         config('admin.impersonation_session_key')
                     ),
                 ] : null,
             ],
-            'adminPrefix' => config('admin.prefix'),
+            'adminPrefix' => config('admin.prefix', 'secure-admin'),
             'flash' => [
                 'success' => session('success'),
                 'error' => session('error'),

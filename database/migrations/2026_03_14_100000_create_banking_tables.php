@@ -352,6 +352,47 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        // Deposit Methods (must create before deposits)
+        Schema::create('deposit_methods', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('type', 20);
+            $table->json('currencies');
+            $table->decimal('min_amount', 20, 2);
+            $table->decimal('max_amount', 20, 2);
+            $table->json('fee_structure')->nullable();
+            $table->string('processing_time')->nullable();
+            $table->text('instructions')->nullable();
+            $table->string('icon', 50)->nullable();
+            $table->string('status', 20)->default('active');
+            $table->timestamps();
+        });
+
+        // Withdrawal Methods (must create before withdrawals)
+        Schema::create('withdrawal_methods', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('type', 20);
+            $table->json('currencies');
+            $table->decimal('min_amount', 20, 2);
+            $table->decimal('max_amount', 20, 2);
+            $table->json('fee_structure')->nullable();
+            $table->string('processing_time')->nullable();
+            $table->json('required_fields')->nullable();
+            $table->string('status', 20)->default('active');
+            $table->timestamps();
+        });
+
+        // Ticket Categories (must create before support_tickets)
+        Schema::create('ticket_categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->string('color', 7)->nullable();
+            $table->integer('order')->default(0);
+            $table->timestamps();
+        });
+
         // Deposits
         Schema::create('deposits', function (Blueprint $table) {
             $table->id();
@@ -382,37 +423,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Deposit Methods
-        Schema::create('deposit_methods', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('type', 20);
-            $table->json('currencies');
-            $table->decimal('min_amount', 20, 2);
-            $table->decimal('max_amount', 20, 2);
-            $table->json('fee_structure')->nullable();
-            $table->string('processing_time')->nullable();
-            $table->text('instructions')->nullable();
-            $table->string('icon', 50)->nullable();
-            $table->string('status', 20)->default('active');
-            $table->timestamps();
-        });
-
-        // Withdrawal Methods
-        Schema::create('withdrawal_methods', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('type', 20);
-            $table->json('currencies');
-            $table->decimal('min_amount', 20, 2);
-            $table->decimal('max_amount', 20, 2);
-            $table->json('fee_structure')->nullable();
-            $table->string('processing_time')->nullable();
-            $table->json('required_fields')->nullable();
-            $table->string('status', 20)->default('active');
-            $table->timestamps();
-        });
-
         // Support Tickets
         Schema::create('support_tickets', function (Blueprint $table) {
             $table->id();
@@ -432,16 +442,6 @@ return new class extends Migration
             $table->text('message');
             $table->json('attachments')->nullable();
             $table->boolean('is_admin')->default(false);
-            $table->timestamps();
-        });
-
-        // Ticket Categories
-        Schema::create('ticket_categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->string('color', 7)->nullable();
-            $table->integer('order')->default(0);
             $table->timestamps();
         });
 
@@ -491,15 +491,15 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Update ledger_transactions table if needed
+        // Update transactions table if needed
         Schema::table('transactions', function (Blueprint $table) {
-            if (! Schema::hasColumn('ledger_transactions', 'category')) {
+            if (! Schema::hasColumn('transactions', 'category')) {
                 $table->string('category', 50)->nullable()->after('description');
             }
-            if (! Schema::hasColumn('ledger_transactions', 'reference')) {
+            if (! Schema::hasColumn('transactions', 'reference')) {
                 $table->string('reference', 50)->nullable()->after('category');
             }
-            if (! Schema::hasColumn('ledger_transactions', 'flagged')) {
+            if (! Schema::hasColumn('transactions', 'flagged')) {
                 $table->boolean('flagged')->default(false)->after('reference');
             }
         });

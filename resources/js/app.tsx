@@ -4,6 +4,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { ToastProvider } from '@/components/ui/Toast';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { ErrorBoundary } from '@/components/error-boundary';
 import '../css/app.css';
 import { initializeTheme } from '@/hooks/use-appearance';
 
@@ -21,11 +22,13 @@ createInertiaApp({
 
         root.render(
             <StrictMode>
-                <TooltipProvider delayDuration={0}>
-                    <ToastProvider>
-                        <App {...props} />
-                    </ToastProvider>
-                </TooltipProvider>
+                <ErrorBoundary>
+                    <TooltipProvider delayDuration={0}>
+                        <ToastProvider>
+                            <App {...props} />
+                        </ToastProvider>
+                    </TooltipProvider>
+                </ErrorBoundary>
             </StrictMode>,
         );
     },

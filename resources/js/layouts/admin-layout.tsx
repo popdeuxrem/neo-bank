@@ -1,8 +1,9 @@
-import { Link, usePage } from "@inertiajs/react";
+import { Link, usePage, router } from "@inertiajs/react";
 import { clsx } from "clsx";
 import { motion, AnimatePresence } from "framer-motion";
 import * as LucideIcons from "lucide-react";
 import { useState, useEffect, createContext, useContext } from "react";
+import { ErrorBoundary } from "@/components/error-boundary";
 
 const Icons = LucideIcons as Record<string, React.ComponentType<{ className?: string }>>;
 
@@ -752,7 +753,11 @@ return currentPath === "/admin";
             </div>
           </header>
 
-          <main className="p-4 lg:p-8 pb-20 lg:pb-8">{children}</main>
+          <main className="p-4 lg:p-8 pb-20 lg:pb-8">
+            <ErrorBoundary>
+              {children}
+            </ErrorBoundary>
+          </main>
         </div>
 
         {/* Mobile Bottom Tab Bar */}
@@ -774,7 +779,7 @@ return currentPath === "/admin";
                   if (item.action) {
                     item.action();
                   } else if (item.href) {
-                    window.location.href = item.href;
+                    router.visit(item.href);
                   }
                 }}
                 className={clsx(

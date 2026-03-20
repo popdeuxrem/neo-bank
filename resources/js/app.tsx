@@ -8,15 +8,27 @@ import { ErrorBoundary } from '@/components/error-boundary';
 import '../css/app.css';
 import { initializeTheme } from '@/hooks/use-appearance';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'Neo-Bank';
+
+// Safe route resolution with fallback
+const resolvePage = (name: string) => {
+    try {
+        return resolvePageComponent(
+            `./pages/${name}.tsx`,
+            import.meta.glob('./pages/**/*.tsx'),
+        );
+    } catch (error) {
+        console.warn(`Page "${name}" not found, using Error page`);
+        return resolvePageComponent(
+            './pages/Error.tsx',
+            import.meta.glob('./pages/**/*.tsx'),
+        );
+    }
+};
 
 createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
-    resolve: (name) =>
-        resolvePageComponent(
-            `./pages/${name}.tsx`,
-            import.meta.glob('./pages/**/*.tsx'),
-        ),
+    resolve: resolvePage,
     setup({ el, App, props }) {
         const root = createRoot(el);
 

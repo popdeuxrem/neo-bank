@@ -51,24 +51,24 @@ class HandleInertiaRequests extends Middleware
 
         return [
             ...parent::share($request),
-            'name' => config('app.name'),
+            'name' => config('app.name') ?? 'Neo-Bank',
             'auth' => [
                 'user' => $user ? [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'phone' => $user->phone,
-                    'avatar' => $user->avatar,
-                    'account_status' => $user->account_status,
-                    'kyc_status' => $user->kyc_status,
-                    'preferred_currency' => $user->preferred_currency,
-                    'preferred_language' => $user->preferred_language,
-                    'theme_preference' => $user->theme_preference,
-                    'notification_sound_enabled' => $user->notification_sound_enabled,
+                    'id' => $user->id ?? null,
+                    'name' => $user->name ?? null,
+                    'email' => $user->email ?? null,
+                    'phone' => $user->phone ?? null,
+                    'avatar' => $user->avatar ?? null,
+                    'account_status' => $user->account_status ?? 'pending',
+                    'kyc_status' => $user->kyc_status ?? 'pending',
+                    'preferred_currency' => $user->preferred_currency ?? 'USD',
+                    'preferred_language' => $user->preferred_language ?? 'en',
+                    'theme_preference' => $user->theme_preference ?? 'dark',
+                    'notification_sound_enabled' => $user->notification_sound_enabled ?? true,
                     'roles' => $roles,
                     'isAdmin' => $isAdmin,
                     'isImpersonating' => session()->has(
-                        config('admin.impersonation_session_key')
+                        config('admin.impersonation_session_key', 'impersonating')
                     ),
                 ] : null,
             ],
@@ -84,15 +84,23 @@ class HandleInertiaRequests extends Middleware
                 'lastStep' => $user?->onboarding_last_step ?? 0,
             ],
             'user' => $user ? [
-                'id' => $user->id,
-                'first_name' => explode(' ', $user->name)[0] ?? 'there',
-                'name' => $user->name,
-                'email' => $user->email,
+                'id' => $user->id ?? null,
+                'first_name' => $user->name ? explode(' ', $user->name)[0] : 'there',
+                'name' => $user->name ?? null,
+                'email' => $user->email ?? null,
                 'avatar' => $user->avatar ?? null,
                 'tier' => $user->tier ?? 'free',
-                'account_status' => $user->account_status,
-                'kyc_verified' => $user->account_status === 'active',
+                'account_status' => $user->account_status ?? 'pending',
+                'kyc_verified' => ($user->account_status ?? '') === 'active',
             ] : null,
+            'ziggy' => fn () => [
+                'url' => config('app.url', $request->url()),
+                'port' => null,
+                'defaults' => [],
+                'domain' => null,
+                'groups' => [],
+                'routes' => [],
+            ],
         ];
     }
 }

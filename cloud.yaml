@@ -41,10 +41,12 @@ environment:
     APP_DEBUG: 'false'
     INERTIA_SSR_ENABLED: 'false'
     LOG_LEVEL: warning
+    DB_CONNECTION: pgsql
     SESSION_DRIVER: redis
     CACHE_STORE: redis
     QUEUE_CONNECTION: redis
     BROADCAST_CONNECTION: reverb
+    REDIS_CLIENT: predis
     REVERB_APP_ID: ${REVERB_APP_ID}
     REVERB_APP_KEY: ${REVERB_APP_KEY}
     REVERB_APP_SECRET: ${REVERB_APP_SECRET}

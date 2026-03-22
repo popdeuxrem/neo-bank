@@ -361,9 +361,9 @@ export default function Portfolio() {
                                 </div>
                             </div>
 
-                            <div className="rounded-2xl border border-white/10 bg-zinc-900/50 p-6 backdrop-blur-xl">
+                            <div className="rounded-2xl border border-white/10 bg-white/50 dark:bg-zinc-900/50 p-6 backdrop-blur-xl">
                                 <div className="mb-4 flex items-center justify-between">
-                                    <h3 className="text-lg font-semibold text-white">Your Benefits</h3>
+                                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Your Benefits</h3>
                                     <Badge className="bg-indigo-500/20 text-indigo-400">{currentTier.benefits.length} benefits</Badge>
                                 </div>
                                 <div className="grid gap-3 sm:grid-cols-2">

@@ -14,20 +14,21 @@ use Illuminate\Support\Str;
  *
  * Handles manual payment processing (bank transfers, cash deposits, etc.).
  * Supports: deposits requiring manual verification, pending approvals
- *
- * @package App\Services\Payment\Gateways
  */
 class ManualGateway implements PaymentGatewayInterface
 {
     public const METHOD_BANK_TRANSFER = 'bank_transfer';
+
     public const METHOD_CASH_DEPOSIT = 'cash_deposit';
-    public const METHOD Cheque = 'cheque';
+
+    public const METHOD_CHEQUE = 'cheque';
+
     public const METHOD_OTHER = 'other';
 
     protected const SUPPORTED_METHODS = [
         self::METHOD_BANK_TRANSFER,
         self::METHOD_CASH_DEPOSIT,
-        self::METHOD Cheque,
+        self::METHOD_CHEQUE,
         self::METHOD_OTHER,
     ];
 
@@ -68,8 +69,8 @@ class ManualGateway implements PaymentGatewayInterface
 
         try {
             $method = $data['method'] ?? self::METHOD_BANK_TRANSFER;
-            
-            if (!in_array($method, self::SUPPORTED_METHODS, true)) {
+
+            if (! in_array($method, self::SUPPORTED_METHODS, true)) {
                 return GatewayResult::failure(
                     errorCode: 'invalid_method',
                     errorMessage: "Invalid payment method: {$method}"
@@ -111,8 +112,8 @@ class ManualGateway implements PaymentGatewayInterface
 
         try {
             $method = $data['method'] ?? self::METHOD_BANK_TRANSFER;
-            
-            if (!in_array($method, self::SUPPORTED_METHODS, true)) {
+
+            if (! in_array($method, self::SUPPORTED_METHODS, true)) {
                 return GatewayResult::failure(
                     errorCode: 'invalid_method',
                     errorMessage: "Invalid payout method: {$method}"
@@ -200,7 +201,7 @@ class ManualGateway implements PaymentGatewayInterface
     public function calculateFees(float $amount, string $currency = 'USD'): array
     {
         $amountCents = (int) round($amount * 100);
-        
+
         $gatewayFee = 0;
         $ourFee = (int) round($amountCents * 0.005);
 
@@ -260,7 +261,7 @@ class ManualGateway implements PaymentGatewayInterface
      */
     protected function createManualDeposit(array $data): string
     {
-        $transactionId = 'MAN-' . strtoupper(Str::random(12));
+        $transactionId = 'MAN-'.strtoupper(Str::random(12));
 
         Log::info('Manual deposit created', [
             'transaction_id' => $transactionId,
@@ -277,7 +278,7 @@ class ManualGateway implements PaymentGatewayInterface
      */
     protected function createManualWithdrawal(array $data): string
     {
-        $transactionId = 'MANW-' . strtoupper(Str::random(12));
+        $transactionId = 'MANW-'.strtoupper(Str::random(12));
 
         Log::info('Manual withdrawal created', [
             'transaction_id' => $transactionId,
@@ -336,7 +337,7 @@ class ManualGateway implements PaymentGatewayInterface
     protected function validateDepositData(array $data): void
     {
         $required = ['amount', 'user_id'];
-        
+
         foreach ($required as $field) {
             if (empty($data[$field])) {
                 throw new \InvalidArgumentException("Missing required field: {$field}");
@@ -359,7 +360,7 @@ class ManualGateway implements PaymentGatewayInterface
     protected function validateWithdrawalData(array $data): void
     {
         $required = ['amount', 'user_id'];
-        
+
         foreach ($required as $field) {
             if (empty($data[$field])) {
                 throw new \InvalidArgumentException("Missing required field: {$field}");

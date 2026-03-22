@@ -48,6 +48,18 @@ class LoanPlan extends Model
 
 class Loan extends Model
 {
+    public const STATUS_PENDING = 'pending';
+
+    public const STATUS_APPROVED = 'approved';
+
+    public const STATUS_ACTIVE = 'active';
+
+    public const STATUS_COMPLETED = 'completed';
+
+    public const STATUS_DEFAULTED = 'defaulted';
+
+    public const STATUS_REJECTED = 'rejected';
+
     protected $fillable = [
         'user_id',
         'plan_id',
@@ -132,6 +144,14 @@ class Loan extends Model
 
 class LoanEmi extends Model
 {
+    public const STATUS_PENDING = 'pending';
+
+    public const STATUS_PAID = 'paid';
+
+    public const STATUS_OVERDUE = 'overdue';
+
+    public const STATUS_DEFERRED = 'deferred';
+
     protected $fillable = [
         'loan_id',
         'month',

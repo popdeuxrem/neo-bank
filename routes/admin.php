@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\Admin\CmsController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\HealthController;
@@ -8,7 +9,10 @@ use App\Http\Controllers\Admin\IdentityDocumentController;
 use App\Http\Controllers\Admin\OversightController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SupportController;
+use App\Http\Controllers\Admin\SystemSettingsController;
+use App\Http\Controllers\Admin\ThemeController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 $prefix = config('admin.prefix', 'secure-admin');
 
@@ -80,5 +84,52 @@ Route::prefix($prefix)
             });
 
             Route::get('/audit-logs', [DashboardController::class, 'auditLogs'])->name('audit-logs');
+
+            Route::prefix('themes')->name('themes.')->group(function () {
+                Route::get('/', [ThemeController::class, 'index'])->name('index');
+                Route::get('/settings', [ThemeController::class, 'settings'])->name('settings');
+                Route::get('/colors', [ThemeController::class, 'colors'])->name('colors');
+                Route::get('/landing', [ThemeController::class, 'landing'])->name('landing');
+                Route::post('/colors', [ThemeController::class, 'updateColors'])->name('colors.update');
+                Route::post('/{id}/activate', [ThemeController::class, 'activateTheme'])->name('activate');
+            });
+
+            Route::prefix('pages')->name('pages.')->group(function () {
+                Route::get('/', [CmsController::class, 'pages'])->name('index');
+                Route::get('/create', [CmsController::class, 'createPage'])->name('create');
+                Route::get('/{id}/edit', [CmsController::class, 'editPage'])->name('edit');
+                Route::get('/navigation', [CmsController::class, 'navigation'])->name('navigation');
+                Route::get('/footer', [CmsController::class, 'footer'])->name('footer');
+            });
+
+            Route::prefix('settings')->name('settings.')->group(function () {
+                Route::get('/seo', [SystemSettingsController::class, 'seo'])->name('seo');
+                Route::post('/seo', [SystemSettingsController::class, 'updateSeo'])->name('seo.update');
+                Route::get('/analytics', [SystemSettingsController::class, 'analytics'])->name('analytics');
+                Route::get('/recaptcha', [SystemSettingsController::class, 'recaptcha'])->name('recaptcha');
+                Route::get('/gdpr', [SystemSettingsController::class, 'gdpr'])->name('gdpr');
+                Route::get('/maintenance', [SystemSettingsController::class, 'maintenance'])->name('maintenance');
+                Route::post('/maintenance', [SystemSettingsController::class, 'updateMaintenance'])->name('maintenance.update');
+                Route::get('/inactive-users', [SystemSettingsController::class, 'inactiveUsers'])->name('inactive-users');
+                Route::get('/customization', [SystemSettingsController::class, 'customCss'])->name('customization');
+                Route::post('/customization', [SystemSettingsController::class, 'updateCustomCss'])->name('customization.update');
+                Route::get('/language', [SystemSettingsController::class, 'languages'])->name('language');
+                Route::get('/translations/{locale?}', [SystemSettingsController::class, 'translations'])->name('translations');
+            });
+
+            Route::prefix('landing')->name('landing.')->group(function () {
+                Route::get('/hero', fn () => Inertia::render('admin/landing/hero'))->name('hero');
+                Route::get('/features', fn () => Inertia::render('admin/landing/features'))->name('features');
+                Route::get('/pricing', fn () => Inertia::render('admin/landing/pricing'))->name('pricing');
+                Route::get('/stats', fn () => Inertia::render('admin/landing/stats'))->name('stats');
+                Route::get('/testimonials', fn () => Inertia::render('admin/landing/testimonials'))->name('testimonials');
+            });
+
+            Route::prefix('integrations')->name('integrations.')->group(function () {
+                Route::get('/analytics', [SystemSettingsController::class, 'analytics'])->name('analytics');
+                Route::get('/recaptcha', [SystemSettingsController::class, 'recaptcha'])->name('recaptcha');
+                Route::get('/tawk', fn () => Inertia::render('admin/integrations/tawk'))->name('tawk');
+                Route::get('/messenger', fn () => Inertia::render('admin/integrations/messenger'))->name('messenger');
+            });
         });
     });
